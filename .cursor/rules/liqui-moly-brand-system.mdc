@@ -1,0 +1,14 @@
+---
+description: Liqui-Moly and Octagen brand colors, typography, and hierarchy for UI work
+globs: web/**/*.{ts,tsx,css}
+alwaysApply: false
+---
+
+# Liqui-Moly brand system
+
+- Liqui-Moly is the hero brand. Octagen is the distributor and should not visually overpower it.
+- Use a premium performance palette built around deep blue, controlled red, white, and dark graphite.
+- Prefer `Inter` for body copy and `Barlow Condensed` or `Rajdhani` for headings.
+- Keep layouts clean, technical, and mature. Avoid brochure-lite or discount-ecommerce styling.
+- Use red as an accent, not the dominant page color.
+- Preserve clear header/footer branding and distributor messaging.

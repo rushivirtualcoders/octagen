@@ -1,0 +1,22 @@
+---
+description: React + TypeScript conventions for the landing page
+globs: web/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# React + TypeScript
+
+- Vite SPA. Client components only. No Next.js, no `"use client"`, no `next/link` or `next/image`.
+- Keep the landing as one `App` composed from `src/components/landing` and `src/components/layout`.
+- Use named exports. Colocate interactive state in the component that owns it (hero slider, mobile nav).
+- Prefer CSS transitions over per-frame React state (hero progress bar, Ken Burns, reveals).
+- Use `useRevealOnScroll` for `.reveal-up` — do not hardcode `.revealed` on first paint.
+- No cart, prices, or CMS fetches in this phase.
+
+```tsx
+// ✅ client React
+export function Hero() {
+  const [active, setActive] = useState(0)
+  return <section className="hero">...</section>
+}
+```

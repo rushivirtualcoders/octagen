@@ -1,0 +1,12 @@
+---
+description: Production stack direction for future Octagen builds
+alwaysApply: true
+---
+
+# Platform direction
+
+- Public frontend is Next.js + TypeScript + Tailwind CSS in `web/`. Keep marketing pages component-driven.
+- Custom CMS lives at `/admin` with Prisma/PostgreSQL. Do not add Payload.
+- Keep public marketing pages component-driven and performance-aware.
+- Use server-side capabilities only where they improve security, SEO, or data boundaries.
+- Keep CMS concerns decoupled from the homepage until the custom admin scope is active.

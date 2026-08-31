@@ -1,0 +1,15 @@
+---
+description: Core Octagen product, Next.js frontend, and custom CMS rules. Always apply.
+alwaysApply: true
+---
+
+# Octagen core
+
+- Liqui-Moly is the hero brand. Octagen is the exclusive authorized national distributor in India.
+- **Frontend is Next.js App Router** in `web/` (React 19 + TypeScript + Tailwind).
+- **CMS is custom `/admin`** with Prisma + PostgreSQL. Do not add Payload, WordPress, or another hosted CMS.
+- Catalogue + inquiry only. Never add cart, checkout, wishlist, payments, or product prices.
+- Primary CTA is **Submit Inquiry / Get Quote**.
+- Footer must state that Liqui-Moly India is operated and fulfilled by Octagen.
+- Do not revive the Unsplash car-slideshow / Bebas Neue brochure look.
+- Secrets stay in `.env`. Commit only `.env.example`.

@@ -1,0 +1,15 @@
+---
+description: CMS implementation rules — custom admin, not Payload
+globs: web/src/app/admin/**/*.{ts,tsx},web/prisma/**/*.prisma,web/src/lib/cms/**/*.ts
+alwaysApply: false
+---
+
+# Custom CMS (not Payload)
+
+Octagen uses a first-party admin at `/admin` with Prisma models.
+
+- Do not add Payload config, collections, or `@payloadcms/*`
+- Keep admin routes authenticated
+- Validate mutations with Zod
+- No prices, cart, or customer auth in CMS
+- Inquiry SMTP credentials stay in env, never in the database

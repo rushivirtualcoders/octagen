@@ -1,0 +1,13 @@
+---
+description: Public landing UI and Liqui-Moly brand presentation
+globs: web/src/{App.tsx,components/**,styles/**}
+alwaysApply: false
+---
+
+# Public catalogue UI
+
+- Do not use the rejected Unsplash slideshow / light-blue brochure design.
+- Next direction: cinematic 3D car, motorsport, German engineering — Liqui-Moly as hero, Octagen in header/footer.
+- Homepage has no cluttered search bar.
+- No price. No Add to Cart.
+- Keep motion in CSS / Three.js, not stock photo carousels.

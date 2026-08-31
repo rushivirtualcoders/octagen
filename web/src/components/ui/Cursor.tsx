@@ -1,0 +1,96 @@
+import { useEffect, useRef, useState } from 'react'
+
+/** Dark custom cursor for light theme. */
+export default function Cursor() {
+  const dotRef = useRef<HTMLDivElement>(null)
+  const ringRef = useRef<HTMLDivElement>(null)
+  const [enabled, setEnabled] = useState(false)
+  const [label, setLabel] = useState('')
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const fine = window.matchMedia('(pointer: fine)').matches
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!fine || reduced) return
+    setEnabled(true)
+    document.body.classList.add('custom-cursor')
+    return () => document.body.classList.remove('custom-cursor')
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
+    const target = { x: -100, y: -100 }
+    const ring = { x: -100, y: -100 }
+    let frame = 0
+
+    const onMove = (e: MouseEvent) => {
+      target.x = e.clientX
+      target.y = e.clientY
+      setVisible(true)
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
+      }
+    }
+
+    const onOver = (e: MouseEvent) => {
+      const el = (e.target as HTMLElement).closest?.('[data-cursor]')
+      setLabel(el?.getAttribute('data-cursor') ?? '')
+    }
+
+    const onLeave = () => setVisible(false)
+
+    const tick = () => {
+      ring.x += (target.x - ring.x) * 0.18
+      ring.y += (target.y - ring.y) * 0.18
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate(${ring.x}px, ${ring.y}px)`
+      }
+      frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+
+    window.addEventListener('mousemove', onMove)
+    window.addEventListener('mouseover', onOver)
+    document.documentElement.addEventListener('mouseleave', onLeave)
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('mousemove', onMove)
+      window.removeEventListener('mouseover', onOver)
+      document.documentElement.removeEventListener('mouseleave', onLeave)
+    }
+  }, [enabled])
+
+  if (!enabled) return null
+
+  return (
+    <>
+      <div
+        ref={dotRef}
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 z-[120] size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
+        style={{ opacity: visible ? 1 : 0, marginLeft: -3, marginTop: -3 }}
+      />
+      <div
+        ref={ringRef}
+        aria-hidden
+        className="pointer-events-none fixed top-0 left-0 z-[119] flex items-center justify-center transition-opacity duration-300"
+        style={{ opacity: visible ? 1 : 0 }}
+      >
+        <div
+          className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
+            label
+              ? 'border-transparent bg-lm-red px-4 py-2 text-[0.6rem] font-semibold tracking-[0.2em] text-white'
+              : 'border-ink/30 bg-white/70 backdrop-blur-sm'
+          }`}
+          style={{
+            width: label ? 'auto' : 36,
+            height: label ? 'auto' : 36,
+            transform: 'translate(-50%, -50%)',
+          }}
+        >
+          {label}
+        </div>
+      </div>
+    </>
+  )
+}

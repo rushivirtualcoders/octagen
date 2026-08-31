@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: octagen-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: octagen
+      POSTGRES_PASSWORD: octagen_dev_only
+      POSTGRES_DB: octagen
+    ports:
+      - '5432:5432'
+    volumes:
+      - octagen_pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U octagen -d octagen']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  octagen_pg:

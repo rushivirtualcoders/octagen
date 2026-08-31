@@ -1,0 +1,15 @@
+---
+description: Security defaults for Octagen public site and future custom CMS
+alwaysApply: true
+---
+
+# Security baseline
+
+- Never hardcode API keys, tokens, SMTP credentials, or secrets in source files.
+- Commit only `.env.example`, never real `.env`.
+- Validate external input with schemas before processing or persistence.
+- Sanitize HTML or rich text before rendering user-controlled content.
+- Add rate limiting and abuse protection for inquiry/contact endpoints.
+- Keep admin/auth flows server-side and least-privilege by default.
+- Prefer well-maintained dependencies and avoid unnecessary packages.
+- Use secure headers and HTTPS assumptions for deployed environments.
