@@ -43,7 +43,7 @@ export default function WhyChooseUs() {
               <motion.div
                 whileHover={{ rotate: 8, scale: 1.06 }}
                 transition={{ duration: 0.4, ease: EASE }}
-                className="mt-6 flex size-14 items-center justify-center rounded-full border border-line bg-white text-lm-blue transition-colors duration-500 group-hover:border-lm-blue group-hover:bg-lm-blue group-hover:text-white"
+                className="mt-6 flex size-14 items-center justify-center rounded-full border border-line bg-white text-lm-orange transition-colors duration-500 group-hover:border-lm-orange group-hover:bg-lm-orange group-hover:text-white"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden>
                   {ICONS[i]}
@@ -69,7 +69,7 @@ export default function WhyChooseUs() {
               return (
                 <article className="bg-surface p-8">
                   <span className="tech-label text-ink/20">{String(i + 1).padStart(2, '0')}</span>
-                  <div className="mt-6 flex size-14 items-center justify-center rounded-full border border-line bg-white text-lm-blue">
+                  <div className="mt-6 flex size-14 items-center justify-center rounded-full border border-line bg-white text-lm-orange">
                     <svg viewBox="0 0 24 24" fill="currentColor" className="size-6" aria-hidden>
                       {ICONS[i]}
                     </svg>

@@ -63,7 +63,7 @@ export default function Technology() {
               <motion.svg
                 viewBox="0 0 48 48"
                 fill="none"
-                stroke="var(--color-lm-blue)"
+                stroke="var(--color-lm-orange)"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="mt-8 h-14 w-14"

@@ -11,7 +11,7 @@ export default async function AdminLoginPage() {
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f4f7fb] px-4">
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 -right-24 size-[28rem] rounded-full bg-lm-blue/10 blur-3xl"
+        className="pointer-events-none absolute -top-24 -right-24 size-[28rem] rounded-full bg-lm-orange/10 blur-3xl"
       />
       <div
         aria-hidden

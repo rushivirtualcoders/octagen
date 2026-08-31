@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-moti
 type Props = {
   children: ReactNode
   href?: string
-  variant?: 'primary' | 'ghost' | 'blue' | 'white'
+  variant?: 'primary' | 'ghost' | 'orange' | 'white'
   className?: string
   dataCursor?: string
 }
@@ -33,11 +33,11 @@ export default function MagneticButton({
   const styles =
     variant === 'primary'
       ? 'bg-lm-red text-white hover:bg-[#c40017]'
-      : variant === 'blue'
-        ? 'bg-lm-blue text-white hover:bg-[#003f7a]'
+      : variant === 'orange'
+        ? 'bg-lm-orange text-white hover:bg-[#c44a00]'
         : variant === 'white'
           ? 'bg-white text-ink hover:bg-surface'
-          : 'border border-ink/20 text-ink hover:border-lm-blue hover:text-lm-blue'
+          : 'border border-ink/20 text-ink hover:border-lm-orange hover:text-lm-orange'
 
   return (
     <motion.a

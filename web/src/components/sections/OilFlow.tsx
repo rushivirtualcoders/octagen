@@ -34,7 +34,7 @@ export default function OilFlow() {
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 1.05, ease: EASE }}
         >
-          <p className="tech-label mb-6 flex items-center gap-3 text-lm-blue">
+          <p className="tech-label mb-6 flex items-center gap-3 text-lm-orange">
             <span className="inline-block size-1.5 rounded-full bg-oil" />
             Precision lubrication
           </p>
@@ -59,7 +59,7 @@ export default function OilFlow() {
                 transition={{ duration: 0.85, ease: EASE, delay: 0.15 + i * 0.1 }}
                 className="flex items-start gap-4 text-sm font-light text-ink/80"
               >
-                <span className="mt-1.5 inline-block size-1.5 shrink-0 rounded-full bg-lm-blue" />
+                <span className="mt-1.5 inline-block size-1.5 shrink-0 rounded-full bg-lm-orange" />
                 {point}
               </motion.li>
             ))}

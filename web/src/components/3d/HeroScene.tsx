@@ -44,7 +44,7 @@ function OilParticles({ count }: { count: number }) {
       </bufferGeometry>
       <pointsMaterial
         map={getOilSprite()}
-        color="#00519E"
+        color="#F26522"
         size={0.045}
         sizeAttenuation
         transparent
@@ -74,7 +74,7 @@ function LightStreaks() {
         <mesh key={i} position={[0, -1.5 + i * 1.6, -1.5 - i]} rotation={[0, 0, -0.04]}>
           <planeGeometry args={[5.5, 0.012]} />
           <meshBasicMaterial
-            color={i === 1 ? '#E2001A' : '#00519E'}
+            color={i === 1 ? '#E2001A' : '#F26522'}
             transparent
             opacity={0.22}
             blending={THREE.NormalBlending}

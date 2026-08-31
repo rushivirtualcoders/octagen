@@ -149,7 +149,7 @@ export default function CinematicCar({
             {[0, 1, 2, 3, 4].map((i) => (
               <motion.span
                 key={i}
-                className="absolute h-px bg-gradient-to-r from-transparent via-lm-blue/50 to-transparent"
+                className="absolute h-px bg-gradient-to-r from-transparent via-lm-orange/50 to-transparent"
                 style={{ top: `${16 + i * 16}%`, left: 0, width: '140%' }}
                 animate={{ x: ['-25%', '18%'], opacity: [0.2, 0.7, 0.2] }}
                 transition={{

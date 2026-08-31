@@ -131,7 +131,7 @@ export default function Racing() {
           <div className="relative h-[280px] w-1.5 overflow-hidden bg-ink/10 md:h-[320px]">
             <motion.div
               style={{ scaleY: fill, transformOrigin: 'bottom' }}
-              className="absolute inset-0 bg-gradient-to-t from-lm-blue via-lm-red to-lm-red"
+              className="absolute inset-0 bg-gradient-to-t from-lm-orange via-lm-red to-lm-red"
             />
           </div>
           <div className="flex flex-col justify-between py-1">

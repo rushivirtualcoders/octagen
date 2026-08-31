@@ -102,7 +102,7 @@ export default function ProductGuidance() {
             </motion.div>
           </div>
 
-          <div className="relative min-h-[18rem] bg-lm-blue lg:min-h-[auto]">
+          <div className="relative min-h-[18rem] bg-lm-orange lg:min-h-[auto]">
             <div className="absolute inset-0">
               <img
                 src={ASSETS.oilPour}
@@ -111,7 +111,7 @@ export default function ProductGuidance() {
                 className="h-full w-full object-cover opacity-90 mix-blend-luminosity"
               />
             </div>
-            <div className="absolute inset-0 bg-gradient-to-br from-lm-blue/80 via-lm-blue/40 to-lm-red/30" />
+            <div className="absolute inset-0 bg-gradient-to-br from-lm-orange/80 via-lm-orange/40 to-lm-red/30" />
             <motion.div
               aria-hidden
               initial={reduced ? false : { scaleX: 0 }}

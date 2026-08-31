@@ -3,7 +3,7 @@ import Link from 'next/link'
 function iconButtonClass(tone: 'default' | 'danger' = 'default') {
   return tone === 'danger'
     ? 'inline-flex h-8 w-8 items-center justify-center rounded-md border border-lm-red/20 bg-lm-red/5 text-lm-red transition hover:bg-lm-red/10'
-    : 'inline-flex h-8 w-8 items-center justify-center rounded-md border border-line bg-white text-lm-blue transition hover:border-lm-blue/40 hover:bg-lm-blue/5'
+    : 'inline-flex h-8 w-8 items-center justify-center rounded-md border border-line bg-white text-lm-orange transition hover:border-lm-orange/40 hover:bg-lm-orange/5'
 }
 
 export function EditIcon({ className = 'h-4 w-4' }: { className?: string }) {

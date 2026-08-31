@@ -85,7 +85,7 @@ export default function Performance() {
               >
                 <div className="mb-2.5 flex items-baseline justify-between">
                   <span className="tech-label text-ink/80">{metric.label}</span>
-                  <span className="font-display text-lg font-bold text-lm-blue">{metric.display}</span>
+                  <span className="font-display text-lg font-bold text-lm-orange">{metric.display}</span>
                 </div>
                 <div className="h-px w-full bg-ink/10">
                   <motion.div
@@ -94,7 +94,7 @@ export default function Performance() {
                     viewport={{ once: true }}
                     transition={{ duration: 1.4, ease: EASE, delay: 0.15 + i * 0.1 }}
                     style={{ width: `${metric.pct}%`, transformOrigin: 'left' }}
-                    className="h-full bg-gradient-to-r from-lm-blue to-lm-red"
+                    className="h-full bg-gradient-to-r from-lm-orange to-lm-red"
                   />
                 </div>
               </motion.div>
@@ -103,7 +103,7 @@ export default function Performance() {
 
           <p className="tech-label mt-10 text-muted">
             Friction drop{' '}
-            <span className="text-lm-blue">
+            <span className="text-lm-orange">
               <AnimatedCounter to={38} suffix="%" prefix="-" duration={1.6} />
             </span>
           </p>

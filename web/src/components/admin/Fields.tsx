@@ -1,5 +1,5 @@
 export const inputClass =
-  'mt-1 w-full rounded-md border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-lm-blue focus:ring-2 focus:ring-lm-blue/15'
+  'mt-1 w-full rounded-md border border-line bg-white px-3 py-2.5 text-sm text-ink outline-none transition focus:border-lm-orange focus:ring-2 focus:ring-lm-orange/15'
 
 export const inputErrorClass =
   'mt-1 w-full rounded-md border border-lm-red bg-white px-3 py-2.5 text-sm text-ink outline-none focus:ring-2 focus:ring-lm-red/20'

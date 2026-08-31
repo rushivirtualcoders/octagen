@@ -57,7 +57,7 @@ function ProductSlide({ product }: { product: Product }) {
 
         <div>
           <p className="tech-label mb-5 text-muted">
-            {product.index} — <span className="text-lm-blue">{product.series}</span>
+            {product.index} — <span className="text-lm-orange">{product.series}</span>
           </p>
           <h3 className="font-display text-[clamp(2.4rem,5vw,4.6rem)] leading-none font-black tracking-tight text-ink uppercase">
             {product.name}
@@ -77,7 +77,7 @@ function ProductSlide({ product }: { product: Product }) {
                   className={`tech-label border px-4 py-2 transition-colors duration-300 ${
                     activeSpec === i
                       ? 'border-lm-red bg-lm-red text-white'
-                      : 'border-ink/15 text-muted hover:border-lm-blue hover:text-lm-blue'
+                      : 'border-ink/15 text-muted hover:border-lm-orange hover:text-lm-orange'
                   }`}
                 >
                   {spec.label}
@@ -122,8 +122,8 @@ export default function Products() {
               aria-hidden
               className="pointer-events-none absolute top-0 right-0 h-40 w-auto object-contain opacity-20"
             />
-            <p className="tech-label mb-4 flex items-center gap-3 text-lm-blue">
-              <span className="inline-block h-px w-10 bg-lm-blue" />
+            <p className="tech-label mb-4 flex items-center gap-3 text-lm-orange">
+              <span className="inline-block h-px w-10 bg-lm-orange" />
               The range
             </p>
             <h2 className="font-display text-4xl font-black tracking-tight text-ink uppercase">
@@ -152,8 +152,8 @@ export default function Products() {
           />
           <div className="relative z-10 mx-auto flex w-full max-w-[1400px] items-end justify-between px-6 pt-28 lg:px-10">
             <div>
-              <p className="tech-label mb-3 flex items-center gap-3 text-lm-blue">
-                <span className="inline-block h-px w-10 bg-lm-blue" />
+              <p className="tech-label mb-3 flex items-center gap-3 text-lm-orange">
+                <span className="inline-block h-px w-10 bg-lm-orange" />
                 The range
               </p>
               <h2 className="font-display text-3xl font-black tracking-tight text-ink uppercase">

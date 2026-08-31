@@ -47,13 +47,13 @@ function StageEffects({ product, reduced }: { product: SpotlightProduct; reduced
         <>
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute inset-x-[12%] h-px bg-gradient-to-r from-transparent via-lm-blue to-transparent shadow-[0_0_20px_rgba(0,81,158,0.7)]"
+            className="pointer-events-none absolute inset-x-[12%] h-px bg-gradient-to-r from-transparent via-lm-orange to-transparent shadow-[0_0_20px_rgba(242,101,34,0.5)]"
             animate={{ top: ['10%', '88%', '10%'] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute inset-x-[12%] h-8 bg-gradient-to-b from-lm-blue/20 to-transparent"
+            className="pointer-events-none absolute inset-x-[12%] h-8 bg-gradient-to-b from-lm-orange/20 to-transparent"
             animate={{ top: ['10%', '88%', '10%'] }}
             transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut' }}
           />

@@ -23,7 +23,8 @@ export default function Footer() {
               whileHover={{ scale: 1.03 }}
               transition={{ duration: 0.35, ease: EASE }}
             />
-            <p className="tech-label mt-4 text-lm-blue">{CLAIM}</p>
+            <img src={ASSETS.liquiMolyLogo} alt={BRAND} className="mt-4 h-7 w-auto opacity-90" />
+            <p className="tech-label mt-4 text-lm-red">{CLAIM}</p>
             <p className="mt-5 text-sm leading-relaxed font-light text-muted">
               Premium motor oils, additives and car care — distributed nationally across India by{' '}
               {DISTRIBUTOR}.
@@ -37,7 +38,7 @@ export default function Footer() {
                   <RevealItem key={link.href}>
                     <a
                       href={link.href}
-                      className="tech-label text-muted transition-all duration-300 hover:translate-x-1 hover:text-lm-blue"
+                      className="tech-label text-muted transition-all duration-300 hover:translate-x-1 hover:text-lm-orange"
                     >
                       {link.label}
                     </a>

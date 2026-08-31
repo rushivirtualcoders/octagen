@@ -56,9 +56,9 @@ export default function DedicatedService() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.9, ease: EASE }}
-            className="tech-label mb-6 flex items-center gap-3 text-lm-blue"
+            className="tech-label mb-6 flex items-center gap-3 text-lm-orange"
           >
-            <span className="inline-block h-px w-10 bg-lm-blue" />
+            <span className="inline-block h-px w-10 bg-lm-orange" />
             Dedicated service
           </motion.p>
 
@@ -89,8 +89,8 @@ export default function DedicatedService() {
                     onClick={() => setActive(i)}
                     className={`group flex w-full items-start gap-5 border px-5 py-4 text-left transition-all duration-500 ${
                       isActive
-                        ? 'border-lm-blue bg-white shadow-[0_12px_40px_rgba(11,18,21,0.06)]'
-                        : 'border-line bg-white/40 hover:border-lm-blue/30 hover:bg-white/80'
+                        ? 'border-lm-orange bg-white shadow-[0_12px_40px_rgba(11,18,21,0.06)]'
+                        : 'border-line bg-white/40 hover:border-lm-orange/30 hover:bg-white/80'
                     }`}
                   >
                     <span
@@ -128,7 +128,7 @@ export default function DedicatedService() {
           </ul>
 
           <div className="mt-10">
-            <MagneticButton href={INQUIRY_MAILTO} variant="blue">
+            <MagneticButton href={INQUIRY_MAILTO} variant="orange">
               Submit inquiry
             </MagneticButton>
           </div>

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function BackLink({ href, label = 'Back' }: { href: string; label?: string }) {
   return (
-    <Link href={href} className="tech-label mb-4 inline-flex items-center gap-2 text-lm-blue hover:text-ink">
+    <Link href={href} className="tech-label mb-4 inline-flex items-center gap-2 text-lm-orange hover:text-ink">
       <span aria-hidden>←</span> {label}
     </Link>
   )

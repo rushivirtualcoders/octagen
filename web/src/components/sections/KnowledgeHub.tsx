@@ -100,7 +100,7 @@ export default function KnowledgeHub() {
                       {article.title}
                     </h3>
                     <p className="mt-1.5 text-xs leading-relaxed text-muted sm:text-sm">{article.summary}</p>
-                    <span className="tech-label mt-3 inline-flex text-lm-blue opacity-0 transition-opacity group-hover:opacity-100">
+                    <span className="tech-label mt-3 inline-flex text-lm-orange opacity-0 transition-opacity group-hover:opacity-100">
                       Read concept →
                     </span>
                   </div>

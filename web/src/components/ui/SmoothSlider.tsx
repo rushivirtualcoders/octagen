@@ -79,7 +79,7 @@ export default function SmoothSlider({
               aria-label={`Slide ${i + 1}`}
               onClick={() => go(i, i > active ? 1 : -1)}
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === active ? 'w-10 bg-lm-red' : 'w-3 bg-ink/15 hover:bg-lm-blue/40'
+                i === active ? 'w-10 bg-lm-red' : 'w-3 bg-ink/15 hover:bg-lm-orange/40'
               }`}
             />
           ))}

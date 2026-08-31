@@ -1,18 +1,18 @@
 @import 'tailwindcss';
 
 @theme {
-  /* LIQUI MOLY light theme — official blue/red on bright canvas */
+  /* Octagen distributor palette — red, orange, black, white */
   --color-base: #ffffff;
-  --color-surface: #f4f7fb;
-  --color-surface-2: #e8eef5;
+  --color-surface: #f7f5f4;
+  --color-surface-2: #efecea;
   --color-ink: #0b1215;
   --color-line: rgba(11, 18, 21, 0.1);
-  --color-lm-blue: #00519e;
   --color-lm-red: #e2001a;
-  --color-accent: #e2001a;
-  --color-brand: #00519e;
+  --color-lm-orange: #f26522;
+  --color-accent: #f26522;
+  --color-brand: #e2001a;
   --color-oil: #c9972e;
-  --color-muted: #5c6b78;
+  --color-muted: #5c5c5c;
   --font-display: 'DIN Pro', 'Barlow Condensed', 'Arial Narrow', sans-serif;
   --font-body: 'DIN Pro', 'Barlow', system-ui, sans-serif;
   --font-tech: 'DIN Pro', 'Barlow Condensed', sans-serif;
@@ -84,11 +84,11 @@ body.custom-cursor [data-cursor] {
 }
 
 .racing-stripe-h {
-  background: linear-gradient(to right, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
+  background: linear-gradient(to right, #0b1215 0 28%, #f26522 28% 44%, #ffffff 44% 56%, #e2001a 56% 100%);
 }
 
 .racing-stripe-v {
-  background: linear-gradient(to bottom, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
+  background: linear-gradient(to bottom, #0b1215 0 28%, #f26522 28% 44%, #ffffff 44% 56%, #e2001a 56% 100%);
 }
 
 .sweep {
@@ -132,7 +132,7 @@ body.custom-cursor [data-cursor] {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-lm-blue);
+  outline: 2px solid var(--color-lm-orange);
   outline-offset: 3px;
 }
 
@@ -151,7 +151,7 @@ body.custom-cursor [data-cursor] {
 
 .section-rail {
   border-left: 3px solid transparent;
-  border-image: linear-gradient(to bottom, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%) 1;
+  border-image: linear-gradient(to bottom, #0b1215 0 28%, #f26522 28% 44%, #ffffff 44% 56%, #e2001a 56% 100%) 1;
   padding-left: 1.25rem;
 }
 

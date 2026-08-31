@@ -1,16 +1,76 @@
 export const BRAND = 'LIQUI MOLY'
 export const DISTRIBUTOR = 'Octagen'
 export const CLAIM = 'FOR THE DRIVERS'
+export const DISTRIBUTOR_TAGLINE = 'Exclusive LIQUI MOLY distributor · India'
 
 export const NAV_LINKS = [
+  { href: '#octagen', label: 'Octagen' },
+  { href: '#brands', label: 'Brands' },
   { href: '#paths', label: 'Explore' },
   { href: '#history', label: 'Heritage' },
   { href: '#spotlight', label: 'Flagship' },
   { href: '#advantage', label: 'Advantage' },
   { href: '#process', label: 'Inquiry' },
   { href: '#insights', label: 'Insights' },
-  { href: '#guidance', label: 'Guidance' },
 ]
+
+export const PARTNER_BRANDS = [
+  {
+    id: 'liqui-moly',
+    name: 'LIQUI MOLY',
+    origin: 'Germany',
+    status: 'active' as const,
+    category: 'Motor oils, additives & car care',
+    note: 'Hero brand — exclusive national distribution, motorsport heritage since 1957.',
+  },
+  {
+    id: 'mannol',
+    name: 'Mannol',
+    origin: 'Germany',
+    status: 'coming' as const,
+    category: 'Lubricants, filters & workshop fluids',
+    note: 'Planned portfolio expansion — OEM-approved oils and automotive consumables.',
+  },
+  {
+    id: 'bmc',
+    name: 'BMC Filters',
+    origin: 'Italy',
+    status: 'coming' as const,
+    category: 'High-performance air filters',
+    note: 'Motorsport-grade filtration — structured for future brand landing pages.',
+  },
+  {
+    id: 'kn',
+    name: 'K&N Filters',
+    origin: 'USA',
+    status: 'coming' as const,
+    category: 'Washable performance air filters',
+    note: 'Performance intake ecosystem — reserved slot in the multi-brand catalogue.',
+  },
+] as const
+
+export const DISTRIBUTOR_POINTS = [
+  {
+    tag: 'Authorised supply',
+    title: 'Genuine product integrity',
+    text: 'Import and fulfilment managed by Octagen — the same trust model regional Liqui Moly importers use in Indonesia, Thailand and Sri Lanka.',
+  },
+  {
+    tag: 'Workshops & fleets',
+    title: 'Technical selection support',
+    text: 'Specification-first guidance for viscosity, OEM approvals and application — built for professional buyers, not impulse retail.',
+  },
+  {
+    tag: 'Nationwide',
+    title: 'Inquiry-led fulfilment',
+    text: 'Submit inquiry or get quote for retail, workshop and bulk demand. No cart — direct relationship with your distributor.',
+  },
+  {
+    tag: 'Multi-brand ready',
+    title: 'Platform for growth',
+    text: 'Architecture prepared for additional authorised brands alongside LIQUI MOLY as Octagen expands its portfolio.',
+  },
+] as const
 
 export const MACHINE_PATHS = [
   {
@@ -22,8 +82,8 @@ export const MACHINE_PATHS = [
     cta: 'Explore car categories',
     href: '#spotlight',
     image: '/assets/images/lm/black-falcon-lg.jpg',
-    fallback: 'linear-gradient(135deg, #0b1215 0%, #003f7a 55%, #00519e 100%)',
-    accent: '#00519E',
+    fallback: 'linear-gradient(135deg, #0b1215 0%, #3d1500 55%, #f26522 100%)',
+    accent: '#F26522',
   },
   {
     id: 'bike',
@@ -75,7 +135,7 @@ export const HISTORY_MILESTONES = [
     era: 'Manufacturing',
     title: 'In-house production scale',
     text: 'Formulations developed and produced under one roof — the same integrated model that still defines the brand.',
-    accent: '#00519E',
+    accent: '#F26522',
   },
   {
     year: '1990s',
@@ -96,14 +156,14 @@ export const HISTORY_MILESTONES = [
     era: 'Innovation',
     title: '4,000+ products worldwide',
     text: 'A complete range spanning motor oils, additives and car care — engineered for passenger, commercial and performance use.',
-    accent: '#00519E',
+    accent: '#F26522',
   },
   {
     year: 'India',
     era: 'Octagen',
     title: 'Exclusive national distribution',
     text: 'Octagen operates and fulfils LIQUI MOLY across India — authorised supply, technical support and inquiry-led ordering.',
-    accent: '#00519E',
+    accent: '#F26522',
     distributor: true,
   },
 ] as const
@@ -208,7 +268,7 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     description: 'Micro-ceramic friction reduction for engines, gearboxes and differentials.',
     detail:
       'Surface-active chemistry that lowers wear under load — ideal for high-mileage and performance applications.',
-    glow: '#00519E',
+    glow: '#F26522',
     image: '/assets/images/products/cera-tec.png',
     motion: 'scan',
     callouts: [
@@ -242,7 +302,7 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     description: 'Molecular friction control for high-output street and sport engines.',
     detail:
       'Distinctive Molygen chemistry — smoother response and durable wear protection under demanding load.',
-    glow: '#00519E',
+    glow: '#F26522',
     image: '/assets/images/products/molygen-new-generation.png',
     motion: 'orbit',
     callouts: [
@@ -428,7 +488,7 @@ export const PRODUCTS: Product[] = [
     application: 'High-output street & sport engines',
     description:
       'Molecular friction control with the distinctive Molygen chemistry — smoother response and durable wear protection.',
-    glow: '#00519E',
+    glow: '#F26522',
     image: '/assets/images/products/product-bottle.png',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
@@ -460,7 +520,7 @@ export const PRODUCTS: Product[] = [
     application: 'Track days & motorsport engines',
     description:
       'Extreme shear stability for sustained redline running and race-level oil temperatures.',
-    glow: '#00519E',
+    glow: '#F26522',
     image: '/assets/images/products/product-bottle.png',
     specs: [
       { label: 'Viscosity', value: '10W-60' },
@@ -477,7 +537,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'How to approach engine-oil selection',
     summary:
       'Start with the machine and the published specification — viscosity, approvals and drain interval — before you inquire for supply.',
-    stripe: '#00519E',
+    stripe: '#F26522',
   },
   {
     index: '02',
@@ -493,7 +553,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'A practical routine for consistent vehicle care',
     summary:
       'Cleaners, treatments and surface care work as a system. A short workshop routine keeps the catalogue useful between oil changes.',
-    stripe: 'linear-gradient(135deg, #00519E 0%, #E2001A 100%)',
+    stripe: 'linear-gradient(135deg, #F26522 0%, #E2001A 100%)',
   },
 ] as const
 
@@ -523,6 +583,7 @@ export const ASSETS = {
   racing: '/assets/images/racing-night.png',
   engine: '/assets/images/engine-oil.png',
   octagenLogo: '/assets/images/octagen-logo.png',
+  liquiMolyLogo: '/assets/images/liqui-moly-logo.svg',
   bottle: '/assets/images/products/product-bottle.png',
   oilPour: '/assets/images/oil-pour.png',
   tireSmoke: '/assets/images/tire-smoke.png',

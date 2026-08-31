@@ -9,7 +9,7 @@ export function StatusBadge({
     success: 'bg-emerald-50 text-emerald-700 ring-emerald-200',
     warning: 'bg-amber-50 text-amber-800 ring-amber-200',
     danger: 'bg-lm-red/10 text-lm-red ring-lm-red/20',
-    info: 'bg-lm-blue/10 text-lm-blue ring-lm-blue/20',
+    info: 'bg-lm-orange/10 text-lm-orange ring-lm-orange/20',
     neutral: 'bg-surface text-muted ring-line',
   }[tone]
 

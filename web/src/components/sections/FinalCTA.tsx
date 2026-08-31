@@ -15,7 +15,7 @@ export default function FinalCTA() {
         <>
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute top-[18%] left-[12%] size-32 rounded-full bg-lm-blue/10 blur-2xl"
+            className="pointer-events-none absolute top-[18%] left-[12%] size-32 rounded-full bg-lm-orange/10 blur-2xl"
             animate={{ y: [0, -18, 0], x: [0, 12, 0], scale: [1, 1.08, 1] }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -46,7 +46,7 @@ export default function FinalCTA() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.9, ease: EASE }}
-          className="tech-label mb-8 text-lm-blue"
+          className="tech-label mb-8 text-lm-orange"
         >
           Every drop engineered
         </motion.p>

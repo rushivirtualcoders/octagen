@@ -43,7 +43,7 @@ export default function PageIntro() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="tech-label mt-6 text-lm-blue"
+            className="tech-label mt-6 text-lm-orange"
           >
             {CLAIM}
           </motion.p>

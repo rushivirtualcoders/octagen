@@ -6,6 +6,8 @@ import PageIntro from './components/ui/PageIntro'
 import ScrollProgress from './components/ui/ScrollProgress'
 import Navbar from './components/sections/Navbar'
 import Hero from './components/sections/Hero'
+import DistributorIntro from './components/sections/DistributorIntro'
+import BrandsPartners from './components/sections/BrandsPartners'
 import MachinePaths from './components/sections/MachinePaths'
 import BrandHistory from './components/sections/BrandHistory'
 import ProductSpotlight from './components/sections/ProductSpotlight'
@@ -40,6 +42,8 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <DistributorIntro />
+        <BrandsPartners />
         <MachinePaths />
         <BrandHistory />
         <ProductSpotlight />

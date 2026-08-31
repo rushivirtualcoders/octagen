@@ -46,7 +46,7 @@ function TimelineNode({
       />
       <span
         className={`tech-label transition-colors duration-300 ${
-          active ? 'text-ink' : 'text-muted group-hover:text-lm-blue'
+          active ? 'text-ink' : 'text-muted group-hover:text-lm-orange'
         }`}
       >
         {m.year}
@@ -134,13 +134,13 @@ export default function BrandHistory() {
                 <div className="mt-10 hidden lg:block">
                   <div className="mb-3 flex items-center justify-between">
                     <span className="tech-label text-muted">Timeline</span>
-                    <span className="tech-label text-lm-blue">
+                    <span className="tech-label text-lm-orange">
                       {String(active + 1).padStart(2, '0')} / {String(COUNT).padStart(2, '0')}
                     </span>
                   </div>
                   <div className="h-1 overflow-hidden bg-line">
                     <motion.div
-                      className="h-full origin-left bg-gradient-to-r from-lm-blue via-oil to-lm-red"
+                      className="h-full origin-left bg-gradient-to-r from-lm-orange via-oil to-lm-red"
                       style={{ scaleX: lineScale }}
                     />
                   </div>
@@ -159,7 +159,7 @@ export default function BrandHistory() {
                 <div className="relative flex h-full flex-col justify-center pl-2">
                   <div aria-hidden className="absolute top-[12%] bottom-[12%] left-[5px] w-px bg-line">
                     <motion.div
-                      className="w-full origin-top bg-gradient-to-b from-lm-blue via-oil to-lm-red"
+                      className="w-full origin-top bg-gradient-to-b from-lm-orange via-oil to-lm-red"
                       style={{ scaleY: lineScale, height: '100%' }}
                     />
                   </div>
@@ -202,7 +202,7 @@ export default function BrandHistory() {
                     transition={{ duration: 0.75, ease: EASE }}
                     className={`relative w-full overflow-hidden border p-8 lg:p-12 ${
                       isDist
-                        ? 'border-lm-blue bg-ink text-white shadow-[0_32px_80px_rgba(11,18,21,0.2)]'
+                        ? 'border-lm-orange bg-ink text-white shadow-[0_32px_80px_rgba(11,18,21,0.2)]'
                         : 'border-line bg-white shadow-[0_24px_60px_rgba(11,18,21,0.06)]'
                     }`}
                   >
@@ -220,12 +220,12 @@ export default function BrandHistory() {
                     {isDist && (
                       <div
                         aria-hidden
-                        className="pointer-events-none absolute -right-12 -bottom-12 size-48 rounded-full bg-lm-blue/25 blur-3xl"
+                        className="pointer-events-none absolute -right-12 -bottom-12 size-48 rounded-full bg-lm-orange/25 blur-3xl"
                       />
                     )}
 
                     <div className="flex flex-wrap items-center gap-3">
-                      <span className={`tech-label ${isDist ? 'text-lm-red' : 'text-lm-blue'}`}>
+                      <span className={`tech-label ${isDist ? 'text-lm-red' : 'text-lm-orange'}`}>
                         {milestone.era}
                       </span>
                       <span
@@ -298,9 +298,9 @@ export default function BrandHistory() {
               return (
                 <article
                   key={m.year}
-                  className={`border p-6 ${dist ? 'border-lm-blue bg-ink text-white' : 'border-line bg-white'}`}
+                  className={`border p-6 ${dist ? 'border-lm-orange bg-ink text-white' : 'border-line bg-white'}`}
                 >
-                  <p className="tech-label text-lm-blue">{m.era}</p>
+                  <p className="tech-label text-lm-orange">{m.era}</p>
                   <h3 className="font-display mt-2 text-xl font-bold uppercase">{m.title}</h3>
                   <p className={`mt-2 text-sm ${dist ? 'text-white/70' : 'text-muted'}`}>{m.text}</p>
                 </article>

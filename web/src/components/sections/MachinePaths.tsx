@@ -134,7 +134,7 @@ export default function MachinePaths() {
                 transition={{ duration: 0.7, delay: i * 0.06, ease: EASE }}
                 className={`group bg-base p-5 transition-colors duration-400 hover:bg-white lg:p-6 ${dim ? 'opacity-40' : ''}`}
               >
-                <span className="tech-label text-lm-blue">{cat.path === 'car' ? '4W' : '2W'}</span>
+                <span className="tech-label text-lm-orange">{cat.path === 'car' ? '4W' : '2W'}</span>
                 <h4 className="font-display mt-2 text-base font-bold uppercase text-ink lg:text-lg">{cat.name}</h4>
                 <p className="mt-2 text-sm text-muted">{cat.text}</p>
                 <span className="mt-4 inline-block h-0.5 w-0 bg-lm-red transition-all duration-500 group-hover:w-full" />

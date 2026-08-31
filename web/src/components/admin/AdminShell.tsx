@@ -47,7 +47,7 @@ export default function AdminShell({
   return (
     <div className="min-h-screen bg-[#f4f7fb] text-ink">
       <aside className="fixed inset-y-0 left-0 hidden w-64 border-r border-line bg-white lg:flex lg:flex-col">
-        <div className="h-1 w-full bg-gradient-to-r from-lm-blue via-white to-lm-red" />
+        <div className="h-1 w-full bg-gradient-to-r from-lm-orange via-white to-lm-red" />
         <div className="border-b border-line px-5 py-5">
           <img src={ASSETS.octagenLogo} alt="Octagen" className="h-8 w-auto" />
           <p className="tech-label mt-3 text-lm-red">Octagen CMS</p>
@@ -68,7 +68,7 @@ export default function AdminShell({
         </nav>
         <form action={logoutAction} className="border-t border-line p-4">
           <p className="truncate text-xs text-muted">{user.email}</p>
-          <button type="submit" className="tech-label mt-3 text-lm-blue hover:text-ink">
+          <button type="submit" className="tech-label mt-3 text-lm-orange hover:text-ink">
             Sign out
           </button>
         </form>
@@ -77,7 +77,7 @@ export default function AdminShell({
         <header className="flex items-center justify-between border-b border-line bg-white px-4 py-3 lg:hidden">
           <p className="font-display font-bold uppercase text-ink">Octagen CMS</p>
           <form action={logoutAction}>
-            <button type="submit" className="tech-label text-lm-blue">
+            <button type="submit" className="tech-label text-lm-orange">
               Sign out
             </button>
           </form>

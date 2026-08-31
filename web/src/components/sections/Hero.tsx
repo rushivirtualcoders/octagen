@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { EASE } from '../../lib/animations'
-import { CLAIM, HERO_STATS } from '../../lib/constants'
+import { ASSETS, BRAND, CLAIM, DISTRIBUTOR, DISTRIBUTOR_TAGLINE, HERO_STATS } from '../../lib/constants'
 import AnimatedCounter from '../ui/AnimatedCounter'
 import MagneticButton from '../ui/MagneticButton'
 import SplitText from '../ui/SplitText'
@@ -23,39 +23,50 @@ export default function Hero() {
       id="top"
       ref={sectionRef}
       className="relative min-h-[100svh] overflow-hidden bg-base lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]"
-      aria-label="LIQUI MOLY high performance motor oil"
+      aria-label="Octagen and LIQUI MOLY India"
     >
       <motion.div
         style={{ y: contentY }}
         className="relative z-10 flex flex-col justify-between px-6 pt-32 pb-8 lg:px-10 lg:pt-36 lg:pb-10"
       >
         <div className="section-rail max-w-xl lg:max-w-2xl">
-          <motion.p
+          <motion.div
             initial={reduced ? false : { opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.9, delay: 2.1, ease: EASE }}
-            className="tech-label mb-6 text-lm-blue"
+            className="mb-6 flex flex-wrap items-center gap-3"
           >
-            {CLAIM}
+            <img src={ASSETS.liquiMolyLogo} alt={BRAND} className="h-8 w-auto" />
+            <span className="tech-label text-lm-red">{DISTRIBUTOR_TAGLINE}</span>
+          </motion.div>
+
+          <motion.p
+            initial={reduced ? false : { opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 2.15, ease: EASE }}
+            className="tech-label mb-4 text-lm-orange"
+          >
+            {CLAIM} · {DISTRIBUTOR}
           </motion.p>
 
           <SplitText
             as="h1"
-            text="ENGINEERED FOR EXTREME PERFORMANCE"
-            accentWord="EXTREME"
+            text="GERMAN MOTOR OILS FOR INDIA"
+            accentWord="INDIA"
             delay={2.2}
             immediate
-            className="font-display text-[clamp(2.4rem,5.5vw,5.2rem)] leading-[0.9] font-extrabold tracking-[-0.025em] text-ink uppercase"
+            className="font-display text-[clamp(2.2rem,5.2vw,4.8rem)] leading-[0.92] font-extrabold tracking-[-0.025em] text-ink uppercase"
           />
 
           <motion.p
             initial={reduced ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: EASE, delay: 2.85 }}
-            className="mt-7 max-w-md text-[0.95rem] leading-relaxed text-muted"
+            className="mt-7 max-w-lg text-[0.95rem] leading-relaxed text-muted"
           >
-            Advanced motor oil engineered for power, protection and performance under extreme
-            conditions.
+            {DISTRIBUTOR} is the exclusive authorised national distributor for {BRAND} in India —
+            motor oils, additives and car care with specification-led selection, workshop support
+            and inquiry-based supply nationwide.
           </motion.p>
 
           <motion.div
@@ -65,7 +76,7 @@ export default function Hero() {
             className="mt-10 flex flex-wrap gap-3"
           >
             <MagneticButton href="#paths">Explore Car Products</MagneticButton>
-            <MagneticButton href="#paths" variant="blue">
+            <MagneticButton href="#paths" variant="orange">
               Explore Bike Products
             </MagneticButton>
           </motion.div>

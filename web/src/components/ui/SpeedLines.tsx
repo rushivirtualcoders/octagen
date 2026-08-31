@@ -6,7 +6,7 @@ type Props = {
 }
 
 /** Horizontal speed lines — hero entrance and racing only. */
-export default function SpeedLines({ className = '', color = 'via-lm-blue/40' }: Props) {
+export default function SpeedLines({ className = '', color = 'via-lm-orange/40' }: Props) {
   const reduced = useReducedMotion()
   if (reduced) return null
 
