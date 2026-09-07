@@ -20,7 +20,7 @@ export default function ArticleForm({
   const errors = state?.fieldErrors ?? {}
 
   return (
-    <form action={action} className="grid max-w-3xl gap-4">
+    <form action={action} className="grid gap-4">
       {article ? <input type="hidden" name="id" value={article.id} /> : null}
       <FormBanner state={state} />
       <Field label="Title" error={errors.title}>
@@ -73,7 +73,7 @@ export default function ArticleForm({
       <Field label="Related product IDs (one per line)" error={errors.relatedProductIds}>
         <textarea className={fieldClass(errors.relatedProductIds)} name="relatedProductIds" rows={3} defaultValue={asLines(article?.relatedProductIds)} />
       </Field>
-      <Check name="published" label="Published" defaultChecked={article?.published} />
+      <Check name="published" label="Active" defaultChecked={article?.published} />
       <button type="submit" disabled={pending} className="w-fit rounded-md bg-lm-red px-6 py-3 text-sm font-bold uppercase text-white disabled:opacity-60">
         {pending ? 'Saving…' : article ? 'Save article' : 'Create article'}
       </button>

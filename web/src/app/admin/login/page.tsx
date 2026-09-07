@@ -26,7 +26,7 @@ export default async function AdminLoginPage() {
         </div>
         <h1 className="font-display text-3xl font-extrabold uppercase tracking-tight text-ink">Octagen CMS</h1>
         <p className="mt-2 mb-7 text-sm leading-relaxed text-muted">
-          Sign in to manage the LIQUI MOLY catalogue, articles and inquiries.
+          Sign in to manage the Octagen catalogue, articles and inquiries.
         </p>
         <LoginForm />
       </div>

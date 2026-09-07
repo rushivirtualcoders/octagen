@@ -62,7 +62,6 @@ export default function InquiryPath() {
     >
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionFrame
-          index="06"
           eyebrow="The inquiry path"
           title={['FROM SPEC', 'TO SUPPLY.']}
           accentLine={1}

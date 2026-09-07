@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   keywords: SITE_KEYWORDS,
-  authors: [{ name: 'Octagen — Exclusive Authorized National Distributor for LIQUI MOLY in India' }],
+  authors: [{ name: 'Octagen' }],
   robots: {
     index: true,
     follow: true,
@@ -28,24 +28,22 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: 'LIQUI MOLY India — Premium Motor Oils & Additives | Octagen',
-    description:
-      'OEM-approved motor oils, high-tech additives and car care — distributed nationally across India by Octagen, the exclusive authorized LIQUI MOLY distributor.',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [
       {
         url: '/assets/images/hero-video-poster.jpg',
         width: 1200,
         height: 630,
-        alt: 'LIQUI MOLY India — engineered for extreme performance',
+        alt: 'Octagen — premium motor oils and additives for India',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@octagen_in',
-    title: 'LIQUI MOLY India — Premium Motor Oils | Octagen',
-    description:
-      'OEM-approved motor oils, additives and car care for India. Exclusive authorized distributor: Octagen.',
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: ['/assets/images/hero-video-poster.jpg'],
   },
   other: {
@@ -71,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=Barlow:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
-        <link rel="preload" as="image" href="/assets/images/hero-video-poster.jpg" />
+        <link rel="preload" as="image" href="/assets/images/kc-shum-hwZq2xkf3mM-unsplash.jpg" />
         <link rel="preload" as="image" href="/assets/images/octagen-logo.png" />
         <script
           type="application/ld+json"

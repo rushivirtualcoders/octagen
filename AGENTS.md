@@ -24,9 +24,17 @@ Read `Doc/FRD_Octgen_06082026.docx` and `docs/FRD-SUMMARY.md` for product scope.
 ## Commands
 
 ```bash
+# Optional: Postgres only (local). Production app does not require Docker.
 docker compose up -d
+
 cd web
-npm run dev          # http://localhost:3000
-npx prisma migrate dev
+cp .env.example .env   # set DATABASE_URL to PostgreSQL + AUTH_SECRET
+npm install
+npx prisma migrate deploy
 npx prisma db seed
+npm run dev            # http://localhost:3000
+
+# Production on server (no Docker app):
+# npm run build && npm run start:prod
+# See docs/DEPLOY.md
 ```

@@ -9,11 +9,17 @@ import Hero from './components/sections/Hero'
 import MachinePaths from './components/sections/MachinePaths'
 import BrandHistory from './components/sections/BrandHistory'
 import ProductSpotlight from './components/sections/ProductSpotlight'
+import BlogSection from './components/sections/BlogSection'
+import ProductGuidance from './components/sections/ProductGuidance'
+import Footer from './components/sections/Footer'
+import { InquiryProvider } from './components/inquiry/InquiryProvider'
+import type { PublicArticle } from '@/lib/articles/types'
+
+/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
 import ProductAdvantage from './components/sections/ProductAdvantage'
 import InquiryPath from './components/sections/InquiryPath'
 import KnowledgeHub from './components/sections/KnowledgeHub'
-import ProductGuidance from './components/sections/ProductGuidance'
-import Footer from './components/sections/Footer'
+*/
 
 /* Hidden for now — sections after Product Guidance (NOT SURE WHAT YOUR MACHINE NEEDS?)
 import Performance from './components/sections/Performance'
@@ -28,11 +34,11 @@ import Racing from './components/sections/Racing'
 import FinalCTA from './components/sections/FinalCTA'
 */
 
-export default function App() {
+export default function App({ articles }: { articles: PublicArticle[] }) {
   useLenis()
 
   return (
-    <>
+    <InquiryProvider>
       <PageIntro />
       <ScrollProgress />
       <Cursor />
@@ -43,9 +49,12 @@ export default function App() {
         <MachinePaths />
         <BrandHistory />
         <ProductSpotlight />
+        <BlogSection articles={articles} />
+        {/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
         <ProductAdvantage />
         <InquiryPath />
         <KnowledgeHub />
+        */}
         <ProductGuidance />
         {/* Hidden for now — restore when ready to show sections below Product Guidance
         <Performance />
@@ -61,6 +70,6 @@ export default function App() {
         */}
       </main>
       <Footer />
-    </>
+    </InquiryProvider>
   )
 }

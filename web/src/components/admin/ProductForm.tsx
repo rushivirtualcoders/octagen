@@ -20,7 +20,7 @@ export default function ProductForm({
   const errors = state?.fieldErrors ?? {}
 
   return (
-    <form action={action} className="grid max-w-3xl gap-4">
+    <form action={action} className="grid gap-4">
       {product ? <input type="hidden" name="id" value={product.id} /> : null}
       <FormBanner state={state} />
       <div className="grid gap-4 sm:grid-cols-2">
@@ -92,7 +92,7 @@ export default function ProductForm({
       </Field>
       <div className="flex gap-6">
         <Check name="featured" label="Featured" defaultChecked={product?.featured} />
-        <Check name="published" label="Published" defaultChecked={product?.published} />
+        <Check name="published" label="Active" defaultChecked={product?.published} />
       </div>
       <button type="submit" disabled={pending} className="w-fit rounded-md bg-lm-red px-6 py-3 text-sm font-bold uppercase text-white disabled:opacity-60">
         {pending ? 'Saving…' : product ? 'Save product' : 'Create product'}

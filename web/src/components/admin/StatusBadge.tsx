@@ -21,7 +21,19 @@ export function StatusBadge({
 }
 
 export function PublishStatus({ published }: { published: boolean }) {
-  return <StatusBadge tone={published ? 'success' : 'neutral'}>{published ? 'Published' : 'Draft'}</StatusBadge>
+  return (
+    <StatusBadge tone={published ? 'success' : 'neutral'}>
+      {published ? 'Active' : 'Inactive'}
+    </StatusBadge>
+  )
+}
+
+export function ActiveStatus({ active }: { active: boolean }) {
+  return (
+    <StatusBadge tone={active ? 'success' : 'neutral'}>
+      {active ? 'Active' : 'Inactive'}
+    </StatusBadge>
+  )
 }
 
 export function InquiryStatusBadge({ status }: { status: string }) {

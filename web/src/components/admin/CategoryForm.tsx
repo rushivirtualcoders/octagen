@@ -4,7 +4,7 @@ import { useActionState, useState } from 'react'
 import type { ActionState } from '@/lib/cms/action-state'
 import { slugify } from '@/lib/cms/slug'
 import FormBanner from './FormBanner'
-import { Field, fieldClass } from './Fields'
+import { Check, Field, fieldClass } from './Fields'
 
 export default function CategoryForm({
   action,
@@ -12,7 +12,14 @@ export default function CategoryForm({
   withDescription = false,
 }: {
   action: (state: ActionState, formData: FormData) => Promise<ActionState>
-  values?: { id?: string; name?: string; slug?: string; description?: string; sortOrder?: number }
+  values?: {
+    id?: string
+    name?: string
+    slug?: string
+    description?: string
+    sortOrder?: number
+    active?: boolean
+  }
   withDescription?: boolean
 }) {
   const [state, formAction, pending] = useActionState(action, null)
@@ -20,7 +27,7 @@ export default function CategoryForm({
   const errors = state?.fieldErrors ?? {}
 
   return (
-    <form action={formAction} className="grid max-w-xl gap-4">
+    <form action={formAction} className="grid gap-4">
       {values?.id ? <input type="hidden" name="id" value={values.id} /> : null}
       <FormBanner state={state} />
       <Field label="Name" error={errors.name}>
@@ -48,15 +55,32 @@ export default function CategoryForm({
       </Field>
       {withDescription ? (
         <Field label="Description" error={errors.description}>
-          <textarea className={fieldClass(errors.description)} name="description" rows={3} defaultValue={values?.description} maxLength={400} />
+          <textarea
+            className={fieldClass(errors.description)}
+            name="description"
+            rows={3}
+            defaultValue={values?.description}
+            maxLength={400}
+          />
         </Field>
       ) : null}
       {withDescription ? (
         <Field label="Sort order" error={errors.sortOrder}>
-          <input className={fieldClass(errors.sortOrder)} name="sortOrder" type="number" min={0} defaultValue={values?.sortOrder ?? 0} />
+          <input
+            className={fieldClass(errors.sortOrder)}
+            name="sortOrder"
+            type="number"
+            min={0}
+            defaultValue={values?.sortOrder ?? 0}
+          />
         </Field>
       ) : null}
-      <button type="submit" disabled={pending} className="w-fit rounded-md bg-lm-red px-6 py-3 text-sm font-bold uppercase text-white disabled:opacity-60">
+      <Check name="active" label="Active" defaultChecked={values?.active ?? true} />
+      <button
+        type="submit"
+        disabled={pending}
+        className="w-fit rounded-md bg-lm-red px-6 py-3 text-sm font-bold uppercase text-white disabled:opacity-60"
+      >
         {pending ? 'Saving…' : values?.id ? 'Save category' : 'Create category'}
       </button>
     </form>

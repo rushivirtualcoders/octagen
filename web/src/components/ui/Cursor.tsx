@@ -63,23 +63,21 @@ export default function Cursor() {
   if (!enabled) return null
 
   return (
-    <>
+    <div className="site-cursor-layer" aria-hidden>
       <div
         ref={dotRef}
-        aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-[120] size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
+        className="pointer-events-none fixed top-0 left-0 z-[320] size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
         style={{ opacity: visible ? 1 : 0, marginLeft: -3, marginTop: -3 }}
       />
       <div
         ref={ringRef}
-        aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-[119] flex items-center justify-center transition-opacity duration-300"
+        className="pointer-events-none fixed top-0 left-0 z-[319] flex items-center justify-center transition-opacity duration-300"
         style={{ opacity: visible ? 1 : 0 }}
       >
         <div
           className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
             label
-              ? 'border-transparent bg-lm-red px-4 py-2 text-[0.6rem] font-semibold tracking-[0.2em] text-white'
+              ? 'site-btn border-transparent bg-lm-red px-4 py-2 text-[0.6rem] font-semibold tracking-[0.2em] text-white'
               : 'border-ink/30 bg-white/70 backdrop-blur-sm'
           }`}
           style={{
@@ -91,6 +89,6 @@ export default function Cursor() {
           {label}
         </div>
       </div>
-    </>
+    </div>
   )
 }

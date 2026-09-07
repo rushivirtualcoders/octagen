@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import MagneticButton from '../ui/MagneticButton'
 import SectionFrame from '../ui/SectionFrame'
-import { ASSETS, INQUIRY_MAILTO } from '../../lib/constants'
+import { ASSETS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 
 const FAQS = [
@@ -81,7 +81,6 @@ export default function ProductGuidance() {
         <div className="mx-auto grid max-w-[1400px] lg:grid-cols-2">
           <div className="flex flex-col justify-center px-6 py-14 lg:px-10 lg:py-20">
             <SectionFrame
-              index="08"
               eyebrow="Product guidance"
               title={['NOT SURE WHAT', 'YOUR MACHINE NEEDS?']}
               accentLine={1}
@@ -94,10 +93,11 @@ export default function ProductGuidance() {
               transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
               className="mt-8"
             >
-              <MagneticButton href={INQUIRY_MAILTO}>Talk to a product specialist</MagneticButton>
+              <MagneticButton inquiry inquiryType="PRODUCT_QUOTE">
+                Talk to a product specialist
+              </MagneticButton>
               <p className="mt-4 max-w-sm text-[0.72rem] leading-relaxed text-muted">
-                Inquiry is the only path to supply. Email routing is provisional until production
-                addresses are confirmed.
+                Inquiry is the only path to supply. Your message is saved to the Octagen admin inbox.
               </p>
             </motion.div>
           </div>
@@ -158,7 +158,9 @@ export default function ProductGuidance() {
                 the Octagen network.
               </p>
               <div className="mt-6">
-                <MagneticButton href={INQUIRY_MAILTO}>Get a quote</MagneticButton>
+                <MagneticButton inquiry inquiryType="PRODUCT_QUOTE">
+                  Get a quote
+                </MagneticButton>
               </div>
             </motion.div>
 

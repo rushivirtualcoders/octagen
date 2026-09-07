@@ -51,4 +51,26 @@ export function ActionIconLink({
   )
 }
 
+export function ActionIconButton({
+  label,
+  onClick,
+  variant = 'edit',
+}: {
+  label: string
+  onClick: () => void
+  variant?: 'edit' | 'open'
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      title={label}
+      onClick={onClick}
+      className={iconButtonClass('default')}
+    >
+      {variant === 'open' ? <OpenIcon /> : <EditIcon />}
+    </button>
+  )
+}
+
 export { iconButtonClass }

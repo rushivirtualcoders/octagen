@@ -24,6 +24,7 @@ export const categorySchema = z.object({
   slug,
   description: z.string().max(400, 'Description is too long').optional().default(''),
   sortOrder: z.coerce.number().int('Sort order must be a whole number').min(0).max(999).optional().default(0),
+  active: z.boolean().optional().default(true),
 })
 
 export const productSchema = z.object({
@@ -46,6 +47,7 @@ export const productSchema = z.object({
 export const articleCategorySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(80),
   slug,
+  active: z.boolean().optional().default(true),
 })
 
 export const articleSchema = z.object({
@@ -70,6 +72,7 @@ export const inquiryCreateSchema = z.object({
   email: z.string().email(),
   phone: z.string().max(40).optional().default(''),
   company: z.string().max(120).optional().default(''),
+  subject: z.string().max(160).optional().default(''),
   message: z.string().min(10).max(4000),
   productId: z.string().optional(),
 })

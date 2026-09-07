@@ -15,6 +15,7 @@ export function useLenis() {
     frame = requestAnimationFrame(raf)
 
     const onClick = (event: MouseEvent) => {
+      if (document.body.classList.contains('inquiry-open')) return
       const anchor = (event.target as HTMLElement).closest?.('a[href^="#"]')
       if (!anchor) return
       const hash = anchor.getAttribute('href')
@@ -26,9 +27,17 @@ export function useLenis() {
     }
     document.addEventListener('click', onClick)
 
+    const onLenisControl = (event: Event) => {
+      const detail = (event as CustomEvent<{ stop?: boolean }>).detail
+      if (detail?.stop) lenis.stop()
+      else lenis.start()
+    }
+    window.addEventListener('octagen:lenis', onLenisControl)
+
     return () => {
       cancelAnimationFrame(frame)
       document.removeEventListener('click', onClick)
+      window.removeEventListener('octagen:lenis', onLenisControl)
       lenis.destroy()
     }
   }, [])

@@ -2,7 +2,6 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '../../lib/animations'
 
 type Props = {
-  index: string
   eyebrow: string
   title: string[]
   accentLine?: number
@@ -13,7 +12,6 @@ type Props = {
 }
 
 export default function SectionFrame({
-  index,
   eyebrow,
   title,
   accentLine,
@@ -34,14 +32,7 @@ export default function SectionFrame({
         transition={{ duration: 0.85, ease: EASE }}
         className={`flex items-center gap-4 ${compact ? 'mb-4' : 'mb-8'} ${centered ? 'justify-center' : ''}`}
       >
-        <span
-          className={`font-display font-black leading-none tracking-tighter ${
-            compact ? 'text-3xl lg:text-4xl' : 'text-4xl lg:text-5xl'
-          } ${invert ? 'text-white/15' : 'text-ink/10'}`}
-        >
-          {index}
-        </span>
-        <span className={`h-px flex-1 max-w-16 ${invert ? 'bg-white/20' : 'bg-line'}`} />
+        <span className={`h-px w-10 shrink-0 ${invert ? 'bg-white/20' : 'bg-line'}`} />
         <p className={`tech-label ${invert ? 'text-lm-red' : 'text-lm-red'}`}>{eyebrow}</p>
       </motion.div>
 

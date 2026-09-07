@@ -61,6 +61,7 @@ export async function saveProductCategory(_prev: ActionState, formData: FormData
       slug: text(formData, 'slug'),
       description: text(formData, 'description'),
       sortOrder: text(formData, 'sortOrder') || 0,
+      active: checked(formData, 'active'),
     })
     if (!parsed.success) return fromZod(parsed.error)
     const record = id
@@ -140,6 +141,7 @@ export async function saveArticleCategory(_prev: ActionState, formData: FormData
     const parsed = articleCategorySchema.safeParse({
       name: text(formData, 'name'),
       slug: text(formData, 'slug'),
+      active: checked(formData, 'active'),
     })
     if (!parsed.success) return fromZod(parsed.error)
     const record = id
@@ -225,7 +227,22 @@ export async function updateInquiryStatus(_prev: ActionState, formData: FormData
   } catch (error) {
     return fromUnknown(error)
   }
-  redirect(toastPath(`/admin/inquiries/${id}`, 'Inquiry status updated'))
+  redirect(toastPath('/admin/inquiries', 'Inquiry status updated'))
+}
+
+export async function markInquiryRead(formData: FormData) {
+  try {
+    const session = await requireAdmin()
+    const id = requireId(formData, 'Inquiry')
+    const inquiry = await prisma.inquiry.findUnique({ where: { id } })
+    if (inquiry?.status === 'NEW') {
+      await prisma.inquiry.update({ where: { id }, data: { status: 'READ' } })
+      await writeAudit(session.email, 'update', 'Inquiry', id)
+      revalidateAdmin('/admin/inquiries')
+    }
+  } catch {
+    // silent — list view still usable
+  }
 }
 
 export async function deleteInquiry(formData: FormData) {

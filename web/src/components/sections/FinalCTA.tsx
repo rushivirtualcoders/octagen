@@ -37,7 +37,7 @@ export default function FinalCTA() {
       <div className="absolute inset-0 bg-gradient-to-b from-white via-white/85 to-white" />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,81,158,0.06),transparent_60%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,119,10,0.06),transparent_60%)]"
       />
 
       <div className="relative z-10 mx-auto w-full max-w-[1400px] px-6 py-32 text-center lg:px-10">

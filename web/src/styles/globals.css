@@ -7,10 +7,10 @@
   --color-surface-2: #e8eef5;
   --color-ink: #0b1215;
   --color-line: rgba(11, 18, 21, 0.1);
-  --color-lm-blue: #00519e;
+  --color-lm-blue: #e8770a;
   --color-lm-red: #e2001a;
   --color-accent: #e2001a;
-  --color-brand: #00519e;
+  --color-brand: #e8770a;
   --color-oil: #c9972e;
   --color-muted: #5c6b78;
   --font-display: 'DIN Pro', 'Barlow Condensed', 'Arial Narrow', sans-serif;
@@ -53,6 +53,26 @@ body.custom-cursor [data-cursor] {
   cursor: none !important;
 }
 
+/* Restore real cursor inside inquiry modal so close/form clicks feel accurate */
+body.inquiry-open,
+body.inquiry-open a,
+body.inquiry-open button,
+body.inquiry-open input,
+body.inquiry-open textarea,
+body.inquiry-open select,
+body.inquiry-open [data-cursor] {
+  cursor: auto !important;
+}
+
+body.inquiry-open {
+  overflow: hidden !important;
+}
+
+body.inquiry-open .site-cursor-layer {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 /* Soft paper grain for light surfaces */
 .grain {
   position: fixed;
@@ -84,11 +104,11 @@ body.custom-cursor [data-cursor] {
 }
 
 .racing-stripe-h {
-  background: linear-gradient(to right, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
+  background: linear-gradient(to right, #e8770a 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
 }
 
 .racing-stripe-v {
-  background: linear-gradient(to bottom, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
+  background: linear-gradient(to bottom, #e8770a 0 42%, #ffffff 42% 58%, #e2001a 58% 100%);
 }
 
 .sweep {
@@ -111,6 +131,18 @@ body.custom-cursor [data-cursor] {
 
 .sweep:hover::after {
   left: 130%;
+}
+
+.site-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  border-radius: 10px;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }
 
 .tech-label {
@@ -151,7 +183,7 @@ body.custom-cursor [data-cursor] {
 
 .section-rail {
   border-left: 3px solid transparent;
-  border-image: linear-gradient(to bottom, #00519e 0 42%, #ffffff 42% 58%, #e2001a 58% 100%) 1;
+  border-image: linear-gradient(to bottom, #e8770a 0 42%, #ffffff 42% 58%, #e2001a 58% 100%) 1;
   padding-left: 1.25rem;
 }
 

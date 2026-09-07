@@ -1,12 +1,15 @@
+'use client'
+
 import { ASSETS, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import InquiryTrigger from '../inquiry/InquiryTrigger'
 
 function Logo() {
   return (
-    <a href="#top" className="flex items-center gap-2.5" aria-label={`${DISTRIBUTOR} home`}>
-      <img src={ASSETS.octagenLogo} alt={DISTRIBUTOR} className="h-9 w-auto sm:h-10" />
+    <a href="#top" className="flex items-center gap-2" aria-label={`${DISTRIBUTOR} home`}>
+      <img src={ASSETS.octagenLogo} alt={DISTRIBUTOR} className="h-6 w-auto sm:h-7" />
     </a>
   )
 }
@@ -32,18 +35,18 @@ export default function Navbar() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-[100] border-b border-line bg-white/95 backdrop-blur-xl transition-all duration-500 ${
-        scrolled ? 'py-3.5 shadow-[0_8px_30px_rgba(11,18,21,0.06)]' : 'py-5'
+        scrolled ? 'py-2 shadow-[0_4px_20px_rgba(11,18,21,0.05)]' : 'py-2.5'
       }`}
     >
-      <nav className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-6 lg:px-10">
+      <nav className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 lg:px-8">
         <Logo />
 
-        <ul className="hidden items-center gap-9 lg:flex">
+        <ul className="hidden items-center gap-5 xl:gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
               <a
                 href={link.href}
-                className="tech-label text-[#0B1215] transition-colors duration-300 hover:text-lm-blue"
+                className="text-[0.62rem] font-semibold tracking-[0.16em] text-[#0B1215] uppercase transition-colors duration-300 hover:text-lm-blue"
               >
                 {link.label}
               </a>
@@ -51,14 +54,16 @@ export default function Navbar() {
           ))}
         </ul>
 
-        <div className="hidden items-center gap-4 lg:flex">
-          <span className="tech-label text-lm-blue">{CLAIM}</span>
-          <a
-            href="#guidance"
-            className="sweep tech-label bg-lm-red px-6 py-3 text-white transition-colors duration-300 hover:bg-[#c40017]"
+        <div className="hidden items-center gap-3 lg:flex">
+          <span className="text-[0.62rem] font-semibold tracking-[0.16em] text-lm-blue uppercase">
+            {CLAIM}
+          </span>
+          <InquiryTrigger
+            className="site-btn bg-lm-red px-4 py-2 text-[0.62rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c40017]"
+            type="PRODUCT_QUOTE"
           >
             Get Quote
-          </a>
+          </InquiryTrigger>
         </div>
 
         <button
@@ -66,7 +71,7 @@ export default function Navbar() {
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 lg:hidden"
+          className="flex h-8 w-8 flex-col items-center justify-center gap-1 lg:hidden"
         >
           <span
             className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
@@ -103,13 +108,13 @@ export default function Navbar() {
                 </motion.li>
               ))}
             </ul>
-            <a
-              href="#guidance"
-              onClick={() => setOpen(false)}
-              className="tech-label mt-12 inline-block w-fit bg-lm-red px-8 py-4 text-white"
+            <InquiryTrigger
+              className="site-btn tech-label mt-12 w-fit bg-lm-red px-8 py-4 text-white hover:bg-[#c40017]"
+              type="PRODUCT_QUOTE"
+              onOpen={() => setOpen(false)}
             >
               Get Quote
-            </a>
+            </InquiryTrigger>
           </motion.div>
         )}
       </AnimatePresence>

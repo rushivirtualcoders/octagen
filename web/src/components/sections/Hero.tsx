@@ -1,39 +1,77 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { EASE } from '../../lib/animations'
-import { CLAIM, HERO_STATS } from '../../lib/constants'
+import { CLAIM, HERO_SLIDES, HERO_STATS } from '../../lib/constants'
 import AnimatedCounter from '../ui/AnimatedCounter'
+import HeroImageSlider from '../ui/HeroImageSlider'
 import MagneticButton from '../ui/MagneticButton'
 import SplitText from '../ui/SplitText'
-import HeroVideo from '../ui/HeroVideo'
 
 export default function Hero() {
   const reduced = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
+  const [activeSlide, setActiveSlide] = useState(0)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start'],
   })
-  const panelScale = useTransform(scrollYProgress, [0, 1], [1, 1.08])
   const contentY = useTransform(scrollYProgress, [0, 1], [0, -60])
 
   return (
     <section
       id="top"
       ref={sectionRef}
-      className="relative min-h-[100svh] overflow-hidden bg-base lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)]"
-      aria-label="LIQUI MOLY high performance motor oil"
+      className="relative min-h-[100svh] overflow-hidden bg-base"
+      aria-label="Octagen high performance motor oil"
     >
+      <HeroImageSlider
+        slides={HERO_SLIDES}
+        active={activeSlide}
+        onActiveChange={setActiveSlide}
+      />
+
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/25 sm:via-white/88 sm:to-white/10 lg:via-white/75 lg:to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent"
+      />
+
+      <div
+        className="absolute top-1/2 right-5 z-20 flex -translate-y-1/2 flex-col items-center gap-2.5 lg:right-8"
+        role="tablist"
+        aria-label="Hero image slides"
+      >
+        {HERO_SLIDES.map((slide, index) => {
+          const isActive = index === activeSlide
+          return (
+            <button
+              key={slide.src}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              aria-label={`Show slide ${index + 1}: ${slide.alt}`}
+              onClick={() => setActiveSlide(index)}
+              className={`rounded-full transition-all duration-500 ease-out ${
+                isActive ? 'size-2.5 bg-lm-red shadow-[0_0_0_3px_rgba(226,0,26,0.2)]' : 'size-1.5 bg-ink/30 hover:bg-ink/50'
+              }`}
+            />
+          )
+        })}
+      </div>
+
       <motion.div
         style={{ y: contentY }}
-        className="relative z-10 flex flex-col justify-between px-6 pt-32 pb-8 lg:px-10 lg:pt-36 lg:pb-10"
+        className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-24 pb-8 lg:px-10 lg:pt-28 lg:pb-10"
       >
         <div className="section-rail max-w-xl lg:max-w-2xl">
           <motion.p
             initial={reduced ? false : { opacity: 0, x: -16 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.9, delay: 2.1, ease: EASE }}
+            transition={{ duration: 0.8, delay: 0.1, ease: EASE }}
             className="tech-label mb-6 text-lm-blue"
           >
             {CLAIM}
@@ -43,7 +81,7 @@ export default function Hero() {
             as="h1"
             text="ENGINEERED FOR EXTREME PERFORMANCE"
             accentWord="EXTREME"
-            delay={2.2}
+            delay={0.15}
             immediate
             className="font-display text-[clamp(2.4rem,5.5vw,5.2rem)] leading-[0.9] font-extrabold tracking-[-0.025em] text-ink uppercase"
           />
@@ -51,7 +89,7 @@ export default function Hero() {
           <motion.p
             initial={reduced ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 2.85 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.45 }}
             className="mt-7 max-w-md text-[0.95rem] leading-relaxed text-muted"
           >
             Advanced motor oil engineered for power, protection and performance under extreme
@@ -61,7 +99,7 @@ export default function Hero() {
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 3 }}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.6 }}
             className="mt-10 flex flex-wrap gap-3"
           >
             <MagneticButton href="#paths">Explore Car Products</MagneticButton>
@@ -74,15 +112,15 @@ export default function Hero() {
         <motion.dl
           initial={reduced ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 3.2 }}
-          className="mt-12 grid grid-cols-2 gap-6 border-t border-line pt-8 lg:grid-cols-4"
+          transition={{ duration: 0.8, delay: 0.75 }}
+          className="mt-12 grid max-w-4xl grid-cols-2 gap-6 border-t border-line pt-8 lg:grid-cols-4"
         >
           {HERO_STATS.map((stat, i) => (
             <motion.div
               key={stat.label}
               initial={reduced ? false : { opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 3.25 + i * 0.07, duration: 0.7, ease: EASE }}
+              transition={{ delay: 0.8 + i * 0.06, duration: 0.65, ease: EASE }}
             >
               <dd className="font-display text-2xl font-bold tracking-tight text-ink lg:text-3xl">
                 <AnimatedCounter to={stat.to} suffix={stat.suffix} duration={2.2} />
@@ -92,26 +130,6 @@ export default function Hero() {
           ))}
         </motion.dl>
       </motion.div>
-
-      <div className="relative min-h-[42svh] lg:min-h-[100svh]">
-        <motion.div
-          style={reduced ? undefined : { scale: panelScale }}
-          className="absolute inset-0 origin-center lg:clip-diagonal-tr"
-        >
-          <HeroVideo />
-        </motion.div>
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent lg:bg-gradient-to-l lg:from-white/20 lg:via-transparent lg:to-transparent"
-        />
-        <motion.div
-          aria-hidden
-          initial={reduced ? false : { scaleY: 0 }}
-          animate={{ scaleY: 1 }}
-          transition={{ duration: 1.2, delay: 2.5, ease: EASE }}
-          className="absolute top-0 left-0 hidden h-full w-1 origin-top bg-lm-red lg:block"
-        />
-      </div>
     </section>
   )
 }

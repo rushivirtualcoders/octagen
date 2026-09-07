@@ -13,7 +13,6 @@ export default function ProductAdvantage() {
     <section id="advantage" aria-label="The product advantage" className="grid-tech border-t border-line bg-surface py-8 lg:py-10">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionFrame
-          index="05"
           eyebrow="The product advantage"
           title={['WHY PROFESSIONALS', 'CHOOSE WITH EVIDENCE.']}
           accentLine={1}

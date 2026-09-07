@@ -12,7 +12,7 @@ export default function PageIntro() {
       setShow(false)
       return
     }
-    const t = window.setTimeout(() => setShow(false), 2200)
+    const t = window.setTimeout(() => setShow(false), 1600)
     return () => window.clearTimeout(t)
   }, [])
 

@@ -5,9 +5,11 @@
   "description": "Octagen Liqui-Moly India landing page (Next.js)",
   "scripts": {
     "dev": "next dev --port 3000",
-    "build": "next build",
-    "start": "next start --port 3000",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "start:prod": "prisma migrate deploy && next start",
     "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
     "db:seed": "prisma db seed",
     "db:studio": "prisma studio",
     "postinstall": "prisma generate"

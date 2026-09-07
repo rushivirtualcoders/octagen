@@ -1,14 +1,12 @@
-export const BRAND = 'LIQUI MOLY'
+export const BRAND = 'OCTAGEN'
 export const DISTRIBUTOR = 'Octagen'
-export const CLAIM = 'FOR THE DRIVERS'
+export const CLAIM = 'ENGINEERED FOR INDIA'
 
 export const NAV_LINKS = [
   { href: '#paths', label: 'Explore' },
   { href: '#history', label: 'Heritage' },
-  { href: '#spotlight', label: 'Flagship' },
-  { href: '#advantage', label: 'Advantage' },
-  { href: '#process', label: 'Inquiry' },
-  { href: '#insights', label: 'Insights' },
+  { href: '#spotlight', label: 'Connect' },
+  { href: '/articles', label: 'Insights' },
   { href: '#guidance', label: 'Guidance' },
 ]
 
@@ -20,10 +18,10 @@ export const MACHINE_PATHS = [
     title: 'Engineered for every drive',
     text: 'Start with your vehicle and application, then narrow the catalogue using verified categories and technical specifications.',
     cta: 'Explore car categories',
-    href: '#spotlight',
+    href: '#guidance',
     image: '/assets/images/lm/black-falcon-lg.jpg',
-    fallback: 'linear-gradient(135deg, #0b1215 0%, #003f7a 55%, #00519e 100%)',
-    accent: '#00519E',
+    fallback: 'linear-gradient(135deg, #0b1215 0%, #b85c08 55%, #e8770a 100%)',
+    accent: '#e8770a',
   },
   {
     id: 'bike',
@@ -32,7 +30,7 @@ export const MACHINE_PATHS = [
     title: 'Performance built for two wheels',
     text: 'Motorcycle-focused lubrication, additive and care families for road, touring and demanding track use.',
     cta: 'Explore bike categories',
-    href: '#spotlight',
+    href: '#guidance',
     image: '/assets/images/lm/mxgp.jpg',
     fallback: 'linear-gradient(135deg, #0b1215 0%, #3d0010 40%, #e2001a 85%)',
     accent: '#E2001A',
@@ -62,6 +60,25 @@ export const CATALOGUE_CATEGORIES = [
   },
 ] as const
 
+export const OCTAGEN_PILLARS = [
+  {
+    label: 'Decades of experience',
+    text: 'Over 20 years of lubricant expertise — the backbone of technical competence and industrial know-how.',
+  },
+  {
+    label: 'Superior quality',
+    text: 'State-of-the-art lab testing on every parameter — prolonging component life in demanding conditions.',
+  },
+  {
+    label: 'Customer care',
+    text: 'Long-term relationships with channel partners — responsive support and prompt resolution.',
+  },
+  {
+    label: 'Continuous innovation',
+    text: 'Research-led product development with an eye on the future and the pulse of the market.',
+  },
+] as const
+
 export const HISTORY_MILESTONES = [
   {
     year: '1957',
@@ -69,13 +86,15 @@ export const HISTORY_MILESTONES = [
     title: 'Founded in Ulm, Germany',
     text: 'LIQUI MOLY begins as a specialist lubricant brand — chemistry first, motorsport ambition from day one.',
     accent: '#E2001A',
+    coordinates: '48.4011° N · 9.9876° E',
+    location: 'Ulm, DE',
   },
   {
     year: '1970s',
     era: 'Manufacturing',
     title: 'In-house production scale',
     text: 'Formulations developed and produced under one roof — the same integrated model that still defines the brand.',
-    accent: '#00519E',
+    accent: '#e8770a',
   },
   {
     year: '1990s',
@@ -96,15 +115,18 @@ export const HISTORY_MILESTONES = [
     era: 'Innovation',
     title: '4,000+ products worldwide',
     text: 'A complete range spanning motor oils, additives and car care — engineered for passenger, commercial and performance use.',
-    accent: '#00519E',
+    accent: '#e8770a',
   },
   {
     year: 'India',
     era: 'Octagen',
     title: 'Exclusive national distribution',
-    text: 'Octagen operates and fulfils LIQUI MOLY across India — authorised supply, technical support and inquiry-led ordering.',
-    accent: '#00519E',
+    text: 'Octagen is the exclusive authorized national distributor for LIQUI MOLY in India — backed by over two decades of lubricant expertise, OEM-grade supply, and a dedicated team from Ahmedabad.',
+    accent: '#e8770a',
     distributor: true,
+    coordinates: '23.0225° N · 72.5714° E',
+    location: 'Ahmedabad, IN',
+    address: 'Amarnath Estate, Narol, Ahmedabad 382405, Gujarat',
   },
 ] as const
 
@@ -122,7 +144,7 @@ export const MOTORSPORT_SLIDES = [
     title: 'MotoGP',
     series: 'Two-wheel redline',
     text: 'Official lubricant partner in MotoGP — protection at lean angles and 18,000 rpm.',
-    image: '/assets/images/lm/motogp.jpg',
+    image: '/assets/images/lm/for-the-drivers-hero.jpg',
     alt: 'LIQUI MOLY MotoGP motorcycle sponsorship',
   },
   {
@@ -158,6 +180,58 @@ export const MOTORSPORT_SLIDES = [
     alt: 'LIQUI MOLY Turner Motorsport AMG partnership',
   },
 ]
+
+export const INSTAGRAM_PROFILE = 'https://www.instagram.com/liquimoly_india/?hl=en'
+
+export const INFORMATIVE_AUDIENCES = [
+  {
+    id: 'b2b',
+    tag: 'B2B',
+    title: 'For workshops & fleets',
+    text: 'Octagen supports professional workshops, service centres and fleet operators with authorized LIQUI MOLY supply, specification guidance and responsive technical care across India.',
+    image: '/assets/images/tim-mossholder-atgIjoAJdWg-unsplash.jpg',
+    imageAlt: 'Workshop professionals using LIQUI MOLY products',
+    points: [
+      'OEM specification guidance',
+      'Bulk supply through Octagen',
+      'Workshop-ready product families',
+      'Dedicated technical support',
+      'Long-term channel partnership',
+    ],
+    cta: 'Talk to a product specialist',
+    href: '#guidance',
+  },
+  {
+    id: 'b2c',
+    tag: 'B2C',
+    title: 'For vehicle owners',
+    text: 'Find the right LIQUI MOLY chemistry for your car or bike — German engineering, verified specifications and inquiry-led supply through India’s authorized distributor.',
+    image: '/assets/images/lm/for-the-drivers.jpg',
+    imageAlt: 'Drivers and vehicle owners',
+    points: [
+      'Made in Germany quality',
+      'Specification-first selection',
+      'Car and two-wheeler paths',
+      'Authorized national supply',
+      'Inquiry — no checkout required',
+    ],
+    cta: 'Submit inquiry / get quote',
+    href: '#guidance',
+  },
+] as const
+
+/** Latest-style social wall — 9 tiles in a 3×3 grid, links to @liquimoly_india */
+export const SOCIAL_FEED = [
+  { src: '/assets/images/lm/for-the-drivers-hero.jpg', alt: 'LIQUI MOLY motorsport hero' },
+  { src: '/assets/images/lm/black-falcon-lg.jpg', alt: 'AMG GT racing partnership' },
+  { src: '/assets/images/lm/mxgp.jpg', alt: 'Motocross partnership' },
+  { src: '/assets/images/lm/f1-alt2.jpg', alt: 'Formula racing presence' },
+  { src: '/assets/images/lm/turner-lg.jpg', alt: 'Turner Motorsport endurance' },
+  { src: '/assets/images/lm/btcc-lg.jpg', alt: 'Touring car championship' },
+  { src: '/assets/images/lm/hillclimb.jpg', alt: 'Hillclimb motorsport' },
+  { src: '/assets/images/lm/classic-cars.jpg', alt: 'Classic car community' },
+  { src: '/assets/images/lm/engstler-lg.jpg', alt: 'Engstler motorsport' },
+] as const
 
 export type SpotlightCallout = {
   index: string
@@ -208,7 +282,7 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     description: 'Micro-ceramic friction reduction for engines, gearboxes and differentials.',
     detail:
       'Surface-active chemistry that lowers wear under load — ideal for high-mileage and performance applications.',
-    glow: '#00519E',
+    glow: '#e8770a',
     image: '/assets/images/products/cera-tec.png',
     motion: 'scan',
     callouts: [
@@ -242,7 +316,7 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     description: 'Molecular friction control for high-output street and sport engines.',
     detail:
       'Distinctive Molygen chemistry — smoother response and durable wear protection under demanding load.',
-    glow: '#00519E',
+    glow: '#e8770a',
     image: '/assets/images/products/molygen-new-generation.png',
     motion: 'orbit',
     callouts: [
@@ -341,7 +415,7 @@ export const DEDICATED_SERVICES = [
     title: 'Workshop support',
     text: 'Technical guidance for workshops, fleets, and performance garages choosing the right oil specification.',
     tag: 'Expert guidance',
-    image: '/assets/images/lm/workshop.jpg',
+    image: '/assets/images/tim-mossholder-atgIjoAJdWg-unsplash.jpg',
   },
   {
     title: 'Motorsport partnerships',
@@ -428,7 +502,7 @@ export const PRODUCTS: Product[] = [
     application: 'High-output street & sport engines',
     description:
       'Molecular friction control with the distinctive Molygen chemistry — smoother response and durable wear protection.',
-    glow: '#00519E',
+    glow: '#e8770a',
     image: '/assets/images/products/product-bottle.png',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
@@ -460,7 +534,7 @@ export const PRODUCTS: Product[] = [
     application: 'Track days & motorsport engines',
     description:
       'Extreme shear stability for sustained redline running and race-level oil temperatures.',
-    glow: '#00519E',
+    glow: '#e8770a',
     image: '/assets/images/products/product-bottle.png',
     specs: [
       { label: 'Viscosity', value: '10W-60' },
@@ -477,7 +551,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'How to approach engine-oil selection',
     summary:
       'Start with the machine and the published specification — viscosity, approvals and drain interval — before you inquire for supply.',
-    stripe: '#00519E',
+    stripe: '#e8770a',
   },
   {
     index: '02',
@@ -493,7 +567,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'A practical routine for consistent vehicle care',
     summary:
       'Cleaners, treatments and surface care work as a system. A short workshop routine keeps the catalogue useful between oil changes.',
-    stripe: 'linear-gradient(135deg, #00519E 0%, #E2001A 100%)',
+    stripe: 'linear-gradient(135deg, #e8770a 0%, #E2001A 100%)',
   },
 ] as const
 
@@ -516,6 +590,30 @@ export const TECHNOLOGIES = [
   },
 ]
 
+/** Hero background slides — full-bleed automatic carousel */
+export const HERO_SLIDES = [
+  {
+    src: '/assets/images/kc-shum-hwZq2xkf3mM-unsplash.jpg',
+    alt: 'Performance car on a racing circuit',
+  },
+  {
+    src: '/assets/images/michael-lock-7QjAXs55AuY-unsplash.jpg',
+    alt: 'Motorsport machine in motion',
+  },
+  {
+    src: '/assets/images/tim-mossholder-atgIjoAJdWg-unsplash.jpg',
+    alt: 'Engine detail under the hood',
+  },
+  {
+    src: '/assets/images/oil-pour.png',
+    alt: 'Premium motor oil pour',
+  },
+  {
+    src: '/assets/images/tire-smoke.png',
+    alt: 'Performance tire smoke on track',
+  },
+] as const
+
 /** Our cinematic plates — not Liqui Moly media photos */
 export const ASSETS = {
   hero: '/assets/images/hero-car.png',
@@ -533,4 +631,12 @@ export const ASSETS = {
 }
 
 export const INQUIRY_MAILTO =
-  'mailto:info@octagen.in?subject=LIQUI%20MOLY%20Inquiry%20%2F%20Get%20Quote'
+  'mailto:info@octagen.co.in?subject=LIQUI%20MOLY%20Inquiry%20%2F%20Get%20Quote'
+
+export const CONTACT_INFO = {
+  email: 'info@octagen.co.in',
+  phones: ['+91 96249 14914', '+91 93281 77733', '079 2573 6738'],
+  address:
+    '1, Amarnath Estate, Near Gokulesh petrol pump, Opp. Transport nagar, Narol, Ahmedabad 382 405. Gujarat, India',
+} as const
+

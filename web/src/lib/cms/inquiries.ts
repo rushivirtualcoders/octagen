@@ -10,6 +10,7 @@ export async function createInquiry(input: unknown) {
       email: parsed.email,
       phone: parsed.phone,
       company: parsed.company,
+      subject: parsed.subject,
       message: parsed.message,
       productId: parsed.productId || null,
     },

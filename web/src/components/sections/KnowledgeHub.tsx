@@ -14,7 +14,6 @@ export default function KnowledgeHub() {
     <section id="insights" aria-label="Knowledge hub preview" className="border-t border-line bg-base py-8 lg:py-10">
       <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
         <SectionFrame
-          index="07"
           eyebrow="Knowledge hub preview"
           title={['KNOWLEDGE THAT', 'KEEPS YOU MOVING.']}
           accentLine={1}

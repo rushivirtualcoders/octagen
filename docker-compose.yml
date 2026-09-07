@@ -4,18 +4,46 @@ services:
     container_name: octagen-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: octagen
-      POSTGRES_PASSWORD: octagen_dev_only
-      POSTGRES_DB: octagen
+      POSTGRES_USER: ${POSTGRES_USER:-octagen}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-octagen}
     ports:
-      - '5432:5432'
+      # Bind to localhost only — do not expose DB to the public internet
+      - '127.0.0.1:5432:5432'
     volumes:
       - octagen_pg:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U octagen -d octagen']
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 5s
       timeout: 5s
       retries: 10
+
+  web:
+    profiles: ['app']
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    container_name: octagen-web
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER:-octagen}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-octagen}?schema=public
+      AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in .env}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_NAME: ${ADMIN_NAME:-Octagen Admin}
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      SMTP_FROM: ${SMTP_FROM:-}
+      INQUIRY_NOTIFY_EMAIL: ${INQUIRY_NOTIFY_EMAIL:-}
+    ports:
+      - '3000:3000'
 
 volumes:
   octagen_pg:

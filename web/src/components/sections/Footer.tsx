@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ASSETS, BRAND, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
+import { ASSETS, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 import Reveal, { RevealItem, RevealStagger } from '../ui/Reveal'
 
@@ -50,11 +50,11 @@ export default function Footer() {
 
         <Reveal variant="up" delay={0.15} className="mt-16 flex flex-col gap-4 border-t border-line pt-8 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-xs font-light text-muted">
-            LIQUI MOLY India is proudly operated and fulfilled by Octagen, the exclusive authorized
-            national distributor.
+            Octagen supplies premium motor oils, additives and car care nationally across India —
+            inquiry-led catalogue, no cart.
           </p>
           <p className="tech-label text-ink/30">
-            © {new Date().getFullYear()} {BRAND} · {DISTRIBUTOR}. All rights reserved.
+            © {new Date().getFullYear()} {DISTRIBUTOR}. All rights reserved.
           </p>
         </Reveal>
       </div>

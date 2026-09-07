@@ -1,5 +1,7 @@
-import { useRef, type ReactNode } from 'react'
-import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+'use client'
+
+import type { ReactNode } from 'react'
+import { useInquiry } from '../inquiry/InquiryProvider'
 
 type Props = {
   children: ReactNode
@@ -7,6 +9,10 @@ type Props = {
   variant?: 'primary' | 'ghost' | 'blue' | 'white'
   className?: string
   dataCursor?: string
+  /** Opens the inquiry popup instead of navigating */
+  inquiry?: boolean
+  inquirySubject?: string
+  inquiryType?: 'GENERAL' | 'WORKSHOP' | 'BULK' | 'PRODUCT_QUOTE'
 }
 
 export default function MagneticButton({
@@ -15,44 +21,39 @@ export default function MagneticButton({
   variant = 'primary',
   className = '',
   dataCursor,
+  inquiry = false,
+  inquirySubject,
+  inquiryType,
 }: Props) {
-  const ref = useRef<HTMLAnchorElement>(null)
-  const reduced = useReducedMotion()
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const sx = useSpring(x, { stiffness: 200, damping: 16 })
-  const sy = useSpring(y, { stiffness: 200, damping: 16 })
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (reduced || !ref.current) return
-    const rect = ref.current.getBoundingClientRect()
-    x.set((e.clientX - rect.left - rect.width / 2) * 0.32)
-    y.set((e.clientY - rect.top - rect.height / 2) * 0.32)
-  }
+  const { openInquiry } = useInquiry()
 
   const styles =
     variant === 'primary'
       ? 'bg-lm-red text-white hover:bg-[#c40017]'
       : variant === 'blue'
-        ? 'bg-lm-blue text-white hover:bg-[#003f7a]'
+        ? 'border border-lm-blue bg-transparent text-ink hover:bg-lm-blue/10'
         : variant === 'white'
           ? 'bg-white text-ink hover:bg-surface'
           : 'border border-ink/20 text-ink hover:border-lm-blue hover:text-lm-blue'
 
+  const classes = `site-btn px-8 py-4 text-[0.7rem] font-semibold tracking-[0.24em] uppercase ${styles} ${className}`
+
+  if (inquiry) {
+    return (
+      <button
+        type="button"
+        data-cursor={dataCursor}
+        className={classes}
+        onClick={() => openInquiry({ subject: inquirySubject, type: inquiryType })}
+      >
+        {children}
+      </button>
+    )
+  }
+
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      data-cursor={dataCursor}
-      onMouseMove={onMouseMove}
-      onMouseLeave={() => {
-        x.set(0)
-        y.set(0)
-      }}
-      style={{ x: sx, y: sy }}
-      className={`sweep inline-flex items-center justify-center gap-3 px-8 py-4 text-[0.7rem] font-semibold tracking-[0.24em] uppercase transition-colors duration-300 ${styles} ${className}`}
-    >
+    <a href={href} data-cursor={dataCursor} className={classes}>
       {children}
-    </motion.a>
+    </a>
   )
 }

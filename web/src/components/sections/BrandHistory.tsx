@@ -9,49 +9,96 @@ import {
   useTransform,
 } from 'framer-motion'
 import SectionFrame from '../ui/SectionFrame'
-import { HISTORY_MILESTONES } from '../../lib/constants'
+import { HISTORY_MILESTONES, OCTAGEN_PILLARS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 
 const COUNT = HISTORY_MILESTONES.length
 
-function TimelineNode({
-  index,
-  active,
-  accent,
-  onSelect,
-}: {
-  index: number
-  active: boolean
-  accent: string
-  onSelect: () => void
-}) {
-  const m = HISTORY_MILESTONES[index]
+const YEAR_SHORT: Record<string, string> = {
+  '1957': '1957',
+  '1970s': '70s',
+  '1990s': '90s',
+  '2000s': '00s',
+  Today: 'Now',
+  India: 'IN',
+}
+
+function HeritageStamp({ octagen }: { octagen: boolean }) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-label={`${m.year} — ${m.title}`}
-      aria-current={active ? 'step' : undefined}
-      className="group relative flex w-full items-center gap-4 py-3 text-left lg:py-4"
+    <div
+      aria-hidden
+      className="relative inline-flex size-24 items-center justify-center rounded-full border border-dashed border-ink/20 lg:size-28"
     >
-      <motion.span
-        animate={
-          active
-            ? { scale: 1.35, boxShadow: `0 0 0 8px ${accent}22` }
-            : { scale: 1, boxShadow: '0 0 0 0px transparent' }
-        }
-        transition={{ duration: 0.45, ease: EASE }}
-        className="relative z-10 size-3 shrink-0 border-2 border-base"
-        style={{ backgroundColor: active ? accent : '#e8eef5' }}
-      />
-      <span
-        className={`tech-label transition-colors duration-300 ${
-          active ? 'text-ink' : 'text-muted group-hover:text-lm-blue'
-        }`}
-      >
-        {m.year}
-      </span>
-    </button>
+      <div className="absolute inset-2 rounded-full border border-ink/10" />
+      <div className="text-center px-2">
+        {octagen ? (
+          <>
+            <p className="text-[0.5rem] font-semibold tracking-[0.18em] text-ink/70 uppercase">
+              Distributed by
+            </p>
+            <p className="font-display text-sm font-extrabold tracking-[0.1em] text-lm-red uppercase">
+              Octagen
+            </p>
+            <p className="mt-1 text-[0.45rem] font-semibold tracking-[0.14em] text-muted uppercase">
+              Ahmedabad, India
+            </p>
+          </>
+        ) : (
+          <>
+            <p className="text-[0.5rem] font-semibold tracking-[0.22em] text-ink/70 uppercase">
+              Engineered
+            </p>
+            <p className="font-display text-sm font-extrabold tracking-[0.12em] text-lm-red uppercase">
+              in Ulm
+            </p>
+            <p className="mt-1 text-[0.45rem] font-semibold tracking-[0.18em] text-muted uppercase">
+              Made in Germany
+            </p>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function PrecisionScale({ active, progress }: { active: number; progress: number }) {
+  return (
+    <div className="w-full max-w-xs">
+      <div className="mb-2 flex items-end justify-between">
+        <span className="text-[0.58rem] font-semibold tracking-[0.18em] text-muted uppercase">
+          Precision scale
+        </span>
+        <span className="font-display text-lg font-bold tracking-tight text-ink">
+          {HISTORY_MILESTONES[active].year}
+        </span>
+      </div>
+      <div className="relative h-8 border border-line bg-white">
+        {Array.from({ length: 13 }).map((_, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className={`absolute bottom-0 w-px bg-ink/15 ${i % 4 === 0 ? 'h-4' : 'h-2'}`}
+            style={{ left: `${(i / 12) * 100}%` }}
+          />
+        ))}
+        <motion.div
+          className="absolute top-0 bottom-0 w-0.5 bg-lm-red shadow-[0_0_12px_rgba(226,0,26,0.45)]"
+          style={{ left: `${progress * 100}%`, x: '-50%' }}
+        />
+      </div>
+      <div className="mt-2 flex justify-between gap-1">
+        {HISTORY_MILESTONES.map((m, i) => (
+          <span
+            key={m.year}
+            className={`text-[0.5rem] font-semibold tracking-[0.08em] uppercase transition-colors duration-300 ${
+              i === active ? 'text-lm-red' : 'text-ink/25'
+            }`}
+          >
+            {YEAR_SHORT[m.year] ?? m.year}
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -61,6 +108,9 @@ export default function BrandHistory() {
   const [active, setActive] = useState(0)
   const milestone = HISTORY_MILESTONES[active]
   const isDist = 'distributor' in milestone && milestone.distributor
+  const coords = 'coordinates' in milestone ? milestone.coordinates : '48.4011° N · 9.9876° E'
+  const location = 'location' in milestone ? milestone.location : 'Ulm, DE'
+  const address = 'address' in milestone ? milestone.address : null
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -68,13 +118,13 @@ export default function BrandHistory() {
   })
 
   const progress = useSpring(scrollYProgress, { stiffness: 90, damping: 28 })
-  const lineScale = useTransform(progress, [0, 1], [0, 1])
-  const watermarkX = useTransform(progress, [0, 1], ['0%', '-18%'])
-  const watermarkOpacity = useTransform(progress, [0, 0.5, 1], [0.06, 0.1, 0.06])
+  const [scaleProgress, setScaleProgress] = useState(0)
+  const watermarkX = useTransform(progress, [0, 1], ['0%', '-12%'])
 
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
     const next = Math.min(COUNT - 1, Math.max(0, Math.floor(v * COUNT)))
     setActive((prev) => (prev === next ? prev : next))
+    setScaleProgress(v)
   })
 
   useEffect(() => {
@@ -101,196 +151,184 @@ export default function BrandHistory() {
         <div className={`${reduced ? '' : 'sticky top-0'} flex min-h-[100svh] flex-col overflow-hidden`}>
           <motion.div
             aria-hidden
-            style={reduced ? undefined : { x: watermarkX, opacity: watermarkOpacity }}
-            className="pointer-events-none absolute -right-[8%] bottom-[10%] font-display text-[clamp(8rem,28vw,22rem)] font-black leading-none tracking-tighter text-ink select-none"
+            style={reduced ? undefined : { x: watermarkX }}
+            className="pointer-events-none absolute -right-[6%] top-[8%] z-0 font-display text-[clamp(7rem,24vw,20rem)] font-black leading-[0.85] tracking-tighter text-ink/[0.04] select-none"
           >
             <AnimatePresence mode="wait">
               <motion.span
                 key={milestone.year}
-                initial={reduced ? false : { opacity: 0, y: 40, filter: 'blur(12px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -30, filter: 'blur(8px)' }}
-                transition={{ duration: 0.65, ease: EASE }}
-                className="block"
+                initial={reduced ? false : { opacity: 0, y: 60 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -40 }}
+                transition={{ duration: 0.7, ease: EASE }}
+                className="block uppercase"
               >
                 {milestone.year}
               </motion.span>
             </AnimatePresence>
           </motion.div>
 
-          <div className="grid-tech pointer-events-none absolute inset-0 opacity-50" />
+          <div className="grid-tech pointer-events-none absolute inset-0 opacity-40" />
 
-          <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-6 py-16 lg:px-10 lg:py-20">
-            <div className="grid flex-1 gap-10 lg:grid-cols-12 lg:gap-8">
-              <div className="lg:col-span-4 lg:flex lg:flex-col lg:justify-between">
+          <div className="relative z-10 mx-auto flex w-full max-w-[1400px] flex-1 flex-col px-6 py-14 lg:px-10 lg:py-16">
+            <div className="grid flex-1 gap-10 lg:grid-cols-12 lg:gap-10">
+              <div className="lg:col-span-5 lg:flex lg:flex-col lg:justify-between">
                 <SectionFrame
-                  index="03"
                   eyebrow="Heritage"
                   title={['DECADES OF', 'GERMAN PRECISION.']}
                   accentLine={1}
-                  description="From Ulm to the world stage — and now across India through Octagen."
+                  description={
+                    isDist
+                      ? 'German engineering meets Indian distribution — Octagen brings LIQUI MOLY nationwide with decades of local lubricant expertise.'
+                      : 'From Ulm to the world stage — and now across India through Octagen.'
+                  }
                 />
 
-                <div className="mt-10 hidden lg:block">
-                  <div className="mb-3 flex items-center justify-between">
-                    <span className="tech-label text-muted">Timeline</span>
-                    <span className="tech-label text-lm-blue">
-                      {String(active + 1).padStart(2, '0')} / {String(COUNT).padStart(2, '0')}
-                    </span>
+                <div className="mt-10 hidden flex-col gap-8 lg:flex">
+                  <div className="flex items-start gap-8">
+                    <HeritageStamp octagen={Boolean(isDist)} />
+                    <div>
+                      <p className="text-[0.58rem] font-semibold tracking-[0.2em] text-muted uppercase">
+                        {isDist ? 'Headquarters' : 'Coordinates'}
+                      </p>
+                      <p className="font-display mt-2 text-sm font-bold tracking-[0.08em] text-ink uppercase">
+                        {coords}
+                      </p>
+                      <p className="tech-label mt-1 text-lm-blue">{location}</p>
+                      {address && (
+                        <p className="mt-2 max-w-[14rem] text-xs leading-relaxed text-muted">{address}</p>
+                      )}
+                    </div>
                   </div>
-                  <div className="h-1 overflow-hidden bg-line">
-                    <motion.div
-                      className="h-full origin-left bg-gradient-to-r from-lm-blue via-oil to-lm-red"
-                      style={{ scaleX: lineScale }}
-                    />
-                  </div>
-                  <motion.div
-                    className="mt-8 inline-flex items-center gap-3 border border-line bg-white px-4 py-3"
-                    animate={reduced ? undefined : { y: [0, -3, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  >
-                    <span className="racing-stripe-h inline-block h-1 w-8" />
-                    <span className="tech-label text-ink/80">Made in Germany</span>
-                  </motion.div>
+
+                  <PrecisionScale active={active} progress={scaleProgress} />
                 </div>
               </div>
 
-              <div className="hidden lg:col-span-2 lg:block">
-                <div className="relative flex h-full flex-col justify-center pl-2">
-                  <div aria-hidden className="absolute top-[12%] bottom-[12%] left-[5px] w-px bg-line">
-                    <motion.div
-                      className="w-full origin-top bg-gradient-to-b from-lm-blue via-oil to-lm-red"
-                      style={{ scaleY: lineScale, height: '100%' }}
-                    />
-                  </div>
-                  {HISTORY_MILESTONES.map((_, i) => (
-                    <TimelineNode
-                      key={HISTORY_MILESTONES[i].year}
-                      index={i}
-                      active={active === i}
-                      accent={HISTORY_MILESTONES[i].accent}
-                      onSelect={() => setActive(i)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="lg:col-span-6 lg:flex lg:items-center">
+              <div className="relative z-10 lg:col-span-7 lg:flex lg:flex-col lg:justify-center">
                 <AnimatePresence mode="wait">
                   <motion.article
                     key={milestone.year}
-                    initial={
-                      reduced
-                        ? false
-                        : {
-                            opacity: 0,
-                            x: 48,
-                            clipPath: 'inset(0 0 100% 0)',
-                          }
-                    }
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      clipPath: 'inset(0 0 0 0)',
-                    }}
-                    exit={{
-                      opacity: 0,
-                      x: -32,
-                      clipPath: 'inset(100% 0 0 0)',
-                      transition: { duration: 0.4, ease: EASE },
-                    }}
-                    transition={{ duration: 0.75, ease: EASE }}
-                    className={`relative w-full overflow-hidden border p-8 lg:p-12 ${
+                    initial={reduced ? false : { opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -12, transition: { duration: 0.3, ease: EASE } }}
+                    transition={{ duration: 0.55, ease: EASE }}
+                    className={`relative w-full rounded-[10px] border ${
                       isDist
-                        ? 'border-lm-blue bg-ink text-white shadow-[0_32px_80px_rgba(11,18,21,0.2)]'
-                        : 'border-line bg-white shadow-[0_24px_60px_rgba(11,18,21,0.06)]'
+                        ? 'border-lm-blue/40 bg-ink text-white shadow-[0_20px_60px_rgba(11,18,21,0.18)]'
+                        : 'border-line bg-white shadow-[0_16px_48px_rgba(11,18,21,0.06)]'
                     }`}
                   >
-                    {!isDist && (
-                      <motion.span
-                        aria-hidden
-                        className="absolute inset-x-0 top-0 h-1 origin-left"
-                        style={{ backgroundColor: milestone.accent }}
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.8, ease: EASE, delay: 0.15 }}
-                      />
-                    )}
+                    <div
+                      aria-hidden
+                      className="h-1 w-full"
+                      style={{ backgroundColor: isDist ? '#e8770a' : milestone.accent }}
+                    />
 
-                    {isDist && (
-                      <div
-                        aria-hidden
-                        className="pointer-events-none absolute -right-12 -bottom-12 size-48 rounded-full bg-lm-blue/25 blur-3xl"
-                      />
-                    )}
+                    <div className="p-7 lg:p-9">
+                      <div className="flex flex-wrap items-center justify-between gap-3">
+                        <div className="flex flex-wrap items-center gap-3">
+                          <span className={`tech-label ${isDist ? 'text-lm-red' : 'text-lm-blue'}`}>
+                            {milestone.era}
+                          </span>
+                          <span
+                            className={`rounded-[10px] px-2.5 py-1 text-[0.58rem] font-semibold tracking-[0.14em] uppercase ${
+                              isDist ? 'bg-white/10 text-white/80' : 'bg-surface text-ink/50'
+                            }`}
+                          >
+                            {milestone.year}
+                          </span>
+                        </div>
+                        <span className={`tech-label ${isDist ? 'text-white/35' : 'text-ink/30'}`}>
+                          {String(active + 1).padStart(2, '0')} / {String(COUNT).padStart(2, '0')}
+                        </span>
+                      </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <span className={`tech-label ${isDist ? 'text-lm-red' : 'text-lm-blue'}`}>
-                        {milestone.era}
-                      </span>
-                      <span
-                        className={`font-display text-sm font-bold tracking-[0.2em] uppercase ${
-                          isDist ? 'text-white/45' : 'text-ink/25'
+                      <h3
+                        className={`font-display mt-5 text-[clamp(1.45rem,2.8vw,2.1rem)] font-extrabold leading-tight tracking-tight uppercase ${
+                          isDist ? 'text-white' : 'text-ink'
                         }`}
                       >
-                        {milestone.year}
-                      </span>
+                        {milestone.title}
+                      </h3>
+
+                      <p
+                        className={`mt-4 max-w-2xl text-sm leading-relaxed lg:text-[0.95rem] ${
+                          isDist ? 'text-white/75' : 'text-muted'
+                        }`}
+                      >
+                        {milestone.text}
+                      </p>
+
+                      {isDist && (
+                        <ul className="mt-7 grid gap-2.5 sm:grid-cols-2">
+                          {OCTAGEN_PILLARS.map((pillar) => (
+                            <li
+                              key={pillar.label}
+                              className="rounded-[10px] border border-white/10 bg-white/5 px-3.5 py-3"
+                            >
+                              <p className="text-[0.6rem] font-semibold tracking-[0.12em] text-lm-red uppercase">
+                                {pillar.label}
+                              </p>
+                              <p className="mt-1 text-xs leading-relaxed text-white/65">{pillar.text}</p>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
-
-                    <motion.h3
-                      initial={reduced ? false : { opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, ease: EASE, delay: 0.1 }}
-                      className={`font-display mt-6 text-[clamp(1.5rem,3vw,2.4rem)] font-extrabold uppercase leading-tight tracking-tight ${
-                        isDist ? 'text-white' : 'text-ink'
-                      }`}
-                    >
-                      {milestone.title}
-                    </motion.h3>
-
-                    <motion.p
-                      initial={reduced ? false : { opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, ease: EASE, delay: 0.18 }}
-                      className={`mt-5 max-w-xl text-sm leading-relaxed lg:text-base ${
-                        isDist ? 'text-white/72' : 'text-muted'
-                      }`}
-                    >
-                      {milestone.text}
-                    </motion.p>
-
-                    <motion.p
-                      initial={reduced ? false : { opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.35, duration: 0.5 }}
-                      className={`tech-label mt-10 ${isDist ? 'text-white/40' : 'text-ink/35'}`}
-                    >
-                      Scroll to travel the timeline
-                    </motion.p>
                   </motion.article>
                 </AnimatePresence>
+
+                <div
+                  className="mt-6 flex flex-wrap gap-2 lg:mt-8"
+                  role="tablist"
+                  aria-label="Heritage timeline"
+                >
+                  {HISTORY_MILESTONES.map((m, i) => {
+                    const isActive = active === i
+                    return (
+                      <button
+                        key={m.year}
+                        type="button"
+                        role="tab"
+                        aria-selected={isActive}
+                        onClick={() => setActive(i)}
+                        className={`rounded-[10px] border px-4 py-2.5 text-[0.62rem] font-semibold tracking-[0.14em] uppercase transition-all duration-400 ${
+                          isActive
+                            ? 'scale-105 border-lm-red bg-lm-red text-white shadow-[0_8px_24px_rgba(226,0,26,0.25)]'
+                            : 'border-line bg-white text-muted hover:border-ink/20 hover:text-ink'
+                        }`}
+                        style={isActive ? undefined : { borderColor: `${m.accent}33` }}
+                      >
+                        {m.year}
+                      </button>
+                    )
+                  })}
+                </div>
               </div>
             </div>
 
-            {/* Mobile: horizontal milestone picker */}
-            <div className="mt-8 flex gap-2 overflow-x-auto pb-2 lg:hidden [scrollbar-width:none]">
-              {HISTORY_MILESTONES.map((m, i) => (
-                <button
-                  key={m.year}
-                  type="button"
-                  onClick={() => setActive(i)}
-                  className={`tech-label shrink-0 border px-4 py-2 ${
-                    active === i ? 'border-lm-red bg-lm-red text-white' : 'border-line bg-surface text-muted'
-                  }`}
-                >
-                  {m.year}
-                </button>
-              ))}
+            <div className="mt-8 lg:hidden">
+              <PrecisionScale active={active} progress={scaleProgress} />
+              <div className="mt-6 flex items-start gap-5">
+                <HeritageStamp octagen={Boolean(isDist)} />
+                <div>
+                  <p className="text-[0.58rem] font-semibold tracking-[0.2em] text-muted uppercase">
+                    {isDist ? 'Headquarters' : 'Coordinates'}
+                  </p>
+                  <p className="font-display mt-1 text-sm font-bold tracking-[0.08em] text-ink uppercase">
+                    {coords}
+                  </p>
+                  <p className="tech-label mt-0.5 text-lm-blue">{location}</p>
+                  {address && (
+                    <p className="mt-2 text-xs leading-relaxed text-muted">{address}</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Reduced motion: show all milestones stacked */}
         {reduced && (
           <div className="mx-auto max-w-[1400px] space-y-4 px-6 pb-16 lg:px-10">
             {HISTORY_MILESTONES.map((m) => {
@@ -298,7 +336,7 @@ export default function BrandHistory() {
               return (
                 <article
                   key={m.year}
-                  className={`border p-6 ${dist ? 'border-lm-blue bg-ink text-white' : 'border-line bg-white'}`}
+                  className={`rounded-[10px] border p-6 ${dist ? 'border-lm-blue bg-ink text-white' : 'border-line bg-white'}`}
                 >
                   <p className="tech-label text-lm-blue">{m.era}</p>
                   <h3 className="font-display mt-2 text-xl font-bold uppercase">{m.title}</h3>
