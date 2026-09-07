@@ -73,47 +73,52 @@ GRANT ALL ON SCHEMA public TO octagen;
 SQL
 ```
 
-## Deploy steps (on the server)
+## Production layout (this server)
+
+| Piece | Path / value |
+| --- | --- |
+| Git repo | `/home/deploy/apps/octagen` |
+| Next.js app | `/home/deploy/apps/octagen/web` |
+| Env file | `/home/deploy/apps/octagen/web/.env` (never commit) |
+| Process | PM2 name `octagen` (user `deploy`) |
+| Port | `3020` (Nginx → `127.0.0.1:3020`) |
+| Domain | `https://octagen.virtualcodershub.com` |
+| Remote | `https://github.com/rushivirtualcoders/octagen.git` |
+
+Do **not** upload zip/tarball folders for updates. Always `git pull` + build.
+
+## First-time setup (git clone)
 
 ```bash
-# 1) Get code
-cd /var/www   # or your path
-git clone <your-repo-url> octagen
+# as root / with deploy ownership
+sudo -u deploy bash <<'EOF'
+set -euo pipefail
+mkdir -p /home/deploy/apps
+cd /home/deploy/apps
+# if an old non-git folder exists, move it aside first
+# mv octagen octagen-legacy-$(date +%Y%m%d)
+git clone https://github.com/rushivirtualcoders/octagen.git octagen
 cd octagen/web
-
-# 2) Env (never commit this file)
 cp .env.example .env
-nano .env   # fill DATABASE_URL, AUTH_SECRET, ADMIN_*, NEXT_PUBLIC_SITE_URL
-
-# 3) Install + build
+chmod 600 .env
+# edit .env: DATABASE_URL, AUTH_SECRET, ADMIN_*, NEXT_PUBLIC_SITE_URL, PORT=3020
+nano .env
 npm ci
 npm run build
-
-# 4) Migrate schema + seed admin / sample content
 npx prisma migrate deploy
-npm run db:seed
-
-# 5) Run (foreground test)
-npm run start:prod
-# → http://127.0.0.1:3000
-```
-
-### Keep it running with pm2 (recommended)
-
-```bash
-npm i -g pm2
-pm2 start npm --name octagen -- run start:prod
+npm run db:seed   # first time only
+PORT=3020 NODE_ENV=production pm2 start npm --name octagen --cwd /home/deploy/apps/octagen/web -- start
 pm2 save
-pm2 startup
+EOF
 ```
 
 ### Nginx reverse proxy (HTTPS)
 
-Point the domain to `http://127.0.0.1:3000`. Example location:
+Point the domain to `http://127.0.0.1:3020`. Example location:
 
 ```nginx
 location / {
-  proxy_pass http://127.0.0.1:3000;
+  proxy_pass http://127.0.0.1:3020;
   proxy_http_version 1.1;
   proxy_set_header Host $host;
   proxy_set_header X-Real-IP $remote_addr;
@@ -124,16 +129,25 @@ location / {
 
 Use Certbot (or your panel) for TLS certificates.
 
-## Updates / redeploy
+## Updates / redeploy (git pull)
+
+As user `deploy`:
 
 ```bash
-cd /var/www/octagen
-git pull
+bash /home/deploy/apps/octagen/scripts/server-deploy.sh
+```
+
+Or manually:
+
+```bash
+cd /home/deploy/apps/octagen
+git pull --ff-only origin main
 cd web
 npm ci
 npm run build
 npx prisma migrate deploy
-pm2 restart octagen
+PORT=3020 NODE_ENV=production pm2 reload octagen --update-env
+pm2 save
 ```
 
 ## Local note
