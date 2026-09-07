@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { animate, useInView, useReducedMotion } from 'framer-motion'
 import { EASE } from '../../lib/animations'
 
@@ -10,6 +10,7 @@ type Props = {
   duration?: number
 }
 
+/** Updates DOM text directly — avoids React re-render every animation frame. */
 export default function AnimatedCounter({
   to,
   suffix = '',
@@ -20,27 +21,32 @@ export default function AnimatedCounter({
   const ref = useRef<HTMLSpanElement>(null)
   const inView = useInView(ref, { once: true, margin: '-40px' })
   const reduced = useReducedMotion()
-  const [value, setValue] = useState(0)
 
   useEffect(() => {
-    if (!inView) return
+    const el = ref.current
+    if (!el || !inView) return
+
+    const write = (n: number) => {
+      el.textContent = `${prefix}${n.toLocaleString('en-US')}${suffix}`
+    }
+
     if (reduced) {
-      setValue(to)
+      write(to)
       return
     }
+
+    write(0)
     const controls = animate(0, to, {
       duration,
       ease: EASE,
-      onUpdate: (v) => setValue(Math.round(v)),
+      onUpdate: (v) => write(Math.round(v)),
     })
     return () => controls.stop()
-  }, [inView, to, duration, reduced])
+  }, [inView, to, duration, reduced, prefix, suffix])
 
   return (
     <span ref={ref} className={className}>
-      {prefix}
-      {value.toLocaleString('en-US')}
-      {suffix}
+      {prefix}0{suffix}
     </span>
   )
 }

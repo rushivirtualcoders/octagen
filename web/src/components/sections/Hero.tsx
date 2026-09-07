@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '../../lib/animations'
 import { CLAIM, HERO_SLIDES, HERO_STATS } from '../../lib/constants'
 import AnimatedCounter from '../ui/AnimatedCounter'
@@ -9,19 +9,11 @@ import SplitText from '../ui/SplitText'
 
 export default function Hero() {
   const reduced = useReducedMotion()
-  const sectionRef = useRef<HTMLElement>(null)
   const [activeSlide, setActiveSlide] = useState(0)
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end start'],
-  })
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, -60])
 
   return (
     <section
       id="top"
-      ref={sectionRef}
       className="relative min-h-[100svh] overflow-hidden bg-base"
       aria-label="Octagen high performance motor oil"
     >
@@ -63,10 +55,7 @@ export default function Hero() {
         })}
       </div>
 
-      <motion.div
-        style={{ y: contentY }}
-        className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-24 pb-8 lg:px-10 lg:pt-28 lg:pb-10"
-      >
+      <div className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-24 pb-8 lg:px-10 lg:pt-28 lg:pb-10">
         <div className="section-rail max-w-xl lg:max-w-2xl">
           <motion.p
             initial={reduced ? false : { opacity: 0, x: -16 }}
@@ -129,7 +118,7 @@ export default function Hero() {
             </motion.div>
           ))}
         </motion.dl>
-      </motion.div>
+      </div>
     </section>
   )
 }

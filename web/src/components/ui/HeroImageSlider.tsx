@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { EASE } from '../../lib/animations'
+import { useEffect, useRef, useState } from 'react'
+import { useReducedMotion } from 'framer-motion'
 
 type Slide = {
   src: string
@@ -14,38 +13,38 @@ type Props = {
   interval?: number
 }
 
-function preloadImage(src: string) {
-  return new Promise<void>((resolve) => {
-    const img = new Image()
-    img.decoding = 'async'
-    img.onload = () => resolve()
-    img.onerror = () => resolve()
-    img.src = src
-  })
-}
-
+/** Only paints active + previous slide to cut GPU cost of 5 full-bleed layers. */
 export default function HeroImageSlider({
   slides,
   active,
   onActiveChange,
-  interval = 5500,
+  interval = 6500,
 }: Props) {
   const reduced = useReducedMotion()
   const [ready, setReady] = useState(false)
+  const [prev, setPrev] = useState(active)
+  const activeRef = useRef(active)
+  activeRef.current = active
 
   useEffect(() => {
     if (slides.length === 0) return
-
     let cancelled = false
-
-    const load = async () => {
-      await preloadImage(slides[0].src)
+    const img = new Image()
+    img.decoding = 'async'
+    img.onload = () => {
       if (!cancelled) setReady(true)
-
-      await Promise.all(slides.slice(1).map((slide) => preloadImage(slide.src)))
     }
+    img.onerror = () => {
+      if (!cancelled) setReady(true)
+    }
+    img.src = slides[0].src
 
-    void load()
+    // Warm the next slide only (not the whole gallery)
+    if (slides[1]) {
+      const next = new Image()
+      next.decoding = 'async'
+      next.src = slides[1].src
+    }
 
     return () => {
       cancelled = true
@@ -53,39 +52,49 @@ export default function HeroImageSlider({
   }, [slides])
 
   useEffect(() => {
+    if (active === prev) return
+    setPrev(active)
+  }, [active, prev])
+
+  useEffect(() => {
     if (!ready || reduced || slides.length <= 1) return
-
     const id = window.setInterval(() => {
-      onActiveChange((active + 1) % slides.length)
+      const current = activeRef.current
+      onActiveChange((current + 1) % slides.length)
     }, interval)
-
     return () => window.clearInterval(id)
-  }, [active, interval, onActiveChange, ready, reduced, slides.length])
+  }, [interval, onActiveChange, ready, reduced, slides.length])
 
   if (slides.length === 0) return null
 
+  const indices = prev === active ? [active] : [prev, active]
+
   return (
-    <motion.div
-      className="absolute inset-0 bg-white"
-      initial={false}
-      animate={{ opacity: ready ? 1 : 0 }}
-      transition={{ duration: 0.9, ease: EASE }}
+    <div
+      className="absolute inset-0 bg-white transition-opacity duration-700"
+      style={{ opacity: ready ? 1 : 0 }}
       aria-hidden
     >
-      {slides.map((slide, index) => (
-        <motion.img
-          key={slide.src}
-          src={slide.src}
-          alt=""
-          decoding="async"
-          fetchPriority={index === 0 ? 'high' : 'low'}
-          loading={index === 0 ? 'eager' : 'lazy'}
-          initial={false}
-          animate={{ opacity: index === active ? 1 : 0 }}
-          transition={{ duration: 1.4, ease: EASE }}
-          className="absolute inset-0 h-full w-full object-cover"
-        />
-      ))}
-    </motion.div>
+      {indices.map((index) => {
+        const slide = slides[index]
+        const isActive = index === active
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={`${slide.src}-${index}`}
+            src={slide.src}
+            alt=""
+            decoding="async"
+            fetchPriority={index === 0 ? 'high' : 'low'}
+            loading={index === 0 ? 'eager' : 'lazy'}
+            className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out"
+            style={{
+              opacity: isActive ? 1 : 0,
+              transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            }}
+          />
+        )
+      })}
+    </div>
   )
 }

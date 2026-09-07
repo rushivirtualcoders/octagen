@@ -2,8 +2,10 @@ import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import SectionFrame from '../ui/SectionFrame'
 import MagneticButton from '../ui/MagneticButton'
+import InstagramWall from './InstagramWall'
 import { EASE } from '../../lib/animations'
-import { INFORMATIVE_AUDIENCES, INSTAGRAM_PROFILE, SOCIAL_FEED } from '../../lib/constants'
+import { INFORMATIVE_AUDIENCES } from '../../lib/constants'
+import type { InstagramPost } from '@/lib/instagram/feed'
 
 const IMAGE_FALLBACKS = [
   '/assets/images/lm/for-the-drivers-hero.jpg',
@@ -61,13 +63,19 @@ function CheckItem({ children }: { children: string }) {
   )
 }
 
-export default function ProductSpotlight() {
+export default function ProductSpotlight({
+  instagramPosts,
+  instagramProfileUrl,
+}: {
+  instagramPosts?: InstagramPost[]
+  instagramProfileUrl?: string
+} = {}) {
   const reduced = useReducedMotion()
 
   return (
     <section
       id="spotlight"
-      aria-label="Workshops, owners and LIQUI MOLY India community"
+      aria-label="Workshops, owners and Octagen community"
       className="border-t border-line bg-base"
     >
       <div className="mx-auto max-w-[1400px] px-6 py-14 lg:px-10 lg:py-16">
@@ -75,7 +83,7 @@ export default function ProductSpotlight() {
           eyebrow="Stay informed"
           title={['GUIDANCE FOR', 'EVERY DRIVER.']}
           accentLine={1}
-          description="Workshop support, owner guidance and the latest from LIQUI MOLY India — specification first, supply through Octagen."
+          description="Workshop support, owner guidance and the latest from our community — specification first, supply through Octagen."
         />
 
         <div className="mt-10 space-y-6 lg:mt-12 lg:space-y-8">
@@ -136,51 +144,7 @@ export default function ProductSpotlight() {
           })}
         </div>
 
-        <div className="mt-14 lg:mt-16">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="tech-label text-lm-blue">Social wall</p>
-              <h3 className="font-display mt-2 text-xl font-extrabold uppercase tracking-tight text-ink lg:text-2xl">
-                Follow LIQUI MOLY India
-              </h3>
-            </div>
-            <a
-              href={INSTAGRAM_PROFILE}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="site-btn border border-line bg-white px-5 py-2.5 text-[0.62rem] font-semibold tracking-[0.16em] text-ink uppercase hover:border-lm-blue hover:text-lm-blue"
-            >
-              @liquimoly_india
-            </a>
-          </div>
-
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 lg:gap-4">
-            {SOCIAL_FEED.map((post, i) => (
-              <motion.a
-                key={post.src}
-                href={INSTAGRAM_PROFILE}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial={reduced ? false : { opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, ease: EASE, delay: (i % 3) * 0.06 }}
-                className="group relative aspect-square overflow-hidden rounded-[10px] border border-line bg-surface"
-              >
-                <CoverImage
-                  src={post.src}
-                  alt={post.alt}
-                  loading={i < 3 ? 'eager' : 'lazy'}
-                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="absolute right-2 bottom-2 rounded-[10px] bg-white/90 px-2 py-1 text-[0.5rem] font-semibold tracking-[0.1em] text-ink uppercase opacity-0 transition-opacity duration-300 group-hover:opacity-100 sm:right-3 sm:bottom-3">
-                  Instagram
-                </span>
-              </motion.a>
-            ))}
-          </div>
-        </div>
+        <InstagramWall initialPosts={instagramPosts} initialProfileUrl={instagramProfileUrl} />
       </div>
     </section>
   )

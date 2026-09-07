@@ -15,7 +15,7 @@ export default function Footer() {
       />
       <div className="mx-auto w-full max-w-[1400px] px-6 py-16 lg:px-10">
         <div className="flex flex-col justify-between gap-12 lg:flex-row lg:items-start">
-          <Reveal variant="blur" className="max-w-sm">
+          <Reveal className="max-w-sm">
             <motion.img
               src={ASSETS.octagenLogo}
               alt={DISTRIBUTOR}

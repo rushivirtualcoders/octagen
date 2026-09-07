@@ -4,9 +4,11 @@ import { useEffect, useRef, useState } from 'react'
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
+  const labelRef = useRef<HTMLSpanElement>(null)
+  const visibleRef = useRef(false)
+  const labelStateRef = useRef('')
   const [enabled, setEnabled] = useState(false)
-  const [label, setLabel] = useState('')
-  const [visible, setVisible] = useState(false)
+  const [hasLabel, setHasLabel] = useState(false)
 
   useEffect(() => {
     const fine = window.matchMedia('(pointer: fine)').matches
@@ -23,6 +25,14 @@ export default function Cursor() {
     const ring = { x: -100, y: -100 }
     let frame = 0
 
+    const setVisible = (on: boolean) => {
+      if (visibleRef.current === on) return
+      visibleRef.current = on
+      const opacity = on ? '1' : '0'
+      if (dotRef.current) dotRef.current.style.opacity = opacity
+      if (ringRef.current) ringRef.current.style.opacity = opacity
+    }
+
     const onMove = (e: MouseEvent) => {
       target.x = e.clientX
       target.y = e.clientY
@@ -34,7 +44,11 @@ export default function Cursor() {
 
     const onOver = (e: MouseEvent) => {
       const el = (e.target as HTMLElement).closest?.('[data-cursor]')
-      setLabel(el?.getAttribute('data-cursor') ?? '')
+      const next = el?.getAttribute('data-cursor') ?? ''
+      if (next === labelStateRef.current) return
+      labelStateRef.current = next
+      setHasLabel(Boolean(next))
+      if (labelRef.current) labelRef.current.textContent = next
     }
 
     const onLeave = () => setVisible(false)
@@ -49,8 +63,8 @@ export default function Cursor() {
     }
     frame = requestAnimationFrame(tick)
 
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseover', onOver)
+    window.addEventListener('mousemove', onMove, { passive: true })
+    window.addEventListener('mouseover', onOver, { passive: true })
     document.documentElement.addEventListener('mouseleave', onLeave)
     return () => {
       cancelAnimationFrame(frame)
@@ -67,26 +81,22 @@ export default function Cursor() {
       <div
         ref={dotRef}
         className="pointer-events-none fixed top-0 left-0 z-[320] size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0, marginLeft: -3, marginTop: -3 }}
+        style={{ opacity: 0, marginLeft: -3, marginTop: -3, willChange: 'transform' }}
       />
       <div
         ref={ringRef}
         className="pointer-events-none fixed top-0 left-0 z-[319] flex items-center justify-center transition-opacity duration-300"
-        style={{ opacity: visible ? 1 : 0 }}
+        style={{ opacity: 0, willChange: 'transform' }}
       >
         <div
           className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
-            label
+            hasLabel
               ? 'site-btn border-transparent bg-lm-red px-4 py-2 text-[0.6rem] font-semibold tracking-[0.2em] text-white'
-              : 'border-ink/30 bg-white/70 backdrop-blur-sm'
+              : 'size-9 border-ink/30 bg-white/80'
           }`}
-          style={{
-            width: label ? 'auto' : 36,
-            height: label ? 'auto' : 36,
-            transform: 'translate(-50%, -50%)',
-          }}
+          style={{ transform: 'translate(-50%, -50%)' }}
         >
-          {label}
+          <span ref={labelRef} />
         </div>
       </div>
     </div>

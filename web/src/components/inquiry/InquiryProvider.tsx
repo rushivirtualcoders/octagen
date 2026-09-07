@@ -159,7 +159,10 @@ export function InquiryProvider({ children }: { children: ReactNode }) {
                 </button>
               </div>
 
-              <div className="overflow-y-auto overscroll-contain px-5 py-5 sm:px-7 sm:py-6">
+              <div
+                data-lenis-prevent
+                className="overflow-y-auto overscroll-contain px-5 py-5 sm:px-7 sm:py-6"
+              >
                 <InquiryForm
                   key={`inquiry-${defaults?.type || 'GENERAL'}-${String(open)}`}
                   defaults={defaults}

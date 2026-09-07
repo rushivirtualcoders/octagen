@@ -14,6 +14,7 @@ import ProductGuidance from './components/sections/ProductGuidance'
 import Footer from './components/sections/Footer'
 import { InquiryProvider } from './components/inquiry/InquiryProvider'
 import type { PublicArticle } from '@/lib/articles/types'
+import type { InstagramPost } from '@/lib/instagram/feed'
 
 /* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
 import ProductAdvantage from './components/sections/ProductAdvantage'
@@ -34,7 +35,15 @@ import Racing from './components/sections/Racing'
 import FinalCTA from './components/sections/FinalCTA'
 */
 
-export default function App({ articles }: { articles: PublicArticle[] }) {
+export default function App({
+  articles,
+  instagramPosts,
+  instagramProfileUrl,
+}: {
+  articles: PublicArticle[]
+  instagramPosts?: InstagramPost[]
+  instagramProfileUrl?: string
+}) {
   useLenis()
 
   return (
@@ -42,13 +51,15 @@ export default function App({ articles }: { articles: PublicArticle[] }) {
       <PageIntro />
       <ScrollProgress />
       <Cursor />
-      <div className="grain" aria-hidden />
       <Navbar />
       <main>
         <Hero />
         <MachinePaths />
         <BrandHistory />
-        <ProductSpotlight />
+        <ProductSpotlight
+          instagramPosts={instagramPosts}
+          instagramProfileUrl={instagramProfileUrl}
+        />
         <BlogSection articles={articles} />
         {/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
         <ProductAdvantage />
