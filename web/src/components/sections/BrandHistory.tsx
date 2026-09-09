@@ -1,14 +1,29 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import SectionFrame from '../ui/SectionFrame'
 import { HISTORY_MILESTONES, OCTAGEN_PILLARS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 
+const SLIDE_MS = 3500
+const COUNT = HISTORY_MILESTONES.length
+
 export default function BrandHistory() {
   const reduced = useReducedMotion()
   const [active, setActive] = useState(0)
+  const [paused, setPaused] = useState(false)
+  const activeRef = useRef(0)
+  activeRef.current = active
+
+  useEffect(() => {
+    if (reduced || paused || COUNT <= 1) return
+    const id = window.setInterval(() => {
+      setActive((activeRef.current + 1) % COUNT)
+    }, SLIDE_MS)
+    return () => window.clearInterval(id)
+  }, [paused, reduced])
+
   const milestone = HISTORY_MILESTONES[active]
   const isDist = 'distributor' in milestone && milestone.distributor
   const coords = 'coordinates' in milestone ? milestone.coordinates : '48.4011° N · 9.9876° E'
@@ -16,7 +31,13 @@ export default function BrandHistory() {
   const address = 'address' in milestone ? milestone.address : null
 
   return (
-    <section id="history" aria-label="Brand heritage" className="border-t border-line bg-base">
+    <section
+      id="history"
+      aria-label="Brand heritage"
+      className="border-t border-line bg-base"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="relative mx-auto max-w-[1400px] px-6 py-14 lg:px-10 lg:py-16">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-5">

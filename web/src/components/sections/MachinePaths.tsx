@@ -170,7 +170,7 @@ export default function MachinePaths() {
         })}
       </div>
 
-      <div className="relative border-t border-line bg-surface">
+      <div className="relative border-t border-line">
         <div className="mx-auto max-w-[1400px] px-6 py-10 lg:px-10 lg:py-12">
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div>
