@@ -44,6 +44,7 @@ function PathImage({
       src={src}
       alt=""
       loading="lazy"
+      decoding="async"
       onError={onError}
       className={`absolute inset-0 h-full w-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.16,1,0.3,1)] ${
         active ? 'scale-105' : 'scale-100'

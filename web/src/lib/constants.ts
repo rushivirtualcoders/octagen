@@ -6,9 +6,79 @@ export const NAV_LINKS = [
   { href: '#paths', label: 'Explore' },
   { href: '#history', label: 'Heritage' },
   { href: '#spotlight', label: 'Connect' },
+  { href: '#testimonials', label: 'Reviews' },
   { href: '/articles', label: 'Insights' },
   { href: '#guidance', label: 'Guidance' },
 ]
+
+export const TESTIMONIALS = [
+  {
+    id: 't1',
+    quote:
+      'Octagen keeps our bay stocked with the right grades. Spec guidance is clear and delivery across Gujarat is reliable — we stopped chasing multiple suppliers.',
+    name: 'Rajesh Patel',
+    role: 'Workshop owner',
+    location: 'Ahmedabad',
+    initials: 'RP',
+    rating: 5,
+    image: '/assets/images/tim-mossholder-atgIjoAJdWg-unsplash.jpg',
+  },
+  {
+    id: 't2',
+    quote:
+      'For our fleet we needed consistent pack sizes and OEM approvals on paper. One inquiry path through Octagen covered oils and additives without confusion.',
+    name: 'Sneha Krishnan',
+    role: 'Fleet manager',
+    location: 'Bengaluru',
+    initials: 'SK',
+    rating: 5,
+    image: '/assets/images/lm/for-the-drivers-large.jpg',
+  },
+  {
+    id: 't3',
+    quote:
+      'Switched my sedan to the recommended viscosity after talking to their team. Smooth response, no hard sell — just the correct product and a quote.',
+    name: 'Amit Sharma',
+    role: 'Vehicle owner',
+    location: 'Jaipur',
+    initials: 'AS',
+    rating: 5,
+    image: '/assets/images/kc-shum-hwZq2xkf3mM-unsplash.jpg',
+  },
+  {
+    id: 't4',
+    quote:
+      'Two-wheeler service volumes are high for us. Octagen’s motorcycle oil supply is steady and the team answers specification questions the same day.',
+    name: 'Mohammed Irfan',
+    role: 'Service centre lead',
+    location: 'Hyderabad',
+    initials: 'MI',
+    rating: 5,
+    image: '/assets/images/lm/mxgp.jpg',
+  },
+  {
+    id: 't5',
+    quote:
+      'Bulk ordering used to mean three phone calls. Now we submit one inquiry and get pack sizes, lead time and technical notes in a single reply.',
+    name: 'Priya Deshmukh',
+    role: 'Parts coordinator',
+    location: 'Pune',
+    initials: 'PD',
+    rating: 4,
+    image: '/assets/images/performance-car.jpg',
+  },
+  {
+    id: 't6',
+    quote:
+      'Professional, specification-first advice. Exactly what we want from a national distributor — catalogue clarity and a proper quote, not a shopping cart.',
+    name: 'Vikram Singh',
+    role: 'Independent garage',
+    location: 'Delhi NCR',
+    initials: 'VS',
+    rating: 5,
+    image: '/assets/images/lm/for-the-drivers-hero.jpg',
+  },
+] as const
 
 export const MACHINE_PATHS = [
   {
@@ -341,7 +411,7 @@ export const PRODUCT_ADVANTAGES = [
     title: 'Technical clarity',
     text: 'Specifications, approvals and application guidance will be presented in structured, searchable product records.',
     cue: 'OEM evidence',
-    image: '/assets/images/engine-oil.png',
+    image: '/assets/images/engine-oil.jpg',
     imageAlt: 'LIQUI MOLY engine oil',
   },
   {
@@ -487,7 +557,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Flagship low-SAPS synthetic for high-tech engines that demand cleanliness, protection and long drain capability.',
     glow: '#E2001A',
-    image: '/assets/images/products/product-bottle.png',
+    image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-30' },
       { label: 'Base', value: 'Full synthetic' },
@@ -503,7 +573,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Molecular friction control with the distinctive Molygen chemistry — smoother response and durable wear protection.',
     glow: '#e8770a',
-    image: '/assets/images/products/product-bottle.png',
+    image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
       { label: 'Base', value: 'Molygen' },
@@ -519,7 +589,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Full-synthetic high-tech oil engineered for power delivery and reliable protection under demanding conditions.',
     glow: '#E2001A',
-    image: '/assets/images/products/product-bottle.png',
+    image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
       { label: 'Base', value: 'Synthoil' },
@@ -535,7 +605,7 @@ export const PRODUCTS: Product[] = [
     description:
       'Extreme shear stability for sustained redline running and race-level oil temperatures.',
     glow: '#e8770a',
-    image: '/assets/images/products/product-bottle.png',
+    image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '10W-60' },
       { label: 'Base', value: 'Racing synth' },
@@ -605,25 +675,25 @@ export const HERO_SLIDES = [
     alt: 'Engine detail under the hood',
   },
   {
-    src: '/assets/images/oil-pour.png',
+    src: '/assets/images/oil-pour.jpg',
     alt: 'Premium motor oil pour',
   },
   {
-    src: '/assets/images/tire-smoke.png',
+    src: '/assets/images/tire-smoke.jpg',
     alt: 'Performance tire smoke on track',
   },
 ] as const
 
 /** Our cinematic plates — not Liqui Moly media photos */
 export const ASSETS = {
-  hero: '/assets/images/hero-car.png',
-  performance: '/assets/images/performance-car.png',
-  racing: '/assets/images/racing-night.png',
-  engine: '/assets/images/engine-oil.png',
+  hero: '/assets/images/hero-car.jpg',
+  performance: '/assets/images/performance-car.jpg',
+  racing: '/assets/images/racing-night.jpg',
+  engine: '/assets/images/engine-oil.jpg',
   octagenLogo: '/assets/images/octagen-logo.png',
-  bottle: '/assets/images/products/product-bottle.png',
-  oilPour: '/assets/images/oil-pour.png',
-  tireSmoke: '/assets/images/tire-smoke.png',
+  bottle: '/assets/images/products/product-bottle.jpg',
+  oilPour: '/assets/images/oil-pour.jpg',
+  tireSmoke: '/assets/images/tire-smoke.jpg',
   heroVideo: '/assets/videos/hero-background.mp4',
   heroPoster: '/assets/images/hero-video-poster.jpg',
   insightsVideo: '/assets/videos/knowledge-cinematic.mp4',

@@ -65,6 +65,15 @@ export default function HeroImageSlider({
     return () => window.clearInterval(id)
   }, [interval, onActiveChange, ready, reduced, slides.length])
 
+  useEffect(() => {
+    if (slides.length === 0) return
+    const nextIndex = (active + 1) % slides.length
+    if (nextIndex === active) return
+    const warm = new Image()
+    warm.decoding = 'async'
+    warm.src = slides[nextIndex].src
+  }, [active, slides])
+
   if (slides.length === 0) return null
 
   const indices = prev === active ? [active] : [prev, active]

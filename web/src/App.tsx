@@ -10,6 +10,7 @@ import MachinePaths from './components/sections/MachinePaths'
 import BrandHistory from './components/sections/BrandHistory'
 import ProductSpotlight from './components/sections/ProductSpotlight'
 import BlogSection from './components/sections/BlogSection'
+import Testimonials from './components/sections/Testimonials'
 import ProductGuidance from './components/sections/ProductGuidance'
 import Footer from './components/sections/Footer'
 import { InquiryProvider } from './components/inquiry/InquiryProvider'
@@ -61,6 +62,7 @@ export default function App({
           instagramProfileUrl={instagramProfileUrl}
         />
         <BlogSection articles={articles} />
+        <Testimonials />
         {/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
         <ProductAdvantage />
         <InquiryPath />

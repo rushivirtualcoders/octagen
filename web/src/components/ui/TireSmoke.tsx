@@ -18,7 +18,7 @@ export default function TireSmoke({ className = '', intensity = 'subtle' }: Prop
   return (
     <div aria-hidden className={`pointer-events-none overflow-hidden ${className}`}>
       <img
-        src="/assets/images/tire-smoke.png"
+        src="/assets/images/tire-smoke.jpg"
         alt=""
         className={`absolute inset-0 h-full w-full object-cover mix-blend-multiply ${
           intensity === 'drift' ? 'opacity-45' : 'opacity-28'
