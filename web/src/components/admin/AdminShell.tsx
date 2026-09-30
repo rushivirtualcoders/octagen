@@ -10,6 +10,8 @@ const NAV = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/products', label: 'Products' },
   { href: '/admin/product-categories', label: 'Product categories' },
+  { href: '/admin/marketing-activities', label: 'Marketing activities' },
+  { href: '/admin/marketing-media', label: 'Marketing media' },
   { href: '/admin/articles', label: 'Articles' },
   { href: '/admin/article-categories', label: 'Article categories' },
   { href: '/admin/inquiries', label: 'Inquiries' },

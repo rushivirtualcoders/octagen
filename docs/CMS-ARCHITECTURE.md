@@ -43,12 +43,15 @@ Never stored in CMS: prices, cart, payments, customer accounts.
 ## Content models
 
 - **User** — staff login (`admin` role in v1)
-- **ProductCategory** / **Product** — catalogue
+- **ProductCategory** / **Product** — catalogue (Car/Bike `vehiclePath`, external `liquiMolyUrl`, `loved` for Most Loved)
+- **MarketingActivity** — homepage marketing activities
+- **MarketingMedia** — homepage marketing gallery (image/video)
 - **ArticleCategory** / **Article** — insights
 - **Inquiry** — quote / partnership / bulk / product
 - **SiteSetting** — singleton JSON globals (`id = site`)
 - **AuditLog** — who changed what
 
+Public homepage currently reads static `web/src/lib/catalogue.ts`. CMS seed mirrors that file; `web/src/lib/cms/public-catalogue.ts` is ready for a later public switch.
 ## Security
 
 - `/admin/*` except `/admin/login` requires a signed httpOnly JWT cookie

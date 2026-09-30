@@ -73,7 +73,7 @@ export default function MachinePaths() {
           eyebrow="Choose your machine"
           title={['TWO PATHS.', 'ONE STANDARD OF PERFORMANCE.']}
           accentLine={1}
-          description="Select a vehicle path, then narrow by category and specification — inquiry through Octagen."
+          description="Select a vehicle path, then narrow by category and specification â€” inquiry through Octagen."
         />
 
         <motion.div
@@ -162,7 +162,7 @@ export default function MachinePaths() {
                     aria-hidden
                     className="transition-transform duration-300 group-hover:translate-x-1"
                   >
-                    →
+                    â†’
                   </span>
                 </span>
               </div>
@@ -181,7 +181,7 @@ export default function MachinePaths() {
               </h3>
             </div>
             <p className="max-w-sm text-sm text-muted">
-              Four product families across car and two-wheeler paths — specifications first, inquiry
+              Four product families across car and two-wheeler paths â€” specifications first, inquiry
               through Octagen.
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function MachinePaths() {
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {CATALOGUE_CATEGORIES.map((cat, i) => {
               const dim = hover !== null && hover !== cat.path
-              const pathAccent = cat.path === 'car' ? '#e8770a' : '#e2001a'
+              const pathAccent = cat.path === 'car' ? '#c96a0e' : '#e97e11'
 
               return (
                 <motion.a
@@ -234,7 +234,7 @@ export default function MachinePaths() {
                   <span className="tech-label mt-5 inline-flex items-center gap-1.5 text-ink/50 transition-colors duration-300 group-hover:text-lm-red">
                     View range
                     <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-                      →
+                      â†’
                     </span>
                   </span>
                 </motion.a>

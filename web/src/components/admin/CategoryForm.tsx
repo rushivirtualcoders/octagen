@@ -10,6 +10,7 @@ export default function CategoryForm({
   action,
   values,
   withDescription = false,
+  withVehiclePath = false,
 }: {
   action: (state: ActionState, formData: FormData) => Promise<ActionState>
   values?: {
@@ -17,10 +18,12 @@ export default function CategoryForm({
     name?: string
     slug?: string
     description?: string
+    vehiclePath?: 'CAR' | 'BIKE'
     sortOrder?: number
     active?: boolean
   }
   withDescription?: boolean
+  withVehiclePath?: boolean
 }) {
   const [state, formAction, pending] = useActionState(action, null)
   const [slug, setSlug] = useState(values?.slug ?? '')
@@ -53,6 +56,19 @@ export default function CategoryForm({
           pattern="[a-z0-9]+(?:-[a-z0-9]+)*"
         />
       </Field>
+      {withVehiclePath ? (
+        <Field label="Vehicle path" error={errors.vehiclePath}>
+          <select
+            className={fieldClass(errors.vehiclePath)}
+            name="vehiclePath"
+            defaultValue={values?.vehiclePath ?? 'CAR'}
+            required
+          >
+            <option value="CAR">Car</option>
+            <option value="BIKE">Bike</option>
+          </select>
+        </Field>
+      ) : null}
       {withDescription ? (
         <Field label="Description" error={errors.description}>
           <textarea

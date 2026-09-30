@@ -138,7 +138,7 @@ export default function BrandHistory() {
                 <div
                   aria-hidden
                   className="h-1 w-full"
-                  style={{ backgroundColor: isDist ? '#e8770a' : milestone.accent }}
+                  style={{ backgroundColor: isDist ? '#c96a0e' : milestone.accent }}
                 />
 
                 <div className="p-6 sm:p-8 lg:p-9">

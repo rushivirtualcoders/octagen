@@ -3,19 +3,18 @@ export const DISTRIBUTOR = 'Octagen'
 export const CLAIM = 'ENGINEERED FOR INDIA'
 
 export const NAV_LINKS = [
-  { href: '#paths', label: 'Explore' },
-  { href: '#history', label: 'Heritage' },
-  { href: '#spotlight', label: 'Connect' },
-  { href: '#testimonials', label: 'Reviews' },
-  { href: '/articles', label: 'Insights' },
-  { href: '#guidance', label: 'Guidance' },
+  { href: '/#products', label: 'Products' },
+  { href: '/#marketing', label: 'Marketing' },
+  { href: '/#activities', label: 'Activities' },
+  { href: '/#most-loved', label: 'Most Loved' },
+  { href: '/#testimonials', label: 'Reviews' },
 ]
 
 export const TESTIMONIALS = [
   {
     id: 't1',
     quote:
-      'Octagen keeps our bay stocked with the right grades. Spec guidance is clear and delivery across Gujarat is reliable — we stopped chasing multiple suppliers.',
+      'Octagen keeps our bay stocked with the right grades. Spec guidance is clear and delivery across Gujarat is reliable â€” we stopped chasing multiple suppliers.',
     name: 'Rajesh Patel',
     role: 'Workshop owner',
     location: 'Ahmedabad',
@@ -37,7 +36,7 @@ export const TESTIMONIALS = [
   {
     id: 't3',
     quote:
-      'Switched my sedan to the recommended viscosity after talking to their team. Smooth response, no hard sell — just the correct product and a quote.',
+      'Switched my sedan to the recommended viscosity after talking to their team. Smooth response, no hard sell â€” just the correct product and a quote.',
     name: 'Amit Sharma',
     role: 'Vehicle owner',
     location: 'Jaipur',
@@ -48,7 +47,7 @@ export const TESTIMONIALS = [
   {
     id: 't4',
     quote:
-      'Two-wheeler service volumes are high for us. Octagen’s motorcycle oil supply is steady and the team answers specification questions the same day.',
+      'Two-wheeler service volumes are high for us. Octagenâ€™s motorcycle oil supply is steady and the team answers specification questions the same day.',
     name: 'Mohammed Irfan',
     role: 'Service centre lead',
     location: 'Hyderabad',
@@ -70,7 +69,7 @@ export const TESTIMONIALS = [
   {
     id: 't6',
     quote:
-      'Professional, specification-first advice. Exactly what we want from a national distributor — catalogue clarity and a proper quote, not a shopping cart.',
+      'Professional, specification-first advice. Exactly what we want from a national distributor â€” catalogue clarity and a proper quote, not a shopping cart.',
     name: 'Vikram Singh',
     role: 'Independent garage',
     location: 'Delhi NCR',
@@ -90,8 +89,8 @@ export const MACHINE_PATHS = [
     cta: 'Explore car categories',
     href: '#guidance',
     image: '/assets/images/lm/black-falcon-lg.jpg',
-    fallback: 'linear-gradient(135deg, #0b1215 0%, #b85c08 55%, #e8770a 100%)',
-    accent: '#e8770a',
+    fallback: 'linear-gradient(135deg, #0b1215 0%, #b85c08 55%, #c96a0e 100%)',
+    accent: '#c96a0e',
   },
   {
     id: 'bike',
@@ -102,8 +101,8 @@ export const MACHINE_PATHS = [
     cta: 'Explore bike categories',
     href: '#guidance',
     image: '/assets/images/lm/mxgp.jpg',
-    fallback: 'linear-gradient(135deg, #0b1215 0%, #3d0010 40%, #e2001a 85%)',
-    accent: '#E2001A',
+    fallback: 'linear-gradient(135deg, #0b1215 0%, #3d2a00 40%, #e97e11 85%)',
+    accent: '#e97e11',
   },
 ] as const
 
@@ -133,15 +132,15 @@ export const CATALOGUE_CATEGORIES = [
 export const OCTAGEN_PILLARS = [
   {
     label: 'Decades of experience',
-    text: 'Over 20 years of lubricant expertise — the backbone of technical competence and industrial know-how.',
+    text: 'Over 20 years of lubricant expertise â€” the backbone of technical competence and industrial know-how.',
   },
   {
     label: 'Superior quality',
-    text: 'State-of-the-art lab testing on every parameter — prolonging component life in demanding conditions.',
+    text: 'State-of-the-art lab testing on every parameter â€” prolonging component life in demanding conditions.',
   },
   {
     label: 'Customer care',
-    text: 'Long-term relationships with channel partners — responsive support and prompt resolution.',
+    text: 'Long-term relationships with channel partners â€” responsive support and prompt resolution.',
   },
   {
     label: 'Continuous innovation',
@@ -154,17 +153,17 @@ export const HISTORY_MILESTONES = [
     year: '1957',
     era: 'Origins',
     title: 'Founded in Ulm, Germany',
-    text: 'LIQUI MOLY begins as a specialist lubricant brand — chemistry first, motorsport ambition from day one.',
-    accent: '#E2001A',
-    coordinates: '48.4011° N · 9.9876° E',
+    text: 'LIQUI MOLY begins as a specialist lubricant brand â€” chemistry first, motorsport ambition from day one.',
+    accent: '#e97e11',
+    coordinates: '48.4011Â° N Â· 9.9876Â° E',
     location: 'Ulm, DE',
   },
   {
     year: '1970s',
     era: 'Manufacturing',
     title: 'In-house production scale',
-    text: 'Formulations developed and produced under one roof — the same integrated model that still defines the brand.',
-    accent: '#e8770a',
+    text: 'Formulations developed and produced under one roof â€” the same integrated model that still defines the brand.',
+    accent: '#c96a0e',
   },
   {
     year: '1990s',
@@ -177,24 +176,24 @@ export const HISTORY_MILESTONES = [
     year: '2000s',
     era: 'Motorsport',
     title: 'Proven on the world stage',
-    text: 'Track partnerships from touring cars to two-wheel grand prix — where oil film strength is measured in milliseconds.',
-    accent: '#E2001A',
+    text: 'Track partnerships from touring cars to two-wheel grand prix â€” where oil film strength is measured in milliseconds.',
+    accent: '#e97e11',
   },
   {
     year: 'Today',
     era: 'Innovation',
     title: '4,000+ products worldwide',
-    text: 'A complete range spanning motor oils, additives and car care — engineered for passenger, commercial and performance use.',
-    accent: '#e8770a',
+    text: 'A complete range spanning motor oils, additives and car care â€” engineered for passenger, commercial and performance use.',
+    accent: '#c96a0e',
   },
   {
     year: 'India',
     era: 'Octagen',
     title: 'Exclusive national distribution',
-    text: 'Octagen is the exclusive authorized national distributor for LIQUI MOLY in India — backed by over two decades of lubricant expertise, OEM-grade supply, and a dedicated team from Ahmedabad.',
-    accent: '#e8770a',
+    text: 'Octagen is the exclusive authorized national distributor for LIQUI MOLY in India â€” backed by over two decades of lubricant expertise, OEM-grade supply, and a dedicated team from Ahmedabad.',
+    accent: '#c96a0e',
     distributor: true,
-    coordinates: '23.0225° N · 72.5714° E',
+    coordinates: '23.0225Â° N Â· 72.5714Â° E',
     location: 'Ahmedabad, IN',
     address: 'Amarnath Estate, Narol, Ahmedabad 382405, Gujarat',
   },
@@ -205,7 +204,7 @@ export const MOTORSPORT_SLIDES = [
     short: 'AMG GT',
     title: 'AMG GT',
     series: 'GT racing partner',
-    text: 'LIQUI MOLY on AMG GT programmes — endurance heat, high shear, no second chances.',
+    text: 'LIQUI MOLY on AMG GT programmes â€” endurance heat, high shear, no second chances.',
     image: '/assets/images/lm/black-falcon-lg.jpg',
     alt: 'LIQUI MOLY AMG GT racing partnership',
   },
@@ -213,7 +212,7 @@ export const MOTORSPORT_SLIDES = [
     short: 'MotoGP',
     title: 'MotoGP',
     series: 'Two-wheel redline',
-    text: 'Official lubricant partner in MotoGP — protection at lean angles and 18,000 rpm.',
+    text: 'Official lubricant partner in MotoGP â€” protection at lean angles and 18,000 rpm.',
     image: '/assets/images/lm/for-the-drivers-hero.jpg',
     alt: 'LIQUI MOLY MotoGP motorcycle sponsorship',
   },
@@ -237,7 +236,7 @@ export const MOTORSPORT_SLIDES = [
     short: 'BTCC',
     title: 'BTCC',
     series: 'Touring cars',
-    text: 'Door-to-door touring car racing — oil that holds viscosity through a full race stint.',
+    text: 'Door-to-door touring car racing â€” oil that holds viscosity through a full race stint.',
     image: '/assets/images/lm/btcc-lg.jpg',
     alt: 'LIQUI MOLY BTCC touring car sponsorship',
   },
@@ -275,7 +274,7 @@ export const INFORMATIVE_AUDIENCES = [
     id: 'b2c',
     tag: 'B2C',
     title: 'For vehicle owners',
-    text: 'Find the right LIQUI MOLY chemistry for your car or bike — German engineering, verified specifications and inquiry-led supply through India’s authorized distributor.',
+    text: 'Find the right LIQUI MOLY chemistry for your car or bike â€” German engineering, verified specifications and inquiry-led supply through Indiaâ€™s authorized distributor.',
     image: '/assets/images/lm/for-the-drivers.jpg',
     imageAlt: 'Drivers and vehicle owners',
     points: [
@@ -283,14 +282,14 @@ export const INFORMATIVE_AUDIENCES = [
       'Specification-first selection',
       'Car and two-wheeler paths',
       'Authorized national supply',
-      'Inquiry — no checkout required',
+      'Inquiry â€” no checkout required',
     ],
     cta: 'Submit inquiry / get quote',
     href: '#guidance',
   },
 ] as const
 
-/** Latest-style social wall — 9 tiles in a 3×3 grid, links to @liquimoly_india */
+/** Latest-style social wall â€” 9 tiles in a 3Ã—3 grid, links to @liquimoly_india */
 export const SOCIAL_FEED = [
   { src: '/assets/images/lm/for-the-drivers-hero.jpg', alt: 'LIQUI MOLY motorsport hero' },
   { src: '/assets/images/lm/black-falcon-lg.jpg', alt: 'AMG GT racing partnership' },
@@ -332,10 +331,10 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     category: 'Motor oil flagship',
     name: 'Top Tec 4200',
     format: '5W-30',
-    description: 'Low-SAPS synthetic for modern engines — OEM-approved protection without compromise.',
+    description: 'Low-SAPS synthetic for modern engines â€” OEM-approved protection without compromise.',
     detail:
       'Long-drain capability, deposit control and thermal stability for high-tech petrol and diesel platforms.',
-    glow: '#E2001A',
+    glow: '#e97e11',
     image: '/assets/images/products/top-tec-4200.png',
     motion: 'orbit',
     callouts: [
@@ -351,8 +350,8 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     format: '300 ml',
     description: 'Micro-ceramic friction reduction for engines, gearboxes and differentials.',
     detail:
-      'Surface-active chemistry that lowers wear under load — ideal for high-mileage and performance applications.',
-    glow: '#e8770a',
+      'Surface-active chemistry that lowers wear under load â€” ideal for high-mileage and performance applications.',
+    glow: '#c96a0e',
     image: '/assets/images/products/cera-tec.png',
     motion: 'scan',
     callouts: [
@@ -368,7 +367,7 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     format: '750 ml',
     description: 'Acid-free wheel cleaner for stubborn brake dust on coated and uncoated rims.',
     detail:
-      'Spray-on application with colour-change indicator — lifts contamination without attacking sensitive finishes.',
+      'Spray-on application with colour-change indicator â€” lifts contamination without attacking sensitive finishes.',
     glow: '#C9972E',
     image: '/assets/images/products/premium-rim-cleaner.png',
     motion: 'ripple',
@@ -385,8 +384,8 @@ export const SPOTLIGHT_PRODUCTS: SpotlightProduct[] = [
     format: '5W-40',
     description: 'Molecular friction control for high-output street and sport engines.',
     detail:
-      'Distinctive Molygen chemistry — smoother response and durable wear protection under demanding load.',
-    glow: '#e8770a',
+      'Distinctive Molygen chemistry â€” smoother response and durable wear protection under demanding load.',
+    glow: '#c96a0e',
     image: '/assets/images/products/molygen-new-generation.png',
     motion: 'orbit',
     callouts: [
@@ -401,7 +400,7 @@ export const PRODUCT_ADVANTAGES = [
   {
     index: '01',
     title: 'Engineering-led selection',
-    text: 'Product discovery begins with the machine, application and approved technical information — not marketing guesswork.',
+    text: 'Product discovery begins with the machine, application and approved technical information â€” not marketing guesswork.',
     cue: 'Application first',
     image: '/assets/images/engine-car.jpg',
     imageAlt: 'High-performance engine application',
@@ -436,21 +435,21 @@ export const INQUIRY_STEPS = [
     index: '02',
     label: 'Specification',
     title: 'Read the evidence',
-    text: 'Match viscosity, approvals and application notes from manufacturer data — the same technical record a workshop would trust on the bench.',
+    text: 'Match viscosity, approvals and application notes from manufacturer data â€” the same technical record a workshop would trust on the bench.',
     audience: 'Technical buyers',
   },
   {
     index: '03',
     label: 'Inquiry',
     title: 'Submit inquiry / get quote',
-    text: 'No cart, no checkout. Tell Octagen the product, volume and location — we quote supply for retail, workshop and bulk demand.',
+    text: 'No cart, no checkout. Tell Octagen the product, volume and location â€” we quote supply for retail, workshop and bulk demand.',
     audience: 'B2B & B2C',
   },
   {
     index: '04',
     label: 'Fulfilment',
     title: 'Octagen delivers nationally',
-    text: 'LIQUI MOLY India is operated and fulfilled by Octagen — authorised distribution with a single inquiry path from first question to delivery.',
+    text: 'LIQUI MOLY India is operated and fulfilled by Octagen â€” authorised distribution with a single inquiry path from first question to delivery.',
     audience: 'India network',
   },
 ] as const
@@ -458,7 +457,7 @@ export const INQUIRY_STEPS = [
 export const WHY_CHOOSE_US = [
   {
     title: 'German engineering',
-    text: 'Formulations developed and tested in Germany — the same precision that powers global motorsport.',
+    text: 'Formulations developed and tested in Germany â€” the same precision that powers global motorsport.',
   },
   {
     title: 'Motorsport proven',
@@ -470,7 +469,7 @@ export const WHY_CHOOSE_US = [
   },
   {
     title: 'Complete range',
-    text: '4,000+ products spanning motor oils, additives, and car care — one brand for every application.',
+    text: '4,000+ products spanning motor oils, additives, and car care â€” one brand for every application.',
   },
 ]
 
@@ -495,13 +494,13 @@ export const DEDICATED_SERVICES = [
   },
   {
     title: 'Inquiry & quotes',
-    text: 'Submit an inquiry for bulk supply, product selection, or distributor support — we respond promptly.',
+    text: 'Submit an inquiry for bulk supply, product selection, or distributor support â€” we respond promptly.',
     tag: 'Get quote',
     image: '/assets/images/lm/engstler-lg.jpg',
   },
 ]
 
-/** Placeholder marketing figures — replace with approved claims before production. */
+/** Placeholder marketing figures â€” replace with approved claims before production. */
 export const HERO_STATS = [
   { to: 150, suffix: '+', label: 'Countries worldwide' },
   { to: 4000, suffix: '+', label: 'Products in the range' },
@@ -523,7 +522,7 @@ export const ENGINE_STAGES = [
   },
   {
     title: 'Crankshaft & bearings',
-    text: 'A continuous oil film keeps the crankshaft riding on liquid — never on metal.',
+    text: 'A continuous oil film keeps the crankshaft riding on liquid â€” never on metal.',
   },
   {
     title: 'Pistons & cylinders',
@@ -553,10 +552,10 @@ export const PRODUCTS: Product[] = [
     series: 'Top Tec',
     name: 'Top Tec 4200',
     viscosity: '5W-30',
-    application: 'Modern passenger cars · OEM approved',
+    application: 'Modern passenger cars Â· OEM approved',
     description:
       'Flagship low-SAPS synthetic for high-tech engines that demand cleanliness, protection and long drain capability.',
-    glow: '#E2001A',
+    glow: '#e97e11',
     image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-30' },
@@ -571,8 +570,8 @@ export const PRODUCTS: Product[] = [
     viscosity: '5W-40',
     application: 'High-output street & sport engines',
     description:
-      'Molecular friction control with the distinctive Molygen chemistry — smoother response and durable wear protection.',
-    glow: '#e8770a',
+      'Molecular friction control with the distinctive Molygen chemistry â€” smoother response and durable wear protection.',
+    glow: '#c96a0e',
     image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
@@ -588,7 +587,7 @@ export const PRODUCTS: Product[] = [
     application: 'Performance & everyday protection',
     description:
       'Full-synthetic high-tech oil engineered for power delivery and reliable protection under demanding conditions.',
-    glow: '#E2001A',
+    glow: '#e97e11',
     image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '5W-40' },
@@ -604,7 +603,7 @@ export const PRODUCTS: Product[] = [
     application: 'Track days & motorsport engines',
     description:
       'Extreme shear stability for sustained redline running and race-level oil temperatures.',
-    glow: '#e8770a',
+    glow: '#c96a0e',
     image: '/assets/images/products/product-bottle.jpg',
     specs: [
       { label: 'Viscosity', value: '10W-60' },
@@ -620,8 +619,8 @@ export const KNOWLEDGE_ARTICLES = [
     tag: 'Oil selection',
     title: 'How to approach engine-oil selection',
     summary:
-      'Start with the machine and the published specification — viscosity, approvals and drain interval — before you inquire for supply.',
-    stripe: '#e8770a',
+      'Start with the machine and the published specification â€” viscosity, approvals and drain interval â€” before you inquire for supply.',
+    stripe: '#c96a0e',
   },
   {
     index: '02',
@@ -629,7 +628,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'When does an additive fit the application?',
     summary:
       'Additives are targeted chemistry, not a substitute for the correct oil. Use them where the duty cycle and manufacturer guidance align.',
-    stripe: '#E2001A',
+    stripe: '#e97e11',
   },
   {
     index: '03',
@@ -637,7 +636,7 @@ export const KNOWLEDGE_ARTICLES = [
     title: 'A practical routine for consistent vehicle care',
     summary:
       'Cleaners, treatments and surface care work as a system. A short workshop routine keeps the catalogue useful between oil changes.',
-    stripe: 'linear-gradient(135deg, #e8770a 0%, #E2001A 100%)',
+    stripe: 'linear-gradient(135deg, #c96a0e 0%, #e97e11 100%)',
   },
 ] as const
 
@@ -656,11 +655,11 @@ export const TECHNOLOGIES = [
   },
   {
     title: 'Engine cleanliness',
-    text: 'Detergent–dispersant systems suspend deposits and keep tolerances factory-tight.',
+    text: 'Detergentâ€“dispersant systems suspend deposits and keep tolerances factory-tight.',
   },
 ]
 
-/** Hero background slides — full-bleed automatic carousel */
+/** Hero background slides â€” full-bleed automatic carousel */
 export const HERO_SLIDES = [
   {
     src: '/assets/images/kc-shum-hwZq2xkf3mM-unsplash.jpg',
@@ -684,7 +683,7 @@ export const HERO_SLIDES = [
   },
 ] as const
 
-/** Our cinematic plates — not Liqui Moly media photos */
+/** Our cinematic plates â€” not Liqui Moly media photos */
 export const ASSETS = {
   hero: '/assets/images/hero-car.jpg',
   performance: '/assets/images/performance-car.jpg',
@@ -695,7 +694,8 @@ export const ASSETS = {
   oilPour: '/assets/images/oil-pour.jpg',
   tireSmoke: '/assets/images/tire-smoke.jpg',
   heroVideo: '/assets/videos/hero-background.mp4',
-  heroPoster: '/assets/images/hero-video-poster.jpg',
+  /** Poster while the LIQUI MOLY hero commercial loads */
+  heroPoster: '/assets/images/performance-oil-commercial-poster.jpg',
   insightsVideo: '/assets/videos/knowledge-cinematic.mp4',
   insightsPoster: '/assets/images/story-video-poster.jpg',
 }

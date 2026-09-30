@@ -1,6 +1,6 @@
 # Videos
 
-- `hero-background.mp4` — LIQUI MOLY 2019 commercial (muted, 15s loop) used as the homepage hero atmosphere.
+- `hero-background.mp4` — LIQUI MOLY Cera Tec (3721) 720P film used as the homepage hero background.
 
 Drop additional loops here if needed:
 

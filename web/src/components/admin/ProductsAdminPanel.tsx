@@ -9,7 +9,7 @@ import { DataTable, TableActions } from '@/components/admin/DataTable'
 import DeleteButton from '@/components/admin/DeleteButton'
 import { PageHeader } from '@/components/admin/PageHeader'
 import ProductForm from '@/components/admin/ProductForm'
-import { FeaturedBadge, PublishStatus } from '@/components/admin/StatusBadge'
+import { FeaturedBadge, LovedBadge, PublishStatus } from '@/components/admin/StatusBadge'
 
 type ProductRow = Product & { category: Pick<ProductCategory, 'id' | 'name'> }
 
@@ -54,6 +54,7 @@ export default function ProductsAdminPanel({
             <td className="px-4 py-3">
               <div className="flex flex-wrap items-center gap-1.5">
                 <PublishStatus published={product.published} />
+                <LovedBadge loved={product.loved} />
                 <FeaturedBadge featured={product.featured} />
               </div>
             </td>

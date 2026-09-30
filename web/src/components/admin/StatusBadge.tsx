@@ -64,3 +64,8 @@ export function FeaturedBadge({ featured }: { featured: boolean }) {
   if (!featured) return null
   return <StatusBadge tone="warning">Featured</StatusBadge>
 }
+
+export function LovedBadge({ loved }: { loved: boolean }) {
+  if (!loved) return null
+  return <StatusBadge tone="danger">Most loved</StatusBadge>
+}

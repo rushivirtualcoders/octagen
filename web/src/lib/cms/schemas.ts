@@ -19,10 +19,28 @@ export const loginSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters').max(120),
 })
 
+const optionalUrl = z
+  .string()
+  .max(500)
+  .optional()
+  .default('')
+  .refine((value) => !value || /^https?:\/\//i.test(value) || value.startsWith('/'), {
+    message: 'Use an absolute http(s) URL or a site path starting with /',
+  })
+
+const externalUrl = z
+  .string()
+  .min(1, 'LIQUI MOLY URL is required')
+  .max(500)
+  .refine((value) => /^https?:\/\//i.test(value), {
+    message: 'Enter a full http(s) URL to liqui-moly.com',
+  })
+
 export const categorySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(80),
   slug,
   description: z.string().max(400, 'Description is too long').optional().default(''),
+  vehiclePath: z.enum(['CAR', 'BIKE'], { message: 'Select Car or Bike path' }),
   sortOrder: z.coerce.number().int('Sort order must be a whole number').min(0).max(999).optional().default(0),
   active: z.boolean().optional().default(true),
 })
@@ -40,10 +58,30 @@ export const productSchema = z.object({
   benefits: z.preprocess(splitLines, z.array(z.string()).max(20)),
   approvals: z.preprocess(splitLines, z.array(z.string()).max(30)),
   applicationNotes: z.string().max(4000).optional().default(''),
+  liquiMolyUrl: externalUrl,
   featured: z.boolean().optional().default(false),
+  loved: z.boolean().optional().default(false),
   published: z.boolean().optional().default(false),
 })
 
+export const marketingMediaSchema = z.object({
+  type: z.enum(['IMAGE', 'VIDEO'], { message: 'Select image or video' }),
+  src: z.string().min(1, 'Media source is required').max(500),
+  poster: optionalUrl,
+  title: z.string().min(2, 'Title must be at least 2 characters').max(120),
+  caption: z.string().max(400, 'Caption is too long').optional().default(''),
+  sortOrder: z.coerce.number().int().min(0).max(999).optional().default(0),
+  published: z.boolean().optional().default(true),
+})
+
+export const marketingActivitySchema = z.object({
+  title: z.string().min(2, 'Title must be at least 2 characters').max(120),
+  text: z.string().max(800, 'Text is too long').optional().default(''),
+  imageUrl: z.string().max(500).optional().default(''),
+  href: optionalUrl,
+  sortOrder: z.coerce.number().int().min(0).max(999).optional().default(0),
+  published: z.boolean().optional().default(true),
+})
 export const articleCategorySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(80),
   slug,

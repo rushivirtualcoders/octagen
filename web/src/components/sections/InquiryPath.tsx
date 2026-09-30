@@ -68,7 +68,7 @@ export default function InquiryPath() {
           invert
           compact
           align="center"
-          description="Catalogue first. Quote second. No cart — for owners, workshops and bulk buyers across India."
+          description="Catalogue first. Quote second. No cart â€” for owners, workshops and bulk buyers across India."
         />
 
         <div className="relative mt-5 overflow-hidden border border-white/10 lg:mt-6">
@@ -96,7 +96,7 @@ export default function InquiryPath() {
                           aria-hidden
                           animate={
                             isActive
-                              ? { scale: 1.15, boxShadow: '0 0 0 6px rgba(226,0,26,0.2)' }
+                              ? { scale: 1.15, boxShadow: '0 0 0 6px rgba(233, 126, 17,0.2)' }
                               : { scale: 1, boxShadow: '0 0 0 0px transparent' }
                           }
                           transition={{ duration: 0.4, ease: EASE }}
@@ -150,7 +150,7 @@ export default function InquiryPath() {
                     transition={{ delay: 0.05, duration: 0.4, ease: EASE }}
                     className="tech-label text-lm-red"
                   >
-                    Step {step.index} · {step.label}
+                    Step {step.index} Â· {step.label}
                   </motion.p>
                   <motion.h3
                     initial={reduced ? false : { opacity: 0, y: 10 }}
@@ -185,7 +185,7 @@ export default function InquiryPath() {
             <div className="flex flex-wrap items-center gap-3">
               <MagneticButton href={INQUIRY_MAILTO}>Submit Inquiry / Get Quote</MagneticButton>
               <a href="#paths" className="tech-label text-white/45 transition-colors hover:text-white">
-                Choose a path →
+                Choose a path â†’
               </a>
             </div>
             <div className="flex items-center gap-2">
@@ -195,7 +195,7 @@ export default function InquiryPath() {
                 onClick={() => go(active - 1, true)}
                 className="flex size-8 items-center justify-center border border-white/20 text-sm text-white/70 hover:border-white hover:text-white"
               >
-                ←
+                â†
               </button>
               <button
                 type="button"
@@ -203,7 +203,7 @@ export default function InquiryPath() {
                 onClick={() => go(active + 1, true)}
                 className="flex size-8 items-center justify-center border border-white/20 text-sm text-white/70 hover:border-white hover:text-white"
               >
-                →
+                â†’
               </button>
               <span className="tech-label text-white/35">
                 {String(active + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}

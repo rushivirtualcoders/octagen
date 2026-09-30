@@ -10,8 +10,9 @@ export default async function ProductCategoriesPage() {
       eyebrow="Catalogue"
       title="Product categories"
       addLabel="Add category"
-      columns={['Name', 'Slug', 'Sort', 'Status', 'Actions']}
+      columns={['Name', 'Slug', 'Path', 'Sort', 'Status', 'Actions']}
       withDescription
+      withVehiclePath
       categories={categories}
       saveAction={saveProductCategory}
       deleteAction={deleteProductCategory}

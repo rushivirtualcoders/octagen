@@ -6,44 +6,28 @@ import PageIntro from './components/ui/PageIntro'
 import ScrollProgress from './components/ui/ScrollProgress'
 import Navbar from './components/sections/Navbar'
 import Hero from './components/sections/Hero'
-import MachinePaths from './components/sections/MachinePaths'
-import BrandHistory from './components/sections/BrandHistory'
-import ProductSpotlight from './components/sections/ProductSpotlight'
-import BlogSection from './components/sections/BlogSection'
+import Marketing from './components/sections/Marketing'
+import ProductGroups from './components/sections/ProductGroups'
+import MarketingActivities from './components/sections/MarketingActivities'
+import MostLoved from './components/sections/MostLoved'
 import Testimonials from './components/sections/Testimonials'
-import ProductGuidance from './components/sections/ProductGuidance'
 import Footer from './components/sections/Footer'
 import { InquiryProvider } from './components/inquiry/InquiryProvider'
-import type { PublicArticle } from '@/lib/articles/types'
-import type { InstagramPost } from '@/lib/instagram/feed'
-
-/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
-import ProductAdvantage from './components/sections/ProductAdvantage'
-import InquiryPath from './components/sections/InquiryPath'
-import KnowledgeHub from './components/sections/KnowledgeHub'
-*/
-
-/* Hidden for now — sections after Product Guidance (NOT SURE WHAT YOUR MACHINE NEEDS?)
-import Performance from './components/sections/Performance'
-import WhyChooseUs from './components/sections/WhyChooseUs'
-import EngineVisualization from './components/sections/EngineVisualization'
-import Technology from './components/sections/Technology'
-import Products from './components/sections/Products'
-import OilFlow from './components/sections/OilFlow'
-import DedicatedService from './components/sections/DedicatedService'
-import MotorsportSlider from './components/sections/MotorsportSlider'
-import Racing from './components/sections/Racing'
-import FinalCTA from './components/sections/FinalCTA'
-*/
+import type { CatalogueCategory, CatalogueProduct, MarketingMediaItem } from '@/lib/catalogue'
+import type { ActivityItem } from './components/sections/MarketingActivities'
 
 export default function App({
-  articles,
-  instagramPosts,
-  instagramProfileUrl,
+  media,
+  categories,
+  activities,
+  lovedProducts,
+  searchProducts,
 }: {
-  articles: PublicArticle[]
-  instagramPosts?: InstagramPost[]
-  instagramProfileUrl?: string
+  media: MarketingMediaItem[]
+  categories: CatalogueCategory[]
+  activities: ActivityItem[]
+  lovedProducts: CatalogueProduct[]
+  searchProducts: CatalogueProduct[]
 }) {
   useLenis()
 
@@ -52,35 +36,14 @@ export default function App({
       <PageIntro />
       <ScrollProgress />
       <Cursor />
-      <Navbar />
+      <Navbar searchProducts={searchProducts} searchActivities={activities} />
       <main>
         <Hero />
-        <MachinePaths />
-        <BrandHistory />
-        <ProductSpotlight
-          instagramPosts={instagramPosts}
-          instagramProfileUrl={instagramProfileUrl}
-        />
-        <BlogSection articles={articles} />
+        <ProductGroups categories={categories} />
+        <Marketing media={media} />
+        <MarketingActivities activities={activities} />
+        <MostLoved products={lovedProducts} />
         <Testimonials />
-        {/* Hidden for now — Product Advantage (05) + Inquiry Path (06) + Knowledge Hub (07)
-        <ProductAdvantage />
-        <InquiryPath />
-        <KnowledgeHub />
-        */}
-        <ProductGuidance />
-        {/* Hidden for now — restore when ready to show sections below Product Guidance
-        <Performance />
-        <MotorsportSlider />
-        <WhyChooseUs />
-        <EngineVisualization />
-        <Technology />
-        <Products />
-        <OilFlow />
-        <DedicatedService />
-        <Racing />
-        <FinalCTA />
-        */}
       </main>
       <Footer />
     </InquiryProvider>

@@ -29,7 +29,7 @@ export default function MagneticButton({
 
   const styles =
     variant === 'primary'
-      ? 'bg-lm-red text-white hover:bg-[#c40017]'
+      ? 'bg-lm-red text-white hover:bg-[#c96a0e]'
       : variant === 'blue'
         ? 'border border-lm-blue bg-transparent text-ink hover:bg-lm-blue/10'
         : variant === 'white'

@@ -1,7 +1,26 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, type Application, type MediaType, type VehiclePath } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import {
+  CATALOGUE_CATEGORIES,
+  CATALOGUE_PRODUCTS,
+  MARKETING_ACTIVITIES,
+  MARKETING_MEDIA,
+} from '../src/lib/catalogue'
 
 const prisma = new PrismaClient()
+
+function pathToEnum(path: 'car' | 'bike'): VehiclePath {
+  return path === 'bike' ? 'BIKE' : 'CAR'
+}
+
+function applicationFromPath(path: 'car' | 'bike'): Application {
+  return path === 'bike' ? 'BIKE' : 'CAR'
+}
+
+function articleNumberFromUrl(url: string, fallbackId: string) {
+  const match = url.match(/-(\d+)\/?$/)
+  return match ? `LM-${match[1]}` : `LM-${fallbackId}`
+}
 
 async function main() {
   const email = (process.env.ADMIN_EMAIL || 'admin@octagen.in').toLowerCase()
@@ -15,107 +34,100 @@ async function main() {
     create: { email, passwordHash, name, role: 'admin' },
   })
 
-  const oils = await prisma.productCategory.upsert({
-    where: { slug: 'motor-oils' },
-    update: {},
-    create: {
-      name: 'Motor oils',
-      slug: 'motor-oils',
-      description: 'Synthetic and specialist grades for OEM specifications.',
-      sortOrder: 1,
-    },
-  })
-  const additives = await prisma.productCategory.upsert({
-    where: { slug: 'additives' },
-    update: {},
-    create: {
-      name: 'Additives',
-      slug: 'additives',
-      description: 'Wear protection, cleaning and performance chemistry.',
-      sortOrder: 2,
-    },
-  })
-  const care = await prisma.productCategory.upsert({
-    where: { slug: 'car-care' },
-    update: {},
-    create: {
-      name: 'Car care',
-      slug: 'car-care',
-      description: 'Wheel, surface and workshop care systems.',
-      sortOrder: 3,
-    },
-  })
+  const categoryIds = new Map<string, string>()
 
-  const products = [
-    {
-      name: 'Top Tec 4200 5W-30',
-      slug: 'top-tec-4200-5w-30',
-      articleNumber: 'P000323',
-      application: 'CAR' as const,
-      categoryId: oils.id,
-      packSizes: ['1L', '5L'],
-      imageUrl: '/assets/images/products/top-tec-4200.png',
-      shortDescription: 'Low-SAPS fully synthetic oil for modern petrol and diesel engines.',
-      description:
-        'Long-drain, low-SAPS chemistry for after-treatment systems. Typical approvals include BMW Longlife-04, MB 229.51 and VW 504/507.',
-      benefits: ['OEM long-life approvals', 'DPF / GPF compatible', 'Stable under high temperature'],
-      approvals: ['ACEA C3', 'BMW Longlife-04', 'MB 229.51', 'VW 504 00 / 507 00'],
-      featured: true,
-      published: true,
-    },
-    {
-      name: 'Cera Tec',
-      slug: 'cera-tec',
-      articleNumber: 'P000017',
-      application: 'BOTH' as const,
-      categoryId: additives.id,
-      packSizes: ['300ml'],
-      imageUrl: '/assets/images/products/cera-tec.png',
-      shortDescription: 'Ceramic wear-protection additive for engines and gearboxes.',
-      description: 'Reduces friction and metal contact. Mixable with commercial motor and gear oils.',
-      benefits: ['Ceramic film', 'Lower wear on load', 'Compatible with catalytic converters'],
-      approvals: [],
-      featured: true,
-      published: true,
-    },
-    {
-      name: 'Premium Rim Cleaner',
-      slug: 'premium-rim-cleaner',
-      articleNumber: 'P005662',
-      application: 'CAR' as const,
-      categoryId: care.id,
-      packSizes: ['750ml'],
-      imageUrl: '/assets/images/products/premium-rim-cleaner.png',
-      shortDescription: 'Acid-free gel rim cleaner with dirt indicator.',
-      description: 'pH-neutral gel that clings to the wheel and turns purple when the soil is ready to rinse.',
-      benefits: ['Acid-free', 'Chrome-safe', 'Colour-change indicator'],
-      approvals: [],
-      featured: false,
-      published: true,
-    },
-    {
-      name: 'Molygen New Generation 5W-40',
-      slug: 'molygen-new-generation-5w-40',
-      articleNumber: 'P001758',
-      application: 'BOTH' as const,
-      categoryId: oils.id,
-      packSizes: ['1L', '4L', '5L'],
-      imageUrl: '/assets/images/products/molygen-new-generation.png',
-      shortDescription: 'Fully synthetic oil with Molecular Friction Control.',
-      description: 'MFC chemistry for high-output petrol engines. Distinctive green oil colour.',
-      benefits: ['Friction control', 'High-temp stability', 'Cold-start protection'],
-      approvals: ['ACEA A3/B4', 'API SN', 'MB 229.5', 'Porsche A40'],
-      featured: true,
-      published: true,
-    },
-  ]
-
-  for (const product of products) {
-    await prisma.product.upsert({
-      where: { slug: product.slug },
-      update: product,
-      create: product,
+  for (const [index, category] of CATALOGUE_CATEGORIES.entries()) {
+    const vehiclePath = pathToEnum(category.path)
+    const record = await prisma.productCategory.upsert({
+      where: { slug: category.slug },
+      update: {
+        name: category.name,
+        description: category.description,
+        vehiclePath,
+        sortOrder: index + 1,
+        active: true,
+      },
+      create: {
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        vehiclePath,
+        sortOrder: index + 1,
+        active: true,
+      },
     })
+    categoryIds.set(category.slug, record.id)
+  }
+
+  for (const product of CATALOGUE_PRODUCTS) {
+    const categoryId = categoryIds.get(product.categorySlug)
+    if (!categoryId) {
+      throw new Error(`Missing category for product ${product.id}: ${product.categorySlug}`)
+    }
+
+    const data = {
+      name: product.name,
+      articleNumber: articleNumberFromUrl(product.liquiMolyUrl, product.id),
+      application: applicationFromPath(product.path),
+      categoryId,
+      packSizes: [] as string[],
+      imageUrl: product.image,
+      shortDescription: product.shortDescription,
+      description: product.shortDescription,
+      benefits: [] as string[],
+      approvals: [] as string[],
+      applicationNotes: '',
+      liquiMolyUrl: product.liquiMolyUrl,
+      featured: Boolean(product.loved),
+      loved: Boolean(product.loved),
+      published: true,
+    }
+
+    await prisma.product.upsert({
+      where: { slug: product.id },
+      update: data,
+      create: { slug: product.id, ...data },
+    })
+  }
+
+  for (const [index, item] of MARKETING_MEDIA.entries()) {
+    const type: MediaType = item.type === 'video' ? 'VIDEO' : 'IMAGE'
+    const existing = await prisma.marketingMedia.findFirst({
+      where: { title: item.title, src: item.src },
+    })
+    const data = {
+      type,
+      src: item.src,
+      poster: 'poster' in item && item.poster ? item.poster : '',
+      title: item.title,
+      caption: item.caption,
+      sortOrder: index + 1,
+      published: true,
+    }
+    if (existing) {
+      await prisma.marketingMedia.update({ where: { id: existing.id }, data })
+    } else {
+      await prisma.marketingMedia.create({ data })
+    }
+  }
+
+  for (const [index, activity] of MARKETING_ACTIVITIES.entries()) {
+    const existing = await prisma.marketingActivity.findFirst({
+      where: { title: activity.title },
+    })
+    const data = {
+      title: activity.title,
+      text: activity.text,
+      imageUrl: activity.image,
+      href: activity.href,
+      sortOrder: index + 1,
+      published: true,
+    }
+    if (existing) {
+      await prisma.marketingActivity.update({ where: { id: existing.id }, data })
+    } else {
+      await prisma.marketingActivity.create({ data })
+    }
   }
 
   const oilSelection = await prisma.articleCategory.upsert({

@@ -6,8 +6,17 @@ import ScrollProgress from '@/components/ui/ScrollProgress'
 import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
 import { InquiryProvider } from '@/components/inquiry/InquiryProvider'
+import type { CatalogueProduct } from '@/lib/catalogue'
 
-export default function PublicShell({ children }: { children: React.ReactNode }) {
+export default function PublicShell({
+  children,
+  searchProducts,
+  searchActivities,
+}: {
+  children: React.ReactNode
+  searchProducts?: CatalogueProduct[]
+  searchActivities?: { id: string; title: string; text?: string; href: string }[]
+}) {
   useLenis()
 
   return (
@@ -15,7 +24,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
       <ScrollProgress />
       <Cursor />
       <div className="grain" aria-hidden />
-      <Navbar />
+      <Navbar searchProducts={searchProducts} searchActivities={searchActivities} />
       <main>{children}</main>
       <Footer />
     </InquiryProvider>

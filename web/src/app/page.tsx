@@ -1,17 +1,28 @@
 import HomePage from '@/App'
-import { getPublishedArticles } from '@/lib/cms/public-articles'
-import { getInstagramFeed } from '@/lib/instagram/feed'
+import {
+  getCatalogueCategories,
+  getCatalogueProducts,
+  getMarketingActivities,
+  getMarketingMedia,
+  getMostLovedProducts,
+} from '@/lib/cms/public-catalogue'
 
 export default async function Page() {
-  const [articles, instagram] = await Promise.all([
-    getPublishedArticles(6),
-    getInstagramFeed(),
+  const [media, categories, activities, lovedProducts, searchProducts] = await Promise.all([
+    getMarketingMedia(),
+    getCatalogueCategories(),
+    getMarketingActivities(),
+    getMostLovedProducts(),
+    getCatalogueProducts(),
   ])
+
   return (
     <HomePage
-      articles={articles}
-      instagramPosts={instagram.posts}
-      instagramProfileUrl={instagram.profileUrl}
+      media={media}
+      categories={categories}
+      activities={activities}
+      lovedProducts={lovedProducts}
+      searchProducts={searchProducts}
     />
   )
 }

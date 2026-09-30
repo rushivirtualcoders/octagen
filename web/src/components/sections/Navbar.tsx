@@ -5,16 +5,24 @@ import { EASE } from '../../lib/animations'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import InquiryTrigger from '../inquiry/InquiryTrigger'
+import SiteSearch from '../ui/SiteSearch'
+import type { CatalogueProduct } from '@/lib/catalogue'
 
 function Logo() {
   return (
-    <a href="#top" className="flex items-center gap-2" aria-label={`${DISTRIBUTOR} home`}>
+    <a href="/" className="flex items-center gap-2" aria-label={`${DISTRIBUTOR} home`}>
       <img src={ASSETS.octagenLogo} alt={DISTRIBUTOR} className="h-6 w-auto sm:h-7" />
     </a>
   )
 }
 
-export default function Navbar() {
+export default function Navbar({
+  searchProducts,
+  searchActivities,
+}: {
+  searchProducts?: CatalogueProduct[]
+  searchActivities?: { id: string; title: string; text?: string; href: string }[]
+} = {}) {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -63,31 +71,35 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-3 lg:flex">
+          <SiteSearch products={searchProducts} activities={searchActivities} />
           <span className="text-[0.62rem] font-semibold tracking-[0.16em] text-lm-blue uppercase">
             {CLAIM}
           </span>
           <InquiryTrigger
-            className="site-btn bg-lm-red px-4 py-2 text-[0.62rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c40017]"
+            className="site-btn bg-lm-red px-4 py-2 text-[0.62rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c96a0e]"
             type="PRODUCT_QUOTE"
           >
             Get Quote
           </InquiryTrigger>
         </div>
 
-        <button
-          type="button"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
-          className="flex h-8 w-8 flex-col items-center justify-center gap-1 lg:hidden"
-        >
-          <span
-            className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
-          />
-          <span
-            className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
-          />
-        </button>
+        <div className="flex items-center gap-2 lg:hidden">
+          <SiteSearch products={searchProducts} activities={searchActivities} />
+          <button
+            type="button"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            onClick={() => setOpen((v) => !v)}
+            className="flex h-8 w-8 flex-col items-center justify-center gap-1"
+          >
+            <span
+              className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
+            />
+            <span
+              className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+            />
+          </button>
+        </div>
       </nav>
 
       <AnimatePresence>
@@ -117,7 +129,7 @@ export default function Navbar() {
               ))}
             </ul>
             <InquiryTrigger
-              className="site-btn tech-label mt-12 w-fit bg-lm-red px-8 py-4 text-white hover:bg-[#c40017]"
+              className="site-btn tech-label mt-12 w-fit bg-lm-red px-8 py-4 text-white hover:bg-[#c96a0e]"
               type="PRODUCT_QUOTE"
               onOpen={() => setOpen(false)}
             >

@@ -17,6 +17,8 @@ import {
   categorySchema,
   inquiryStatusSchema,
   loginSchema,
+  marketingActivitySchema,
+  marketingMediaSchema,
   productSchema,
   siteSettingsSchema,
 } from './schemas'
@@ -60,6 +62,7 @@ export async function saveProductCategory(_prev: ActionState, formData: FormData
       name: text(formData, 'name'),
       slug: text(formData, 'slug'),
       description: text(formData, 'description'),
+      vehiclePath: text(formData, 'vehiclePath'),
       sortOrder: text(formData, 'sortOrder') || 0,
       active: checked(formData, 'active'),
     })
@@ -106,7 +109,9 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
       benefits: text(formData, 'benefits'),
       approvals: text(formData, 'approvals'),
       applicationNotes: text(formData, 'applicationNotes'),
+      liquiMolyUrl: text(formData, 'liquiMolyUrl'),
       featured: checked(formData, 'featured'),
+      loved: checked(formData, 'loved'),
       published: checked(formData, 'published'),
     })
     if (!parsed.success) return fromZod(parsed.error)
@@ -119,6 +124,83 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
     return fromUnknown(error)
   }
   redirect(toastPath('/admin/products', id ? 'Product updated' : 'Product created'))
+}
+
+export async function saveMarketingMedia(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const id = text(formData, 'id') || null
+  try {
+    const session = await requireAdmin()
+    const parsed = marketingMediaSchema.safeParse({
+      type: text(formData, 'type'),
+      src: text(formData, 'src'),
+      poster: text(formData, 'poster'),
+      title: text(formData, 'title'),
+      caption: text(formData, 'caption'),
+      sortOrder: text(formData, 'sortOrder') || 0,
+      published: checked(formData, 'published'),
+    })
+    if (!parsed.success) return fromZod(parsed.error)
+    const record = id
+      ? await prisma.marketingMedia.update({ where: { id }, data: parsed.data })
+      : await prisma.marketingMedia.create({ data: parsed.data })
+    await writeAudit(session.email, id ? 'update' : 'create', 'MarketingMedia', record.id)
+    revalidateAdmin('/admin/marketing-media')
+  } catch (error) {
+    return fromUnknown(error)
+  }
+  redirect(toastPath('/admin/marketing-media', id ? 'Media updated' : 'Media created'))
+}
+
+export async function deleteMarketingMedia(formData: FormData) {
+  try {
+    const session = await requireAdmin()
+    const id = requireId(formData, 'Media')
+    await prisma.marketingMedia.delete({ where: { id } })
+    await writeAudit(session.email, 'delete', 'MarketingMedia', id)
+    revalidateAdmin('/admin/marketing-media')
+  } catch (error) {
+    redirect(toastPath('/admin/marketing-media', fromUnknown(error)?.error || 'Could not delete media', 'error'))
+  }
+  redirect(toastPath('/admin/marketing-media', 'Media deleted'))
+}
+
+export async function saveMarketingActivity(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const id = text(formData, 'id') || null
+  try {
+    const session = await requireAdmin()
+    const parsed = marketingActivitySchema.safeParse({
+      title: text(formData, 'title'),
+      text: text(formData, 'text'),
+      imageUrl: text(formData, 'imageUrl'),
+      href: text(formData, 'href'),
+      sortOrder: text(formData, 'sortOrder') || 0,
+      published: checked(formData, 'published'),
+    })
+    if (!parsed.success) return fromZod(parsed.error)
+    const record = id
+      ? await prisma.marketingActivity.update({ where: { id }, data: parsed.data })
+      : await prisma.marketingActivity.create({ data: parsed.data })
+    await writeAudit(session.email, id ? 'update' : 'create', 'MarketingActivity', record.id)
+    revalidateAdmin('/admin/marketing-activities')
+  } catch (error) {
+    return fromUnknown(error)
+  }
+  redirect(toastPath('/admin/marketing-activities', id ? 'Activity updated' : 'Activity created'))
+}
+
+export async function deleteMarketingActivity(formData: FormData) {
+  try {
+    const session = await requireAdmin()
+    const id = requireId(formData, 'Activity')
+    await prisma.marketingActivity.delete({ where: { id } })
+    await writeAudit(session.email, 'delete', 'MarketingActivity', id)
+    revalidateAdmin('/admin/marketing-activities')
+  } catch (error) {
+    redirect(
+      toastPath('/admin/marketing-activities', fromUnknown(error)?.error || 'Could not delete activity', 'error'),
+    )
+  }
+  redirect(toastPath('/admin/marketing-activities', 'Activity deleted'))
 }
 
 export async function deleteProduct(formData: FormData) {

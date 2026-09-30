@@ -1,21 +1,26 @@
-import { useEffect, useRef } from 'react'
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ASSETS } from '../../lib/constants'
 
 /**
- * Cinematic hero film — muted loop, readable but still a wash
- * so type and the product still lead.
+ * Full-bleed LIQUI MOLY commercial loop for the homepage hero.
+ * Muted / playsInline / loops — poster shown until playback starts.
  */
 export default function HeroVideo() {
   const reduced = useReducedMotion()
   const ref = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(false)
 
   useEffect(() => {
     const el = ref.current
     if (!el || reduced) return
 
     const play = () => {
-      el.play().catch(() => undefined)
+      el.play()
+        .then(() => setPlaying(true))
+        .catch(() => setPlaying(false))
     }
 
     const onVisibility = () => {
@@ -30,31 +35,43 @@ export default function HeroVideo() {
 
   if (reduced) {
     return (
+      // eslint-disable-next-line @next/next/no-img-element
       <img
         src={ASSETS.heroPoster}
         alt=""
         aria-hidden
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.48]"
+        className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
       />
     )
   }
 
   return (
-    <motion.video
-      ref={ref}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      poster={ASSETS.heroPoster}
-      initial={{ opacity: 0, scale: 1.1 }}
-      animate={{ opacity: 0.58, scale: 1.03 }}
-      transition={{ duration: 2.2, ease: [0.16, 1, 0.3, 1] }}
-      className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-      aria-hidden
-    >
-      <source src={ASSETS.heroVideo} type="video/mp4" />
-    </motion.video>
+    <div className="absolute inset-0" aria-hidden>
+      {/* Poster underneath until video is ready */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={ASSETS.heroPoster}
+        alt=""
+        className={`absolute inset-0 h-full w-full object-cover object-[68%_center] transition-opacity duration-700 ${
+          playing ? 'opacity-0' : 'opacity-100'
+        }`}
+      />
+      <motion.video
+        ref={ref}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster={ASSETS.heroPoster}
+        onPlaying={() => setPlaying(true)}
+        initial={{ opacity: 0, scale: 1.06 }}
+        animate={{ opacity: playing ? 1 : 0, scale: 1 }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[68%_center]"
+      >
+        <source src={ASSETS.heroVideo} type="video/mp4" />
+      </motion.video>
+    </div>
   )
 }

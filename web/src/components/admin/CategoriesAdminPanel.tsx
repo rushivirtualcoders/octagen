@@ -15,6 +15,7 @@ export type CategoryRow = {
   name: string
   slug: string
   description?: string
+  vehiclePath?: 'CAR' | 'BIKE'
   sortOrder?: number
   active?: boolean
 }
@@ -26,6 +27,7 @@ export default function CategoriesAdminPanel({
   categories,
   columns,
   withDescription = false,
+  withVehiclePath = false,
   saveAction,
   deleteAction,
 }: {
@@ -35,6 +37,7 @@ export default function CategoriesAdminPanel({
   categories: CategoryRow[]
   columns: string[]
   withDescription?: boolean
+  withVehiclePath?: boolean
   saveAction: (state: ActionState, formData: FormData) => Promise<ActionState>
   deleteAction: (formData: FormData) => void | Promise<void>
 }) {
@@ -65,6 +68,11 @@ export default function CategoriesAdminPanel({
           <tr key={category.id} className="border-t border-line">
             <td className="px-4 py-3 font-medium text-ink">{category.name}</td>
             <td className="px-4 py-3 text-ink/70">{category.slug}</td>
+            {withVehiclePath ? (
+              <td className="px-4 py-3 text-ink/70">
+                {category.vehiclePath === 'BIKE' ? 'Bike' : 'Car'}
+              </td>
+            ) : null}
             {withDescription ? (
               <td className="px-4 py-3 text-ink/70">{category.sortOrder ?? 0}</td>
             ) : null}
@@ -100,6 +108,7 @@ export default function CategoriesAdminPanel({
           key={active?.id || 'new-category'}
           action={saveAction}
           withDescription={withDescription}
+          withVehiclePath={withVehiclePath}
           values={
             mode === 'edit' && active
               ? {
@@ -107,10 +116,11 @@ export default function CategoriesAdminPanel({
                   name: active.name,
                   slug: active.slug,
                   description: active.description,
+                  vehiclePath: active.vehiclePath,
                   sortOrder: active.sortOrder,
                   active: active.active,
                 }
-              : { active: true }
+              : { active: true, vehiclePath: 'CAR' }
           }
         />
       </AdminModal>

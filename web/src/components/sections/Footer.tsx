@@ -50,13 +50,25 @@ export default function Footer() {
 
         <Reveal variant="up" delay={0.15} className="mt-16 flex flex-col gap-4 border-t border-line pt-8 lg:flex-row lg:items-center lg:justify-between">
           <p className="text-xs font-light text-muted">
-            Octagen supplies premium motor oils, additives and car care nationally across India —
-            inquiry-led catalogue, no cart.
+            Liqui-Moly India is proudly operated and fulfilled by {DISTRIBUTOR}, the exclusive
+            authorized national distributor.
           </p>
           <p className="tech-label text-ink/30">
             © {new Date().getFullYear()} {DISTRIBUTOR}. All rights reserved.
           </p>
         </Reveal>
+
+        <div className="mt-10 flex justify-center">
+          <a
+            href="#top"
+            aria-label="Back to top"
+            className="group flex size-12 items-center justify-center bg-lm-red text-white transition-colors hover:bg-[#c96a0e]"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" aria-hidden className="transition-transform duration-300 group-hover:-translate-y-0.5">
+              <path d="M6 14l6-6 6 6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+        </div>
       </div>
     </footer>
   )

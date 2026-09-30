@@ -2,17 +2,18 @@ import Link from 'next/link'
 import { prisma } from '@/lib/db'
 
 export default async function AdminHomePage() {
-  const [products, published, articles, inquiries, unread] = await Promise.all([
+  const [products, published, loved, activities, inquiries, unread] = await Promise.all([
     prisma.product.count(),
     prisma.product.count({ where: { published: true } }),
-    prisma.article.count(),
+    prisma.product.count({ where: { loved: true, published: true } }),
+    prisma.marketingActivity.count({ where: { published: true } }),
     prisma.inquiry.count(),
     prisma.inquiry.count({ where: { status: 'NEW' } }),
   ])
 
   const cards = [
-    { label: 'Products', value: products, href: '/admin/products', note: `${published} published` },
-    { label: 'Articles', value: articles, href: '/admin/articles', note: 'Insights library' },
+    { label: 'Products', value: products, href: '/admin/products', note: `${published} published · ${loved} most loved` },
+    { label: 'Activities', value: activities, href: '/admin/marketing-activities', note: 'Homepage marketing' },
     { label: 'Inquiries', value: inquiries, href: '/admin/inquiries', note: `${unread} new` },
   ]
 

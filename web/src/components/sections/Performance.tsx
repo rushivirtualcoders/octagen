@@ -40,14 +40,14 @@ export default function Performance() {
             lightSweep
             autoOrbit
           />
-          {/* Heat / friction overlay — no smoke */}
+          {/* Heat / friction overlay â€” no smoke */}
           <motion.div
             aria-hidden
             style={{ opacity: heat }}
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(226,0,26,0.28),transparent_55%)] mix-blend-multiply"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(233, 126, 17,0.28),transparent_55%)] mix-blend-multiply"
           />
           <div className="absolute right-5 bottom-5 z-10 flex items-end gap-4">
-            <p className="tech-label text-white/80 drop-shadow">Chassis 07 · Studio</p>
+            <p className="tech-label text-white/80 drop-shadow">Chassis 07 Â· Studio</p>
             <div className="bg-white/90 px-3 py-2 backdrop-blur-sm">
               <p className="font-display text-lg font-bold text-ink tabular-nums">
                 {rpm.toLocaleString('en-US')}

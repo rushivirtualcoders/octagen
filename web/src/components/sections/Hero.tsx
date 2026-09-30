@@ -1,15 +1,13 @@
-import { useState } from 'react'
+'use client'
+
 import { motion, useReducedMotion } from 'framer-motion'
 import { EASE } from '../../lib/animations'
-import { CLAIM, HERO_SLIDES, HERO_STATS } from '../../lib/constants'
-import AnimatedCounter from '../ui/AnimatedCounter'
-import HeroImageSlider from '../ui/HeroImageSlider'
-import MagneticButton from '../ui/MagneticButton'
+import { CLAIM } from '../../lib/constants'
+import HeroVideo from '../ui/HeroVideo'
 import SplitText from '../ui/SplitText'
 
 export default function Hero() {
   const reduced = useReducedMotion()
-  const [activeSlide, setActiveSlide] = useState(0)
 
   return (
     <section
@@ -17,45 +15,19 @@ export default function Hero() {
       className="relative min-h-[100svh] overflow-hidden bg-base"
       aria-label="Octagen high performance motor oil"
     >
-      <HeroImageSlider
-        slides={HERO_SLIDES}
-        active={activeSlide}
-        onActiveChange={setActiveSlide}
-      />
+      <HeroVideo />
 
+      {/* Scrim only behind the headline so on-screen video type stays visible */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/25 sm:via-white/88 sm:to-white/10 lg:via-white/75 lg:to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 w-[min(100%,46rem)] bg-gradient-to-r from-white from-40% via-white/80 to-transparent"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white/55 to-transparent"
       />
 
-      <div
-        className="absolute top-1/2 right-5 z-20 flex -translate-y-1/2 flex-col items-center gap-2.5 lg:right-8"
-        role="tablist"
-        aria-label="Hero image slides"
-      >
-        {HERO_SLIDES.map((slide, index) => {
-          const isActive = index === activeSlide
-          return (
-            <button
-              key={slide.src}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              aria-label={`Show slide ${index + 1}: ${slide.alt}`}
-              onClick={() => setActiveSlide(index)}
-              className={`rounded-full transition-all duration-500 ease-out ${
-                isActive ? 'size-2.5 bg-lm-red shadow-[0_0_0_3px_rgba(226,0,26,0.2)]' : 'size-1.5 bg-ink/30 hover:bg-ink/50'
-              }`}
-            />
-          )
-        })}
-      </div>
-
-      <div className="relative z-10 flex min-h-[100svh] flex-col justify-between px-6 pt-24 pb-8 lg:px-10 lg:pt-28 lg:pb-10">
+      <div className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 pt-24 pb-16 lg:px-10 lg:pt-28">
         <div className="section-rail max-w-xl lg:max-w-2xl">
           <motion.p
             initial={reduced ? false : { opacity: 0, x: -16 }}
@@ -84,40 +56,7 @@ export default function Hero() {
             Advanced motor oil engineered for power, protection and performance under extreme
             conditions.
           </motion.p>
-
-          <motion.div
-            initial={reduced ? false : { opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.6 }}
-            className="mt-10 flex flex-wrap gap-3"
-          >
-            <MagneticButton href="#paths">Explore Car Products</MagneticButton>
-            <MagneticButton href="#paths" variant="blue">
-              Explore Bike Products
-            </MagneticButton>
-          </motion.div>
         </div>
-
-        <motion.dl
-          initial={reduced ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.75 }}
-          className="mt-12 grid max-w-4xl grid-cols-2 gap-6 border-t border-line pt-8 lg:grid-cols-4"
-        >
-          {HERO_STATS.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={reduced ? false : { opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 + i * 0.06, duration: 0.65, ease: EASE }}
-            >
-              <dd className="font-display text-2xl font-bold tracking-tight text-ink lg:text-3xl">
-                <AnimatedCounter to={stat.to} suffix={stat.suffix} duration={2.2} />
-              </dd>
-              <dt className="tech-label mt-2 text-muted">{stat.label}</dt>
-            </motion.div>
-          ))}
-        </motion.dl>
       </div>
     </section>
   )

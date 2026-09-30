@@ -27,7 +27,7 @@ export default function ConfirmDialog({
 
   const confirmClass =
     tone === 'danger'
-      ? 'rounded-md bg-lm-red px-4 py-2 text-sm font-bold uppercase text-white hover:bg-lm-red/90 disabled:opacity-60'
+      ? 'rounded-md bg-lm-red px-4 py-2 text-sm font-bold uppercase text-white hover:bg-[#c96a0e] disabled:opacity-60'
       : 'rounded-md bg-lm-blue px-4 py-2 text-sm font-bold uppercase text-white hover:bg-lm-blue/90 disabled:opacity-60'
 
   return (
