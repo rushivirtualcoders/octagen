@@ -10,247 +10,174 @@ export const metadata: Metadata = {
   alternates: { canonical: `${SITE_URL}/about` },
 }
 
-const ORIGIN = [
+const FACTS = [
   { value: '1957', label: 'Founded in Ulm' },
-  { value: 'Germany', label: 'Made in house' },
-  { value: '4,000+', label: 'Products in the range' },
-  { value: 'India', label: 'Supplied by Octagen' },
+  { value: 'Germany', label: 'Developed and produced' },
+  { value: '4,000+', label: 'Oils, additives and care' },
+  { value: 'India', label: 'Fulfilled by Octagen' },
 ]
 
 const RANGE = [
-  { value: 'Oils', label: 'Grades for car and bike' },
-  { value: 'Additives', label: 'Protection and cleaning' },
-  { value: 'Care', label: 'For the vehicle itself' },
-  { value: 'OEM', label: 'Written to approvals' },
+  {
+    title: 'Motor oils',
+    text: 'Grades for car and bike, written to the approval already printed for the engine. Top Tec 4200 is one example.',
+  },
+  {
+    title: 'Additives',
+    text: 'The company began with a molybdenum disulfide additive. Treatments such as Cera Tec sit in the same range.',
+  },
+  {
+    title: 'Car care',
+    text: 'Products for the work around the engine and the vehicle, supplied with the oils a workshop already uses.',
+  },
 ]
 
-const TRACK = [
-  { value: 'Ulm', label: 'Where it is developed' },
-  { value: 'Circuit', label: 'Touring and hillclimb' },
-  { value: 'Road', label: 'The same name in service' },
-  { value: 'India', label: 'Fulfilled from Ahmedabad' },
+const SUPPLY = [
+  {
+    title: 'Tell us the vehicle',
+    text: 'Share the car or bike, the approval you already have, or the volume a workshop moves.',
+  },
+  {
+    title: 'We match the grade',
+    text: 'Octagen replies with the LIQUI MOLY product and the pack size. There is no cart on this site.',
+  },
+  {
+    title: 'Supply from Ahmedabad',
+    text: 'Workshops, fleets and owners are fulfilled in India by the exclusive authorized national distributor.',
+  },
 ]
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-base pt-24">
-        <div className="mx-auto grid max-w-[1400px] items-start gap-8 px-6 py-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.15fr)_minmax(0,0.9fr)] lg:gap-7 lg:px-10 lg:py-12">
-          <div className="pt-2 lg:pt-6">
-            <p className="tech-label text-lm-red">About us</p>
-            <h1 className="font-display mt-3 text-[clamp(3.6rem,7vw,6.25rem)] leading-[0.82] font-extrabold tracking-[-0.04em] text-ink uppercase">
-              About
-              <br />
-              Us
+      <section className="border-b border-line bg-base pt-24">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14 lg:px-10 lg:py-14">
+          <div>
+            <p className="tech-label flex items-center gap-3 text-lm-red">
+              <span className="h-px w-8 bg-lm-red" />
+              Octagen
+            </p>
+            <h1 className="font-display mt-3 text-[clamp(1.75rem,3vw,2.25rem)] leading-none font-extrabold tracking-tight text-ink uppercase">
+              About us
             </h1>
-            <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
-              German engine chemistry, supplied in India by {DISTRIBUTOR}. One brand. One authorised
-              distributor.
+            <p className="font-display mt-4 text-lg font-bold tracking-tight text-lm-red uppercase">
+              German chemistry. Indian supply.
+            </p>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted lg:text-base">
+              LIQUI MOLY develops motor oils, additives and car care in Germany. {DISTRIBUTOR} is
+              the exclusive authorized national distributor in India.
             </p>
           </div>
-
-          <figure className="overflow-hidden rounded-[1.75rem] bg-surface">
+          <figure className="overflow-hidden border border-line bg-surface">
             <img
-              src="/assets/images/lm/turner-lg.jpg"
+              src="/assets/images/performance-alt.jpg"
               alt="LIQUI MOLY liveried race car on track"
-              className="h-72 w-full object-cover lg:h-[28rem]"
+              className="h-64 w-full object-cover sm:h-80 lg:h-[22rem]"
             />
           </figure>
-
-          <div>
-            <figure className="overflow-hidden rounded-[1.75rem] bg-white">
-              <img
-                src="/assets/images/engine-oil.jpg"
-                alt="Engine oil on pistons and a crankshaft"
-                className="h-48 w-full object-cover lg:h-56"
-              />
-            </figure>
-            <h2 className="mt-6 text-2xl font-bold tracking-tight text-ink">The company</h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted">
-              LIQUI MOLY was founded in Ulm in 1957. Oils, additives and care are still developed
-              and produced in Germany. {DISTRIBUTOR} fulfils that range from Ahmedabad.
-            </p>
-          </div>
         </div>
       </section>
 
-      <section className="bg-base px-6 pb-8 lg:px-10">
-        <div className="mx-auto grid max-w-[1400px] items-end gap-6 rounded-[2rem] bg-surface px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] lg:gap-8 lg:px-8 lg:py-10">
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
+      <section className="border-b border-line bg-surface">
+        <dl className="mx-auto grid max-w-[1200px] grid-cols-2 lg:grid-cols-4">
+          {FACTS.map((fact) => (
+            <div key={fact.label} className="border-line px-6 py-7 lg:border-l lg:px-8 lg:first:border-l-0">
+              <dt className="font-display text-[clamp(1.6rem,2.4vw,2.1rem)] font-extrabold tracking-tight text-ink">
+                {fact.value}
+              </dt>
+              <dd className="mt-1 text-sm text-muted">{fact.label}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section className="bg-base">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-14 lg:grid-cols-2 lg:gap-16 lg:px-10 lg:py-16">
+          <div>
+            <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.15rem)] font-extrabold tracking-tight text-ink uppercase">
+              The company
+            </h2>
+            <div className="mt-5 space-y-4 text-sm leading-relaxed text-muted lg:text-[0.95rem]">
+              <p>
+                LIQUI MOLY was founded in Ulm in 1957. The first product was an oil additive built
+                around molybdenum disulfide. Head office and production remain in Ulm, with further
+                production in Saarlouis.
+              </p>
+              <p>
+                Oils, additives and care are still developed and produced in Germany. The same name
+                appears in everyday driving and in motorsport, including touring cars and hillclimb.
+              </p>
+              <p>
+                In India that range is fulfilled by {DISTRIBUTOR}, from the Ahmedabad office. Owners,
+                workshops and fleets inquire here. Prices and checkout are not part of this site.
+              </p>
+            </div>
+          </div>
+          <figure className="overflow-hidden border border-line">
             <img
               src="/assets/images/oil-pour.jpg"
               alt="Motor oil poured into an engine"
-              className="h-80 w-full object-cover lg:h-[26rem]"
-            />
-          </figure>
-
-          <div className="rounded-[1.6rem] bg-white px-6 py-8 lg:px-8 lg:py-10">
-            <h2 className="font-display text-[clamp(1.8rem,3vw,2.75rem)] leading-[0.95] font-extrabold tracking-tight text-ink uppercase">
-              From Ulm
-              <br />
-              to India
-            </h2>
-            <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
-              <p>
-                The company began with an oil additive built around molybdenum disulfide. Head office
-                and production remain in Ulm, with further production in Saarlouis.
-              </p>
-              <p>
-                Grades are written to OEM approvals, including oils such as Top Tec 4200. The same
-                name appears in everyday driving and in motorsport.
-              </p>
-              <p>
-                {DISTRIBUTOR} is the exclusive authorized national distributor. Workshops, fleets and
-                owners inquire here. There is no cart on this site.
-              </p>
-            </div>
-            <dl className="mt-6 grid grid-cols-2 gap-4">
-              {ORIGIN.map((fact) => (
-                <div key={fact.label}>
-                  <dt className="font-display text-xl font-extrabold text-ink uppercase">{fact.value}</dt>
-                  <dd className="mt-1 text-xs text-muted">{fact.label}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/lm/black-falcon-lg.jpg"
-              alt="LIQUI MOLY sponsored race car"
-              className="h-80 w-full object-cover object-[center_40%] lg:h-[26rem]"
+              className="h-72 w-full object-cover lg:h-[24rem]"
             />
           </figure>
         </div>
       </section>
 
-      <section className="bg-base px-6 pb-8 lg:px-10">
-        <div className="mx-auto grid max-w-[1400px] items-end gap-6 rounded-[2rem] bg-surface px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] lg:gap-8 lg:px-8 lg:py-10">
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/products/top-tec-4200.png"
-              alt="LIQUI MOLY Top Tec 4200 5W-30"
-              className="h-80 w-full object-cover object-top lg:h-[26rem]"
-            />
-          </figure>
-
-          <div className="rounded-[1.6rem] bg-white px-6 py-8 lg:px-8 lg:py-10">
-            <h2 className="font-display text-[clamp(1.8rem,3vw,2.75rem)] leading-[0.95] font-extrabold tracking-tight text-ink uppercase">
-              Oils, additives
-              <br />
-              and care
+      <section className="border-y border-line bg-surface">
+        <div className="mx-auto grid max-w-[1200px] gap-4 px-6 py-14 lg:grid-cols-2 lg:px-10 lg:py-16">
+          <article className="border border-line bg-white p-7 lg:p-9">
+            <p className="tech-label text-lm-red">LIQUI MOLY</p>
+            <h2 className="font-display mt-3 text-2xl font-extrabold tracking-tight text-ink uppercase">
+              Made in Germany
             </h2>
-            <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
-              <p>
-                The German range covers motor oils, additives and products for the vehicle itself.
-                Oils such as Top Tec 4200 are written to OEM approvals.
-              </p>
-              <p>
-                Additives sit beside those oils, from the original molybdenum disulfide line through
-                to treatments such as Cera Tec. Care products cover the work a workshop does around
-                the engine.
-              </p>
-              <p>
-                {DISTRIBUTOR} supplies the grade and pack size you ask for. Car and bike catalogues
-                on this site open the official LIQUI MOLY product page.
-              </p>
-            </div>
-            <dl className="mt-6 grid grid-cols-2 gap-4">
-              {RANGE.map((fact) => (
-                <div key={fact.label}>
-                  <dt className="font-display text-xl font-extrabold text-ink uppercase">{fact.value}</dt>
-                  <dd className="mt-1 text-xs text-muted">{fact.label}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/lm/paint.jpg"
-              alt="LIQUI MOLY paint care products"
-              className="h-80 w-full object-cover lg:h-[26rem]"
-            />
-          </figure>
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              More than 4,000 oils, additives and care products. Grades are written to OEM approvals.
+              Development stays in Germany. The motorsport name stays with LIQUI MOLY.
+            </p>
+          </article>
+          <article className="border border-line bg-white p-7 lg:p-9">
+            <p className="tech-label text-lm-red">Octagen</p>
+            <h2 className="font-display mt-3 text-2xl font-extrabold tracking-tight text-ink uppercase">
+              Distributor in India
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              {DISTRIBUTOR} is the exclusive authorized national distributor. The catalogue on this
+              site opens the official LIQUI MOLY product page. Supply is arranged from Ahmedabad.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section className="bg-base px-6 pb-8 lg:px-10">
-        <div className="mx-auto grid max-w-[1400px] items-end gap-6 rounded-[2rem] bg-surface px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] lg:gap-8 lg:px-8 lg:py-10">
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/tire-smoke.jpg"
-              alt="Race car with tire smoke"
-              className="h-80 w-full object-cover lg:h-[26rem]"
-            />
-          </figure>
-
-          <div className="rounded-[1.6rem] bg-white px-6 py-8 lg:px-8 lg:py-10">
-            <h2 className="font-display text-[clamp(1.8rem,3vw,2.75rem)] leading-[0.95] font-extrabold tracking-tight text-ink uppercase">
-              On the circuit
-              <br />
-              and the road
-            </h2>
-            <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
-              <p>
-                LIQUI MOLY is carried on touring cars and in hillclimb. The chemistry is developed
-                for that use and for the car or bike that never sees a circuit.
-              </p>
-              <p>
-                A workshop in India is not buying a race programme. It is buying the grade that
-                matches the approval already printed for the engine.
-              </p>
-              <p>
-                {DISTRIBUTOR} is the exclusive authorized national distributor for that supply. The
-                motorsport name stays with LIQUI MOLY. Fulfilment in India stays with Octagen.
-              </p>
-            </div>
-            <dl className="mt-6 grid grid-cols-2 gap-4">
-              {TRACK.map((fact) => (
-                <div key={fact.label}>
-                  <dt className="font-display text-xl font-extrabold text-ink uppercase">{fact.value}</dt>
-                  <dd className="mt-1 text-xs text-muted">{fact.label}</dd>
-                </div>
-              ))}
-            </dl>
+      <section className="bg-base">
+        <div className="mx-auto max-w-[1200px] px-6 py-14 lg:px-10 lg:py-16">
+          <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.15rem)] font-extrabold tracking-tight text-ink uppercase">
+            What the range covers
+          </h2>
+          <div className="mt-8 grid gap-8 sm:grid-cols-3">
+            {RANGE.map((item) => (
+              <div key={item.title} className="border-t-2 border-lm-red pt-5">
+                <h3 className="text-base font-semibold text-ink">{item.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
+              </div>
+            ))}
           </div>
-
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/lm/hillclimb.jpg"
-              alt="LIQUI MOLY race car on a hillclimb"
-              className="h-80 w-full object-cover object-center lg:h-[26rem]"
-            />
-          </figure>
         </div>
       </section>
 
-      <section className="bg-base px-6 pb-16 lg:px-10">
-        <div className="mx-auto grid max-w-[1400px] items-end gap-6 rounded-[2rem] bg-surface px-5 py-8 sm:px-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.15fr)_minmax(0,0.82fr)] lg:gap-8 lg:px-8 lg:py-10">
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
-            <img
-              src="/assets/images/hero-car.jpg"
-              alt="Performance car on the road"
-              className="h-80 w-full object-cover lg:h-[26rem]"
-            />
-          </figure>
-
-          <div className="rounded-[1.6rem] bg-white px-6 py-8 lg:px-8 lg:py-10">
-            <h2 className="font-display text-[clamp(1.8rem,3vw,2.75rem)] leading-[0.95] font-extrabold tracking-tight text-ink uppercase">
-              How supply
-              <br />
-              works
+      <section className="border-t border-line bg-surface">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-14 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:px-10 lg:py-16">
+          <div>
+            <h2 className="font-display text-[clamp(1.6rem,2.6vw,2.15rem)] font-extrabold tracking-tight text-ink uppercase">
+              How supply works
             </h2>
-            <div className="mt-5 space-y-3 text-sm leading-relaxed text-muted">
-              <p>
-                Workshops, fleets and owners use the same path. Share the car or bike, the approval
-                you already have, or the volume a bay moves.
-              </p>
-              <p>
-                {DISTRIBUTOR} replies with the LIQUI MOLY grade and pack size, then fulfils it from
-                Ahmedabad. This site has no cart and no prices.
-              </p>
-            </div>
+            <ol className="mt-8 list-none space-y-6 p-0">
+              {SUPPLY.map((step) => (
+                <li key={step.title}>
+                  <h3 className="text-base font-semibold text-ink">{step.title}</h3>
+                  <p className="mt-1 max-w-lg text-sm leading-relaxed text-muted">{step.text}</p>
+                </li>
+              ))}
+            </ol>
             <Link
               href="/contact"
               className="site-btn mt-8 inline-flex bg-lm-red px-6 py-3.5 text-[0.65rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c96a0e]"
@@ -258,12 +185,11 @@ export default function AboutPage() {
               Contact us
             </Link>
           </div>
-
-          <figure className="overflow-hidden rounded-[1.5rem] bg-white">
+          <figure className="overflow-hidden border border-line bg-white">
             <img
-              src="/assets/images/racing-night.jpg"
-              alt="Racing at night"
-              className="h-80 w-full object-cover lg:h-[26rem]"
+              src="/assets/images/lm/hillclimb.jpg"
+              alt="LIQUI MOLY race car on a hillclimb"
+              className="h-64 w-full object-cover sm:h-80"
             />
           </figure>
         </div>
