@@ -13,8 +13,8 @@ import { InquiryStatusBadge, StatusBadge } from '@/components/admin/StatusBadge'
 
 const TYPE_LABEL: Record<string, string> = {
   GENERAL: 'General',
-  WORKSHOP: 'Workshop',
-  BULK: 'Bulk',
+  WORKSHOP: 'Workshop partnership',
+  BULK: 'Bulk distributor application',
   PRODUCT_QUOTE: 'Product quote',
 }
 

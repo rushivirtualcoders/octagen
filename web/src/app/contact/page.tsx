@@ -26,8 +26,8 @@ export default function ContactPage() {
               Contact us
             </h1>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
-              LIQUI MOLY India is operated and fulfilled by {DISTRIBUTOR}. Write to the Ahmedabad
-              office for a grade, a workshop order or a supply question.
+              LIQUI MOLY India is operated and fulfilled by {DISTRIBUTOR}. Use the form for a
+              general inquiry, a workshop partnership, or a bulk distributor application.
             </p>
           </div>
           <div className="overflow-hidden border border-line bg-surface">
@@ -63,7 +63,7 @@ export default function ContactPage() {
             </a>
           </div>
           <div className="border border-line bg-white p-5">
-            <h2 className="tech-label text-lm-red">Office</h2>
+            <h2 className="tech-label text-lm-red">Office and warehouse</h2>
             <address className="mt-3 text-sm leading-relaxed text-ink not-italic">
               {CONTACT_INFO.address}
             </address>
@@ -74,12 +74,10 @@ export default function ContactPage() {
       <section className="bg-base">
         <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-10 lg:py-12">
           <div className="border border-line bg-white p-6 lg:p-8">
-            <h2 className="font-display text-xl font-extrabold tracking-tight text-ink uppercase">
-              Send a message
-            </h2>
+            <h2 className="text-xl font-semibold tracking-tight text-ink">Send a message</h2>
             <p className="mt-2 mb-6 max-w-xl text-sm leading-relaxed text-muted">
-              Include the vehicle or workshop, the specification if you have it, and the quantity.
-              The team replies from the Narol office.
+              Choose general inquiry, workshop partnership, or bulk distributor application. Include
+              the vehicle or workshop, the specification if you have it, and the quantity.
             </p>
             <InquiryForm
               compact

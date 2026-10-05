@@ -143,9 +143,9 @@ export default function InquiryForm({
           defaultValue={defaults?.type || 'GENERAL'}
         >
           <option value="GENERAL">General inquiry</option>
-          <option value="PRODUCT_QUOTE">Product quote</option>
           <option value="WORKSHOP">Workshop partnership</option>
-          <option value="BULK">Bulk / distributor</option>
+          <option value="BULK">Bulk distributor application</option>
+          <option value="PRODUCT_QUOTE">Product quote</option>
         </select>
       </label>
 
