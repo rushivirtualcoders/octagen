@@ -51,19 +51,19 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-b border-line bg-base pt-24">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-6 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-14 lg:px-10 lg:py-14">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-6 px-6 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10 lg:px-10 lg:py-6">
           <div>
             <p className="tech-label flex items-center gap-3 text-lm-red">
               <span className="h-px w-8 bg-lm-red" />
               Octagen
             </p>
-            <h1 className="font-display mt-3 text-[clamp(1.75rem,3vw,2.25rem)] leading-none font-extrabold tracking-tight text-ink uppercase">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
               About us
             </h1>
-            <p className="font-display mt-4 text-lg font-bold tracking-tight text-lm-red uppercase">
+            <p className="mt-2 text-sm font-semibold tracking-tight text-lm-red">
               German chemistry. Indian supply.
             </p>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted lg:text-base">
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
               LIQUI MOLY develops motor oils, additives and car care in Germany. {DISTRIBUTOR} is
               the exclusive authorized national distributor in India.
             </p>
@@ -72,7 +72,7 @@ export default function AboutPage() {
             <img
               src="/assets/images/performance-alt.jpg"
               alt="LIQUI MOLY liveried race car on track"
-              className="h-64 w-full object-cover sm:h-80 lg:h-[22rem]"
+              className="h-44 w-full object-cover sm:h-52"
             />
           </figure>
         </div>

@@ -16,16 +16,16 @@ export default function ContactPage() {
   return (
     <>
       <section className="border-b border-line bg-base pt-24">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-6 py-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:px-10 lg:py-10">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-6 px-6 py-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:px-10 lg:py-6">
           <div>
             <p className="tech-label flex items-center gap-3 text-lm-red">
               <span className="h-px w-8 bg-lm-red" />
               Contact
             </p>
-            <h1 className="font-display mt-3 text-[clamp(1.75rem,3vw,2.25rem)] leading-none font-extrabold tracking-tight text-ink uppercase">
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
               Contact us
             </h1>
-            <p className="mt-4 max-w-md text-sm leading-relaxed text-muted lg:text-base">
+            <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
               LIQUI MOLY India is operated and fulfilled by {DISTRIBUTOR}. Write to the Ahmedabad
               office for a grade, a workshop order or a supply question.
             </p>
@@ -34,7 +34,7 @@ export default function ContactPage() {
             <iframe
               title="Octagen office, Narol, Ahmedabad"
               src={mapSrc}
-              className="h-64 w-full sm:h-72 lg:h-80"
+              className="h-44 w-full sm:h-52"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
