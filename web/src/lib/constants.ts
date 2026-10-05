@@ -4,10 +4,10 @@ export const CLAIM = 'ENGINEERED FOR INDIA'
 
 export const NAV_LINKS = [
   { href: '/#products', label: 'Products' },
-  { href: '/#marketing', label: 'Marketing' },
   { href: '/#activities', label: 'Activities' },
   { href: '/#most-loved', label: 'Most Loved' },
-  { href: '/#testimonials', label: 'Reviews' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
 ]
 
 export const TESTIMONIALS = [
@@ -693,7 +693,7 @@ export const ASSETS = {
   bottle: '/assets/images/products/product-bottle.jpg',
   oilPour: '/assets/images/oil-pour.jpg',
   tireSmoke: '/assets/images/tire-smoke.jpg',
-  heroVideo: '/assets/videos/hero-background.mp4',
+  heroVideo: '/assets/videos/hero-background.mp4?v=cera-720',
   /** Poster while the LIQUI MOLY hero commercial loads */
   heroPoster: '/assets/images/performance-oil-commercial-poster.jpg',
   insightsVideo: '/assets/videos/knowledge-cinematic.mp4',

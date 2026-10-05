@@ -17,14 +17,10 @@ export default function Hero() {
     >
       <HeroVideo />
 
-      {/* Scrim only behind the headline so on-screen video type stays visible */}
+      {/* Light wash behind the headline only — the film stays visible */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-y-0 left-0 w-[min(100%,46rem)] bg-gradient-to-r from-white from-40% via-white/80 to-transparent"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white/55 to-transparent"
+        className="pointer-events-none absolute inset-y-0 left-0 w-[min(72%,34rem)] bg-gradient-to-r from-white/85 via-white/45 to-transparent"
       />
 
       <div className="relative z-10 flex min-h-[100svh] flex-col justify-center px-6 pt-24 pb-16 lg:px-10 lg:pt-28">

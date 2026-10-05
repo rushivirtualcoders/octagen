@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ASSETS, CLAIM, DISTRIBUTOR } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
@@ -7,14 +7,27 @@ import { EASE } from '../../lib/animations'
 export default function PageIntro() {
   const [show, setShow] = useState(true)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setShow(false)
       return
     }
+    try {
+      if (sessionStorage.getItem('octagen-intro') === '1') {
+        setShow(false)
+        return
+      }
+      sessionStorage.setItem('octagen-intro', '1')
+    } catch {
+      setShow(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!show) return
     const t = window.setTimeout(() => setShow(false), 1600)
     return () => window.clearTimeout(t)
-  }, [])
+  }, [show])
 
   return (
     <AnimatePresence>

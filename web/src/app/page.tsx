@@ -1,19 +1,17 @@
 import HomePage from '@/App'
 import {
   getCatalogueCategories,
-  getCatalogueProducts,
   getMarketingActivities,
   getMarketingMedia,
   getMostLovedProducts,
 } from '@/lib/cms/public-catalogue'
 
 export default async function Page() {
-  const [media, categories, activities, lovedProducts, searchProducts] = await Promise.all([
+  const [media, categories, activities, lovedProducts] = await Promise.all([
     getMarketingMedia(),
     getCatalogueCategories(),
     getMarketingActivities(),
     getMostLovedProducts(),
-    getCatalogueProducts(),
   ])
 
   return (
@@ -22,7 +20,6 @@ export default async function Page() {
       categories={categories}
       activities={activities}
       lovedProducts={lovedProducts}
-      searchProducts={searchProducts}
     />
   )
 }

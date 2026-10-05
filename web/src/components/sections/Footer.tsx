@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { ASSETS, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
@@ -35,12 +36,12 @@ export default function Footer() {
               <RevealStagger className="grid grid-cols-2 gap-x-16 gap-y-4">
                 {NAV_LINKS.map((link) => (
                   <RevealItem key={link.href}>
-                    <a
+                    <Link
                       href={link.href}
                       className="tech-label text-muted transition-all duration-300 hover:translate-x-1 hover:text-lm-blue"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </RevealItem>
                 ))}
               </RevealStagger>

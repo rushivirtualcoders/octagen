@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import ArticleBody from '@/components/articles/ArticleBody'
-import InquiryTrigger from '@/components/inquiry/InquiryTrigger'
-import PublicShell from '@/components/layout/PublicShell'
 import { formatArticleDate } from '@/lib/articles/content'
 import { getPublishedArticleBySlug, getPublishedArticleSlugs } from '@/lib/cms/public-articles'
 import { SITE_NAME, SITE_URL } from '@/lib/seo'
@@ -50,8 +48,8 @@ export default async function ArticleDetailPage({ params }: Props) {
   const date = formatArticleDate(article.publishedAt)
 
   return (
-    <PublicShell>
-      <article className="border-b border-line bg-base">
+    <>
+    <article className="border-b border-line bg-base">
         <div className="mx-auto max-w-[1400px] px-6 py-10 lg:px-10 lg:py-14">
           <Link href="/articles" className="tech-label text-lm-blue transition-colors hover:text-ink">
             ← All articles
@@ -95,18 +93,17 @@ export default async function ArticleDetailPage({ params }: Props) {
             Talk to Octagen
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            LIQUI MOLY India is supplied exclusively through Octagen. Submit an inquiry with your vehicle,
-            workshop or fleet details and we will quote the correct product and pack size.
+            LIQUI MOLY India is supplied exclusively through Octagen. Use the contact page for your
+            vehicle, workshop or fleet details.
           </p>
-          <InquiryTrigger
-            className="site-btn mt-6 inline-flex border border-lm-blue bg-transparent px-6 py-3 text-[0.62rem] font-semibold tracking-[0.16em] text-ink uppercase"
-            subject={article.title}
-            type="GENERAL"
+          <Link
+            href="/contact"
+            className="site-btn mt-6 inline-flex border border-line px-6 py-3 text-[0.62rem] font-semibold tracking-[0.16em] text-ink uppercase hover:border-lm-red"
           >
-            Submit inquiry / get quote
-          </InquiryTrigger>
+            Contact us
+          </Link>
         </div>
       </div>
-    </PublicShell>
+    </>
   )
 }

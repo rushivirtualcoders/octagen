@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from 'next'
+import SiteFrame from '@/components/layout/SiteFrame'
+import { getCatalogueProducts, getMarketingActivities } from '@/lib/cms/public-catalogue'
 import {
   jsonLd,
   SITE_DESCRIPTION,
@@ -57,7 +59,12 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [searchProducts, searchActivities] = await Promise.all([
+    getCatalogueProducts(),
+    getMarketingActivities(),
+  ])
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -76,7 +83,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <SiteFrame searchProducts={searchProducts} searchActivities={searchActivities}>
+          {children}
+        </SiteFrame>
+      </body>
     </html>
   )
 }

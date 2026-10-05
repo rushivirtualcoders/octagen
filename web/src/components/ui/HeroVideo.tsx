@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
 import { ASSETS } from '../../lib/constants'
 
 /**
@@ -52,26 +52,22 @@ export default function HeroVideo() {
       <img
         src={ASSETS.heroPoster}
         alt=""
-        className={`absolute inset-0 h-full w-full object-cover object-[68%_center] transition-opacity duration-700 ${
+        className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-500 ${
           playing ? 'opacity-0' : 'opacity-100'
         }`}
       />
-      <motion.video
+      <video
         ref={ref}
         autoPlay
         muted
         loop
         playsInline
         preload="auto"
-        poster={ASSETS.heroPoster}
         onPlaying={() => setPlaying(true)}
-        initial={{ opacity: 0, scale: 1.06 }}
-        animate={{ opacity: playing ? 1 : 0, scale: 1 }}
-        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-[68%_center]"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover object-center"
       >
         <source src={ASSETS.heroVideo} type="video/mp4" />
-      </motion.video>
+      </video>
     </div>
   )
 }

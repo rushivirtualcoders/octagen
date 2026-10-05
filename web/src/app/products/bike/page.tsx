@@ -1,11 +1,6 @@
 import type { Metadata } from 'next'
-import PublicShell from '@/components/layout/PublicShell'
 import ProductListing from '@/components/products/ProductListing'
-import {
-  getCatalogueCategories,
-  getCatalogueProducts,
-  getMarketingActivities,
-} from '@/lib/cms/public-catalogue'
+import { getCatalogueCategories, getCatalogueProducts } from '@/lib/cms/public-catalogue'
 import { SITE_NAME, SITE_URL } from '@/lib/seo'
 
 export const metadata: Metadata = {
@@ -21,21 +16,17 @@ export default async function BikeProductsPage({
   searchParams: Promise<{ category?: string }>
 }) {
   const params = await searchParams
-  const [categories, products, allProducts, activities] = await Promise.all([
+  const [categories, products] = await Promise.all([
     getCatalogueCategories('bike'),
     getCatalogueProducts('bike'),
-    getCatalogueProducts(),
-    getMarketingActivities(),
   ])
 
   return (
-    <PublicShell searchProducts={allProducts} searchActivities={activities}>
-      <ProductListing
-        path="bike"
-        categories={categories}
-        products={products}
-        initialCategory={params.category}
-      />
-    </PublicShell>
+    <ProductListing
+      path="bike"
+      categories={categories}
+      products={products}
+      initialCategory={params.category}
+    />
   )
 }

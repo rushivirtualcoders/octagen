@@ -1,18 +1,18 @@
 'use client'
 
+import Link from 'next/link'
 import { ASSETS, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import InquiryTrigger from '../inquiry/InquiryTrigger'
 import SiteSearch from '../ui/SiteSearch'
 import type { CatalogueProduct } from '@/lib/catalogue'
 
 function Logo() {
   return (
-    <a href="/" className="flex items-center gap-2" aria-label={`${DISTRIBUTOR} home`}>
+    <Link href="/" className="flex items-center gap-2" aria-label={`${DISTRIBUTOR} home`}>
       <img src={ASSETS.octagenLogo} alt={DISTRIBUTOR} className="h-6 w-auto sm:h-7" />
-    </a>
+    </Link>
   )
 }
 
@@ -60,12 +60,12 @@ export default function Navbar({
         <ul className="hidden items-center gap-5 xl:gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
                 className="text-[0.62rem] font-semibold tracking-[0.16em] text-[#0B1215] uppercase transition-colors duration-300 hover:text-lm-blue"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -75,12 +75,6 @@ export default function Navbar({
           <span className="text-[0.62rem] font-semibold tracking-[0.16em] text-lm-blue uppercase">
             {CLAIM}
           </span>
-          <InquiryTrigger
-            className="site-btn bg-lm-red px-4 py-2 text-[0.62rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c96a0e]"
-            type="PRODUCT_QUOTE"
-          >
-            Get Quote
-          </InquiryTrigger>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
@@ -118,23 +112,16 @@ export default function Navbar({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.7, ease: EASE, delay: 0.08 + i * 0.06 }}
                 >
-                  <a
+                  <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
                     className="font-display block py-2 text-5xl font-extrabold tracking-tight text-[#0B1215] uppercase"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </ul>
-            <InquiryTrigger
-              className="site-btn tech-label mt-12 w-fit bg-lm-red px-8 py-4 text-white hover:bg-[#c96a0e]"
-              type="PRODUCT_QUOTE"
-              onOpen={() => setOpen(false)}
-            >
-              Get Quote
-            </InquiryTrigger>
           </motion.div>
         )}
       </AnimatePresence>

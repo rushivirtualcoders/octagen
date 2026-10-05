@@ -14,13 +14,14 @@ export type InquiryFormValues = {
 type Status = 'idle' | 'submitting' | 'success' | 'error'
 
 const fieldClass =
-  'w-full rounded-[10px] border-0 bg-[#f3f4f6] px-4 py-3.5 text-sm text-ink placeholder:text-muted/80 outline-none transition-shadow focus:ring-2 focus:ring-lm-blue/35'
+  'w-full rounded-[10px] border-0 bg-[#f3f4f6] text-sm text-ink placeholder:text-muted/80 outline-none transition-shadow focus:ring-2 focus:ring-lm-blue/35'
 
 type Props = {
   defaults?: InquiryFormValues
   onSuccess?: () => void
   submitLabel?: string
   compact?: boolean
+  submitClassName?: string
 }
 
 export default function InquiryForm({
@@ -28,7 +29,9 @@ export default function InquiryForm({
   onSuccess,
   submitLabel = 'Send Message',
   compact = false,
+  submitClassName = 'bg-lm-blue hover:opacity-90',
 }: Props) {
+  const inputClass = `${fieldClass} ${compact ? 'px-3 py-2.5' : 'px-4 py-3.5'}`
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 
@@ -75,12 +78,12 @@ export default function InquiryForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className={compact ? 'space-y-2.5' : 'space-y-3'} noValidate>
-      <div className="grid gap-3 sm:grid-cols-2">
+    <form onSubmit={onSubmit} className={compact ? 'space-y-2' : 'space-y-3'} noValidate>
+      <div className={`grid sm:grid-cols-2 ${compact ? 'gap-2' : 'gap-3'}`}>
         <label className="block">
           <span className="sr-only">Your name</span>
           <input
-            className={fieldClass}
+            className={inputClass}
             name="name"
             type="text"
             required
@@ -94,7 +97,7 @@ export default function InquiryForm({
         <label className="block">
           <span className="sr-only">Your email</span>
           <input
-            className={fieldClass}
+            className={inputClass}
             name="email"
             type="email"
             required
@@ -106,11 +109,11 @@ export default function InquiryForm({
         </label>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className={`grid sm:grid-cols-2 ${compact ? 'gap-2' : 'gap-3'}`}>
         <label className="block">
           <span className="sr-only">Phone number</span>
           <input
-            className={fieldClass}
+            className={inputClass}
             name="phone"
             type="tel"
             maxLength={40}
@@ -122,7 +125,7 @@ export default function InquiryForm({
         <label className="block">
           <span className="sr-only">Subject</span>
           <input
-            className={fieldClass}
+            className={inputClass}
             name="subject"
             type="text"
             maxLength={160}
@@ -135,7 +138,7 @@ export default function InquiryForm({
       <label className="block">
         <span className="sr-only">Inquiry type</span>
         <select
-          className={fieldClass}
+          className={inputClass}
           name="type"
           defaultValue={defaults?.type || 'GENERAL'}
         >
@@ -149,7 +152,7 @@ export default function InquiryForm({
       <label className="block">
         <span className="sr-only">Your message</span>
         <textarea
-          className={`${fieldClass} ${compact ? 'min-h-[8rem]' : 'min-h-[10rem]'} resize-y`}
+          className={`${inputClass} ${compact ? 'min-h-[4.5rem]' : 'min-h-[10rem]'} resize-y`}
           name="message"
           required
           minLength={10}
@@ -173,7 +176,7 @@ export default function InquiryForm({
       <button
         type="submit"
         disabled={status === 'submitting'}
-        className="site-btn inline-flex items-center gap-2 bg-lm-blue px-7 py-3.5 text-[0.7rem] font-semibold tracking-[0.2em] text-white uppercase transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        className={`site-btn inline-flex items-center gap-2 font-semibold tracking-[0.2em] text-white uppercase transition-opacity disabled:cursor-not-allowed disabled:opacity-60 ${compact ? 'px-5 py-2.5 text-[0.65rem]' : 'px-7 py-3.5 text-[0.7rem]'} ${submitClassName}`}
       >
         <span aria-hidden className="text-base leading-none">
           −

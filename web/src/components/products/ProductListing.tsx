@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { CatalogueCategory, CatalogueProduct, VehiclePath } from '@/lib/catalogue'
-import InquiryTrigger from '@/components/inquiry/InquiryTrigger'
 
 export default function ProductListing({
   path,
@@ -49,13 +48,6 @@ export default function ProductListing({
             >
               Switch to {other}
             </Link>
-            <InquiryTrigger
-              className="site-btn bg-lm-red px-5 py-3 text-[0.62rem] font-semibold tracking-[0.16em] text-white uppercase hover:bg-[#c96a0e]"
-              type="PRODUCT_QUOTE"
-              subject={`${title} inquiry`}
-            >
-              Submit inquiry / get quote
-            </InquiryTrigger>
           </div>
         </div>
       </div>
