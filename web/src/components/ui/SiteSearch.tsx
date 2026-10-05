@@ -45,9 +45,11 @@ const QUICK_LINKS = [
 export default function SiteSearch({
   products,
   activities,
+  expanded = false,
 }: {
   products?: CatalogueProduct[]
   activities?: ActivityHit[]
+  expanded?: boolean
 } = {}) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -96,13 +98,18 @@ export default function SiteSearch({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex size-9 items-center justify-center border border-line text-ink transition-colors hover:border-lm-red hover:text-lm-red"
+        className={
+          expanded
+            ? 'flex h-9 min-w-[11.5rem] items-center gap-2 border border-line bg-[#f6f7f8] px-3 text-[0.68rem] font-semibold tracking-[0.14em] text-ink uppercase transition-colors hover:border-lm-red hover:text-lm-red'
+            : 'flex size-9 items-center justify-center border border-line text-ink transition-colors hover:border-lm-red hover:text-lm-red'
+        }
         aria-label="Search products and activities"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
           <circle cx="11" cy="11" r="7" />
           <path d="M20 20l-3.5-3.5" strokeLinecap="round" />
         </svg>
+        {expanded ? <span>Search</span> : null}
       </button>
 
       <AnimatePresence>

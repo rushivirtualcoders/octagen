@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ASSETS, CLAIM, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
+import { ASSETS, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -70,11 +70,8 @@ export default function Navbar({
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <SiteSearch products={searchProducts} activities={searchActivities} />
-          <span className="text-[0.62rem] font-semibold tracking-[0.16em] text-lm-blue uppercase">
-            {CLAIM}
-          </span>
+        <div className="hidden items-center lg:flex">
+          <SiteSearch expanded products={searchProducts} activities={searchActivities} />
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
