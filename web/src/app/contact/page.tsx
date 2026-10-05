@@ -16,12 +16,12 @@ export default function ContactPage() {
   return (
     <>
       <section className="border-b border-line bg-base pt-24">
-        <div className="mx-auto max-w-[1100px] px-6 py-12 lg:px-10 lg:py-14">
+        <div className="mx-auto max-w-[1100px] px-6 py-8 lg:px-10 lg:py-10">
           <p className="tech-label text-lm-red">Contact</p>
-          <h1 className="font-display mt-3 text-[clamp(2.4rem,5vw,3.75rem)] font-extrabold tracking-tight text-ink uppercase">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
             Contact us
           </h1>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted lg:text-base">
+          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
             LIQUI MOLY India is operated and fulfilled by {DISTRIBUTOR}. Write to the Ahmedabad
             office for a grade, a workshop order or a supply question.
           </p>
