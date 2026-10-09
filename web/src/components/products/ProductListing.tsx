@@ -1,17 +1,9 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { CatalogueCategory, CatalogueProduct, VehiclePath } from '@/lib/catalogue'
-
-function packRank(pack: string) {
-  const match = pack.match(/(\d+(?:\.\d+)?)\s*(ML|LTR|GM|KG|PC)/i)
-  if (!match) return Number.MAX_SAFE_INTEGER
-  const amount = Number(match[1])
-  const unit = match[2].toUpperCase()
-  const scale = unit === 'LTR' || unit === 'KG' ? 1000 : 1
-  return amount * scale
-}
+import { PRODUCT_INFORMATION_PDF } from '@/lib/product-sheets'
 
 function toggle(set: Set<string>, value: string) {
   const next = new Set(set)
@@ -40,9 +32,19 @@ export default function ProductListing({
     startingCategory ? new Set([startingCategory]) : new Set(),
   )
   const [subcategorySet, setSubcategorySet] = useState<Set<string>>(new Set())
-  const [packSet, setPackSet] = useState<Set<string>>(new Set())
   const [query, setQuery] = useState('')
   const [filtersOpen, setFiltersOpen] = useState(false)
+
+  useEffect(() => {
+    const button = document.querySelector('aside button[aria-expanded="true"]')
+    const panel = button?.closest('[data-lenis-prevent]')
+    if (!(button instanceof HTMLElement) || !(panel instanceof HTMLElement)) return
+    const buttonBox = button.getBoundingClientRect()
+    const panelBox = panel.getBoundingClientRect()
+    if (buttonBox.top < panelBox.top || buttonBox.bottom > panelBox.bottom) {
+      panel.scrollTop += buttonBox.top - panelBox.top - 12
+    }
+  }, [])
 
   const categoryName = useMemo(() => {
     const names = new Map(categories.map((category) => [category.slug, category.name]))
@@ -72,25 +74,11 @@ export default function ProductListing({
     return grouped
   }, [allProducts, categories])
 
-  const packOptions = useMemo(() => {
-    const pool = allProducts.filter((product) => {
-      if (categorySet.size > 0 && !categorySet.has(product.categorySlug)) return false
-      if (subcategorySet.size > 0 && !subcategorySet.has(product.subcategorySlug)) return false
-      return true
-    })
-    const counts = new Map<string, number>()
-    for (const product of pool) counts.set(product.packSize, (counts.get(product.packSize) ?? 0) + 1)
-    return [...counts.entries()]
-      .map(([pack, count]) => ({ pack, count }))
-      .sort((a, b) => packRank(a.pack) - packRank(b.pack))
-  }, [allProducts, categorySet, subcategorySet])
-
   const products = useMemo(() => {
     const q = query.trim().toLowerCase()
     return allProducts.filter((product) => {
       if (categorySet.size > 0 && !categorySet.has(product.categorySlug)) return false
       if (subcategorySet.size > 0 && !subcategorySet.has(product.subcategorySlug)) return false
-      if (packSet.size > 0 && !packSet.has(product.packSize)) return false
       if (!q) return true
       return (
         product.name.toLowerCase().includes(q) ||
@@ -98,15 +86,14 @@ export default function ProductListing({
         product.packSize.toLowerCase().includes(q)
       )
     })
-  }, [allProducts, categorySet, packSet, query, subcategorySet])
+  }, [allProducts, categorySet, query, subcategorySet])
 
-  const activeCount = categorySet.size + subcategorySet.size + packSet.size + (query ? 1 : 0)
+  const activeCount = categorySet.size + subcategorySet.size + (query ? 1 : 0)
 
   function clearAll() {
     setOpenSlug(null)
     setCategorySet(new Set())
     setSubcategorySet(new Set())
-    setPackSet(new Set())
     setQuery('')
   }
 
@@ -115,11 +102,12 @@ export default function ProductListing({
     setOpenSlug(next)
     setCategorySet(next ? new Set([next]) : new Set())
     setSubcategorySet(new Set())
-    setPackSet(new Set())
   }
 
   const title = path === 'car' ? 'Car products' : 'Bike products'
   const other = path === 'car' ? 'bike' : 'car'
+  const selectedSlug = categorySet.size === 1 ? [...categorySet][0] : null
+  const selectedName = selectedSlug ? categoryName(selectedSlug) : null
 
   const filters = (
     <div className="space-y-6">
@@ -164,53 +152,27 @@ export default function ProductListing({
                     {open ? '−' : '+'}
                   </span>
                 </button>
-                {open ? (
-                  <div className="pb-3 pl-1">
-                    {subs.length > 0 ? (
-                      <div className="flex flex-wrap gap-2">
-                        {subs.map((option) => {
-                          const on = subcategorySet.has(option.slug)
-                          return (
-                            <button
-                              key={option.slug}
-                              type="button"
-                              onMouseDown={(event) => event.preventDefault()}
-                              onClick={() =>
-                                setSubcategorySet(on ? new Set() : new Set([option.slug]))
-                              }
-                              className={`rounded-full border px-3 py-1.5 text-xs ${
-                                on ? 'border-ink bg-ink text-white' : 'border-line bg-white text-ink hover:border-ink'
-                              }`}
-                            >
-                              {option.name}
-                              <span className={on ? 'text-white/70' : 'text-muted'}> {option.count}</span>
-                            </button>
-                          )
-                        })}
-                      </div>
-                    ) : (
-                      <p className="text-xs text-muted">All products in this category are showing.</p>
-                    )}
-                    {open && packOptions.length > 1 ? (
-                      <div className="mt-3 flex flex-wrap gap-2">
-                        {packOptions.map((option) => {
-                          const on = packSet.has(option.pack)
-                          return (
-                            <button
-                              key={option.pack}
-                              type="button"
-                              onMouseDown={(event) => event.preventDefault()}
-                              onClick={() => setPackSet(on ? new Set() : new Set([option.pack]))}
-                              className={`rounded-full border px-3 py-1.5 text-xs ${
-                                on ? 'border-lm-red bg-lm-red text-white' : 'border-line bg-surface text-ink hover:border-ink'
-                              }`}
-                            >
-                              {option.pack}
-                            </button>
-                          )
-                        })}
-                      </div>
-                    ) : null}
+                {open && subs.length > 0 ? (
+                  <div className="flex flex-wrap gap-2 pb-3 pl-1">
+                    {subs.map((option) => {
+                      const on = subcategorySet.has(option.slug)
+                      return (
+                        <button
+                          key={option.slug}
+                          type="button"
+                          onMouseDown={(event) => event.preventDefault()}
+                          onClick={() =>
+                            setSubcategorySet(on ? new Set() : new Set([option.slug]))
+                          }
+                          className={`rounded-full border px-3 py-1.5 text-xs ${
+                            on ? 'border-ink bg-ink text-white' : 'border-line bg-white text-ink hover:border-ink'
+                          }`}
+                        >
+                          {option.name}
+                          <span className={on ? 'text-white/70' : 'text-muted'}> {option.count}</span>
+                        </button>
+                      )
+                    })}
                   </div>
                 ) : null}
               </li>
@@ -228,12 +190,15 @@ export default function ProductListing({
           <div>
             <p className="tech-label flex items-center gap-3 text-lm-red">
               <span className="h-px w-8 bg-lm-red" />
-              Product groups
+              {selectedName ? title : 'Product groups'}
             </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">{title}</h1>
+            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
+              {selectedName ?? title}
+            </h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-              Filter by category and subcategory, then open the product on liqui-moly.com. No prices
-              on this site.
+              {selectedName
+                ? `${products.length} product${products.length === 1 ? '' : 's'} in ${selectedName}. Open a product for details and its information sheet.`
+                : 'Filter by category, then open a product for details and its information sheet. No prices on this site.'}
             </p>
           </div>
           <Link
@@ -290,16 +255,6 @@ export default function ProductListing({
                 </button>
               )
             })}
-            {[...packSet].map((pack) => (
-              <button
-                key={pack}
-                type="button"
-                onClick={() => setPackSet(toggle(packSet, pack))}
-                className="rounded-full border border-line bg-surface px-3 py-1 text-xs text-ink"
-              >
-                {pack} ×
-              </button>
-            ))}
           </div>
 
           <div className="mt-5">
@@ -308,13 +263,9 @@ export default function ProductListing({
             ) : (
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {products.map((product) => (
-                <a
+                <article
                   key={product.id}
-                  href={product.liquiMolyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`${product.name} — open product details on liqui-moly.com`}
-                  className="group flex flex-col rounded-2xl border border-line bg-white p-4 transition-shadow hover:shadow-md"
+                  className="flex flex-col rounded-2xl border border-line bg-white p-4"
                 >
                   <div className="relative mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-surface">
                     <img
@@ -327,11 +278,18 @@ export default function ProductListing({
                   </div>
                   <p className="text-xs text-muted">{product.subcategoryName}</p>
                   <h2 className="mt-1 text-base font-semibold leading-snug text-ink">{product.name}</h2>
-                  <p className="mt-2 text-sm text-muted">{product.packSize}</p>
-                  <span className="mt-4 text-sm font-semibold text-ink underline underline-offset-2">
-                    View on liqui-moly.com
-                  </span>
-                </a>
+                  <p className="mt-2 text-sm text-muted">
+                    Article {product.articleId} · {product.packSize}
+                  </p>
+                  <a
+                    href={PRODUCT_INFORMATION_PDF}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 text-sm font-semibold text-ink underline underline-offset-2"
+                  >
+                    More details
+                  </a>
+                </article>
               ))}
               </div>
             )}

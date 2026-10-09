@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import SiteFrame from '@/components/layout/SiteFrame'
-import { getCatalogueProducts, getMarketingActivities } from '@/lib/cms/public-catalogue'
+import { getCatalogueCategories, getCatalogueProducts, getMarketingActivities } from '@/lib/cms/public-catalogue'
 import {
   jsonLd,
   SITE_DESCRIPTION,
@@ -60,10 +60,21 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [searchProducts, searchActivities] = await Promise.all([
+  const [searchProducts, searchActivities, catalogueCategories] = await Promise.all([
     getCatalogueProducts(),
     getMarketingActivities(),
+    getCatalogueCategories(),
   ])
+  const categoryCounts = new Map<string, number>()
+  for (const product of searchProducts) {
+    categoryCounts.set(product.categorySlug, (categoryCounts.get(product.categorySlug) ?? 0) + 1)
+  }
+  const navCategories = catalogueCategories.map((category) => ({
+    slug: category.slug,
+    name: category.name,
+    path: category.path,
+    count: categoryCounts.get(category.slug) ?? 0,
+  }))
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -84,7 +95,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body suppressHydrationWarning>
-        <SiteFrame searchProducts={searchProducts} searchActivities={searchActivities}>
+        <SiteFrame
+          searchProducts={searchProducts}
+          searchActivities={searchActivities}
+          navCategories={navCategories}
+        >
           {children}
         </SiteFrame>
       </body>

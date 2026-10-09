@@ -7,15 +7,18 @@ import Navbar from '@/components/sections/Navbar'
 import Footer from '@/components/sections/Footer'
 import { InquiryProvider } from '@/components/inquiry/InquiryProvider'
 import type { CatalogueProduct } from '@/lib/catalogue'
+import type { NavCategory } from '@/components/sections/Navbar'
 
 export default function PublicShell({
   children,
   searchProducts,
   searchActivities,
+  navCategories = [],
 }: {
   children: React.ReactNode
   searchProducts?: CatalogueProduct[]
   searchActivities?: { id: string; title: string; text?: string; href: string }[]
+  navCategories?: NavCategory[]
 }) {
   useLenis()
 
@@ -24,7 +27,11 @@ export default function PublicShell({
       <ScrollProgress />
       <Cursor />
       <div className="grain" aria-hidden />
-      <Navbar searchProducts={searchProducts} searchActivities={searchActivities} />
+      <Navbar
+        searchProducts={searchProducts}
+        searchActivities={searchActivities}
+        categories={navCategories}
+      />
       <main>{children}</main>
       <Footer />
     </InquiryProvider>

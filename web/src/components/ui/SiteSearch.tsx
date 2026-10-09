@@ -8,6 +8,7 @@ import {
   type CatalogueProduct,
 } from '@/lib/catalogue'
 import { EASE } from '@/lib/animations'
+import { productDetailsHref } from '@/lib/product-sheets'
 
 type ActivityHit = { id: string; title: string; text?: string; href: string }
 
@@ -196,8 +197,8 @@ export default function SiteSearch({
                         <ul className="mt-2 divide-y divide-line border border-line">
                           {idleSuggestions.map((p) => (
                             <li key={p.id}>
-                              <a
-                                href={p.liquiMolyUrl}
+                              <Link
+                                href={productDetailsHref(p)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={close}
@@ -218,8 +219,8 @@ export default function SiteSearch({
                                     {p.path}
                                   </span>
                                 </span>
-                                <span className="tech-label shrink-0 text-lm-red">View →</span>
-                              </a>
+                                <span className="tech-label shrink-0 text-lm-red">Details →</span>
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -240,8 +241,8 @@ export default function SiteSearch({
                     <ul>
                       {results.products.slice(0, 8).map((p) => (
                         <li key={p.id}>
-                          <a
-                            href={p.liquiMolyUrl}
+                          <Link
+                            href={productDetailsHref(p)}
                             target="_blank"
                             rel="noopener noreferrer"
                             onClick={close}
@@ -262,7 +263,7 @@ export default function SiteSearch({
                                 {p.path} · {p.categorySlug.replace(/-/g, ' ')}
                               </span>
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>

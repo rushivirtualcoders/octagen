@@ -44,7 +44,22 @@ export type MarketingMediaItem = {
 
 export const CATALOGUE_CATEGORIES: CatalogueCategory[] = RETAIL_CATEGORIES
 
-export const CATALOGUE_PRODUCTS: CatalogueProduct[] = RETAIL_PRODUCTS
+const STEERING_GEAR_OIL_3100: CatalogueProduct = {
+  id: 'car-1145',
+  name: 'Steering Gear Oil 3100',
+  shortDescription: 'Automatic Transmission Fluids / Steering Gear Oils · 1LTR',
+  categorySlug: 'car-automatic-transmission-fluids-steering-gear-oils',
+  subcategorySlug:
+    'car-automatic-transmission-fluids-steering-gear-oils--automatic-transmission-fluids-steering-gear-oils',
+  subcategoryName: 'Automatic Transmission Fluids / Steering Gear Oils',
+  path: 'car',
+  packSize: '1LTR',
+  articleId: '1145',
+  image: '/assets/images/products/product-bottle.jpg',
+  liquiMolyUrl: '/product-sheets/P000385-Steering-Gear-Oil-3100-28-en_GB.pdf',
+}
+
+export const CATALOGUE_PRODUCTS: CatalogueProduct[] = [...RETAIL_PRODUCTS, STEERING_GEAR_OIL_3100]
 
 export const LIQUI_MOLY_INDIA_URL = 'https://www.liqui-moly.com/en/in/'
 
