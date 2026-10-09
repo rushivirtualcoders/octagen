@@ -57,7 +57,7 @@ export default function ProductGroups({
 
         <div className="mt-10 grid gap-5 lg:grid-cols-2">
           {PATHS.map((path, i) => {
-            const cats = categories.filter((c) => c.path === path.id)
+            const cats = categories.filter((c) => c.path === path.id && c.featured)
             const active = hover === path.id
             return (
               <motion.article

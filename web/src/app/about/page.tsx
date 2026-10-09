@@ -34,16 +34,16 @@ const RANGE = [
 
 const OCTAGEN = [
   {
-    title: 'National distributor',
-    text: 'Octagen is the exclusive authorized national distributor for LIQUI MOLY in India. The brand stays German. Fulfilment in India stays with Octagen.',
+    title: 'History in India',
+    text: 'Octagen has supplied lubricants in India for more than twenty years. Liqui-Moly India is operated and fulfilled from the Ahmedabad office and warehouse.',
   },
   {
-    title: 'Ahmedabad office',
-    text: 'Supply is arranged from the Narol office in Ahmedabad. Workshops, fleets and vehicle owners use the same inquiry path.',
+    title: 'Who it supplies',
+    text: 'Workshops, fleets and vehicle owners use one inquiry path. The grade and pack size are confirmed from the catalogue, then supplied inside India.',
   },
   {
-    title: 'No cart on this site',
-    text: 'Share the vehicle, the approval, or the volume. Octagen replies with the grade and pack size. Prices and checkout are not on this site.',
+    title: 'What stays in Germany',
+    text: 'Octagen does not formulate the oils. Development and production stay with LIQUI MOLY. This site has no cart and no prices.',
   },
 ]
 
@@ -51,56 +51,44 @@ export default function AboutPage() {
   return (
     <>
       <section className="border-b border-line bg-base pt-24">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-6 px-6 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10 lg:px-10 lg:py-6">
-          <div>
-            <p className="tech-label flex items-center gap-3 text-lm-red">
-              <span className="h-px w-8 bg-lm-red" />
-              Octagen
-            </p>
-            <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">About us</h1>
-            <p className="mt-2 text-sm font-semibold tracking-tight text-lm-red">
-              German chemistry. Indian supply.
-            </p>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
-              One page for both stories. LIQUI MOLY is the German brand. {DISTRIBUTOR} is the
-              distributor in India.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <a href="#liqui-moly" className="border border-line px-3 py-1.5 text-xs font-semibold text-ink hover:border-lm-red hover:text-lm-red">
-                About LIQUI MOLY
-              </a>
-              <a href="#octagen" className="border border-line px-3 py-1.5 text-xs font-semibold text-ink hover:border-lm-red hover:text-lm-red">
-                About Octagen
-              </a>
-            </div>
+        <div className="mx-auto max-w-[1400px] px-6 py-5 lg:px-10">
+          <p className="tech-label flex items-center gap-3 text-lm-red">
+            <span className="h-px w-8 bg-lm-red" />
+            Octagen
+          </p>
+          <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">About us</h1>
+          <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
+            LIQUI MOLY is the German brand, founded in 1957 and manufactured in-house in Germany.
+            {` ${DISTRIBUTOR}`} is the official national distributor in India.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a href="#liqui-moly" className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-ink hover:border-ink">
+              About LIQUI MOLY
+            </a>
+            <a href="#octagen" className="rounded-full border border-line bg-surface px-3 py-1.5 text-xs text-ink hover:border-ink">
+              About Octagen
+            </a>
           </div>
-          <figure className="overflow-hidden border border-line bg-surface">
-            <img
-              src="/assets/images/performance-alt.jpg"
-              alt="LIQUI MOLY liveried race car on track"
-              className="h-44 w-full object-cover sm:h-52"
-            />
-          </figure>
         </div>
       </section>
 
       <section id="liqui-moly" className="scroll-mt-24 border-b border-line bg-surface">
-        <div className="mx-auto max-w-[1200px] px-6 py-8 lg:px-10">
+        <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10 lg:py-10">
           <p className="tech-label text-lm-red">About LIQUI MOLY</p>
           <h2 className="mt-2 text-xl font-semibold tracking-tight text-ink">Founded in Germany, 1957</h2>
+          <dl className="mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {LM_FACTS.map((fact) => (
+              <div key={fact.label} className="rounded-2xl border border-line bg-white p-5">
+                <dt className="text-lg font-semibold text-ink">{fact.value}</dt>
+                <dd className="mt-1 text-sm text-muted">{fact.label}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
-        <dl className="mx-auto grid max-w-[1200px] grid-cols-2 border-t border-line lg:grid-cols-4">
-          {LM_FACTS.map((fact) => (
-            <div key={fact.label} className="px-6 py-5 lg:px-8">
-              <dt className="text-lg font-semibold text-ink">{fact.value}</dt>
-              <dd className="mt-1 text-sm text-muted">{fact.label}</dd>
-            </div>
-          ))}
-        </dl>
       </section>
 
       <section className="bg-base">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-6 py-10 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:py-12">
+        <div className="mx-auto grid max-w-[1400px] items-center gap-8 px-6 py-8 lg:grid-cols-2 lg:gap-10 lg:px-10 lg:py-10">
           <div>
             <h2 className="text-xl font-semibold tracking-tight text-ink">The story</h2>
             <div className="mt-4 space-y-3 text-sm leading-relaxed text-muted">
@@ -119,7 +107,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <figure className="overflow-hidden border border-line">
+          <figure className="overflow-hidden rounded-2xl border border-line">
             <img
               src="/assets/images/oil-pour.jpg"
               alt="Motor oil poured into an engine"
@@ -130,22 +118,22 @@ export default function AboutPage() {
       </section>
 
       <section className="border-y border-line bg-surface">
-        <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-10 lg:py-12">
+        <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10 lg:py-10">
           <h2 className="text-xl font-semibold tracking-tight text-ink">Manufactured in Germany</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
-            <div className="border-t-2 border-lm-red pt-4">
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-line bg-white p-5">
               <h3 className="text-base font-semibold text-ink">Ulm</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 Where the company was founded, and where head office and production still sit.
               </p>
             </div>
-            <div className="border-t-2 border-lm-red pt-4">
+            <div className="rounded-2xl border border-line bg-white p-5">
               <h3 className="text-base font-semibold text-ink">Saarlouis</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 A second German production site. The range is not made outside that system.
               </p>
             </div>
-            <div className="border-t-2 border-lm-red pt-4">
+            <div className="rounded-2xl border border-line bg-white p-5">
               <h3 className="text-base font-semibold text-ink">In house</h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
                 Development and production stay with LIQUI MOLY. More than 4,000 oils, additives
@@ -157,11 +145,11 @@ export default function AboutPage() {
       </section>
 
       <section className="bg-base">
-        <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-10 lg:py-12">
+        <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10 lg:py-10">
           <h2 className="text-xl font-semibold tracking-tight text-ink">What the range covers</h2>
-          <div className="mt-6 grid gap-6 sm:grid-cols-3">
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
             {RANGE.map((item) => (
-              <div key={item.title} className="border border-line bg-white p-5">
+              <div key={item.title} className="rounded-2xl border border-line bg-white p-5">
                 <h3 className="text-base font-semibold text-ink">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
               </div>
@@ -171,7 +159,7 @@ export default function AboutPage() {
       </section>
 
       <section id="octagen" className="scroll-mt-24 border-t border-line bg-surface">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-8 px-6 py-10 lg:grid-cols-2 lg:gap-14 lg:px-10 lg:py-12">
+        <div className="mx-auto grid max-w-[1400px] items-center gap-8 px-6 py-8 lg:grid-cols-2 lg:gap-10 lg:px-10 lg:py-10">
           <div>
             <p className="tech-label text-lm-red">About Octagen</p>
             <h2 className="mt-2 text-xl font-semibold tracking-tight text-ink">
@@ -179,8 +167,9 @@ export default function AboutPage() {
             </h2>
             <div className="mt-4 space-y-3 text-sm leading-relaxed text-muted">
               <p>
-                {DISTRIBUTOR} is the exclusive authorized national distributor for LIQUI MOLY in
-                India. Liqui-Moly India is operated and fulfilled by Octagen.
+                {DISTRIBUTOR} is the official national distributor for LIQUI MOLY in India, and the
+                exclusive authorized partner for supply. Liqui-Moly India is operated and fulfilled
+                by Octagen.
               </p>
               <p>
                 The office is in Ahmedabad. The catalogue on this site opens the official LIQUI MOLY
@@ -192,7 +181,7 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <figure className="overflow-hidden border border-line bg-white">
+          <figure className="overflow-hidden rounded-2xl border border-line bg-white">
             <img
               src="/assets/images/lm/hillclimb.jpg"
               alt="LIQUI MOLY race car on a hillclimb"
@@ -203,11 +192,11 @@ export default function AboutPage() {
       </section>
 
       <section className="border-t border-line bg-base">
-        <div className="mx-auto max-w-[1200px] px-6 py-10 lg:px-10 lg:py-12">
-          <h2 className="text-xl font-semibold tracking-tight text-ink">How Octagen works in India</h2>
-          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+        <div className="mx-auto max-w-[1400px] px-6 py-8 lg:px-10 lg:py-10">
+          <h2 className="text-xl font-semibold tracking-tight text-ink">Octagen in India</h2>
+          <div className="mt-5 grid gap-4 lg:grid-cols-3">
             {OCTAGEN.map((item) => (
-              <article key={item.title} className="border border-line bg-white p-5">
+              <article key={item.title} className="rounded-2xl border border-line bg-white p-5">
                 <h3 className="text-base font-semibold text-ink">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-muted">{item.text}</p>
               </article>

@@ -1,6 +1,8 @@
 /** Static catalogue for homepage + Car/Bike listing — no admin required.
  * Product clicks open Liqui Moly India product / download pages.
+ * The range itself lives in retail-catalogue.ts (April 2026 lists, no prices).
  */
+import { RETAIL_CATEGORIES, RETAIL_PRODUCTS } from './retail-catalogue'
 
 export type VehiclePath = 'car' | 'bike'
 
@@ -9,7 +11,11 @@ export type CatalogueProduct = {
   name: string
   shortDescription: string
   categorySlug: string
+  subcategorySlug: string
+  subcategoryName: string
   path: VehiclePath
+  packSize: string
+  articleId: string
   image: string
   /** Liqui Moly product details / download page */
   liquiMolyUrl: string
@@ -21,6 +27,8 @@ export type CatalogueCategory = {
   name: string
   path: VehiclePath
   description: string
+  /** Shown as a shortcut on the homepage product groups */
+  featured?: boolean
 }
 
 export type MarketingMediaItem = {
@@ -34,167 +42,9 @@ export type MarketingMediaItem = {
   featured?: boolean
 }
 
-export const CATALOGUE_CATEGORIES: CatalogueCategory[] = [
-  {
-    slug: 'motor-oils',
-    name: 'Motor oils',
-    path: 'car',
-    description: 'Synthetic and specialist engine oils for passenger cars.',
-  },
-  {
-    slug: 'additives',
-    name: 'Additives',
-    path: 'car',
-    description: 'Engine, fuel and transmission additives for care and protection.',
-  },
-  {
-    slug: 'car-care',
-    name: 'Car care',
-    path: 'car',
-    description: 'Cleaning and care products for interior and exterior.',
-  },
-  {
-    slug: 'gear-oils',
-    name: 'Gear oils',
-    path: 'car',
-    description: 'Transmission and differential lubricants.',
-  },
-  {
-    slug: 'motorcycle-oils',
-    name: 'Motorcycle oils',
-    path: 'bike',
-    description: '4-stroke and specialty oils for two-wheelers.',
-  },
-  {
-    slug: 'bike-additives',
-    name: 'Bike additives',
-    path: 'bike',
-    description: 'Fuel and oil additives for motorcycle engines.',
-  },
-  {
-    slug: 'bike-care',
-    name: 'Bike care',
-    path: 'bike',
-    description: 'Chain care, cleaners and maintenance for riders.',
-  },
-]
+export const CATALOGUE_CATEGORIES: CatalogueCategory[] = RETAIL_CATEGORIES
 
-export const CATALOGUE_PRODUCTS: CatalogueProduct[] = [
-  {
-    id: 'top-tec-4200',
-    name: 'Top Tec 4200 5W-30',
-    shortDescription: 'Low-SAPS HC synthetic for modern petrol and diesel engines.',
-    categorySlug: 'motor-oils',
-    path: 'car',
-    image: '/assets/images/products/top-tec-4200.png',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/top-tec-4200-5w-30-3707/',
-    loved: true,
-  },
-  {
-    id: 'molygen-ng',
-    name: 'Molygen New Generation 5W-30',
-    shortDescription: 'High-tech motor oil with molecular friction protection.',
-    categorySlug: 'motor-oils',
-    path: 'car',
-    image: '/assets/images/products/molygen-new-generation.png',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/molygen-new-generation-5w-30-20232/',
-    loved: true,
-  },
-  {
-    id: 'synthoil-energy',
-    name: 'Synthoil Energy 0W-40',
-    shortDescription: 'Fully synthetic for high-performance and turbo engines.',
-    categorySlug: 'motor-oils',
-    path: 'car',
-    image: '/assets/images/engine-oil.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/synthoil-energy-0w-40-1363/',
-  },
-  {
-    id: 'cera-tec',
-    name: 'Cera Tec',
-    shortDescription: 'Ceramic wear protection additive for engines and transmissions.',
-    categorySlug: 'additives',
-    path: 'car',
-    image: '/assets/images/products/cera-tec.png',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/cera-tec-3721/',
-    loved: true,
-  },
-  {
-    id: 'engine-flush',
-    name: 'Engine Flush',
-    shortDescription: 'Cleans the oil circuit before an oil change.',
-    categorySlug: 'additives',
-    path: 'car',
-    image: '/assets/images/oil-pour.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/engine-flush-2427/',
-  },
-  {
-    id: 'rim-cleaner',
-    name: 'Special Rim Cleaner',
-    shortDescription: 'Intensive cleaner for alloy and steel wheels.',
-    categorySlug: 'car-care',
-    path: 'car',
-    image: '/assets/images/products/premium-rim-cleaner.png',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/special-rim-cleaner-1597/',
-  },
-  {
-    id: 'hypoid-gear',
-    name: 'Hypoid Gear Oil GL5 85W-90',
-    shortDescription: 'Mineral hypoid gear oil for axles and differentials.',
-    categorySlug: 'gear-oils',
-    path: 'car',
-    image: '/assets/images/products/product-bottle.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/hypoid-gear-oil-tdl-85w-90-1407/',
-  },
-  {
-    id: 'motorbike-4t',
-    name: 'Motorbike 4T Synth 10W-40 Street',
-    shortDescription: 'Fully synthetic 4-stroke oil for street motorcycles.',
-    categorySlug: 'motorcycle-oils',
-    path: 'bike',
-    image: '/assets/images/lm/mxgp.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/motorbike-4t-synth-10w-40-street-2592/',
-    loved: true,
-  },
-  {
-    id: 'motorbike-10w50',
-    name: 'Motorbike 4T Synth 10W-50 Street Race',
-    shortDescription: 'High-performance synthetic for demanding bike engines.',
-    categorySlug: 'motorcycle-oils',
-    path: 'bike',
-    image: '/assets/images/lm/hillclimb.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/motorbike-4t-synth-10w-50-street-race-2593/',
-    loved: true,
-  },
-  {
-    id: 'bike-oil-additive',
-    name: 'Motorbike Oil Additive',
-    shortDescription: 'Anti-wear additive for motorcycle engines and gearboxes.',
-    categorySlug: 'bike-additives',
-    path: 'bike',
-    image: '/assets/images/products/cera-tec.png',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/motorbike-oil-additive-1580/',
-  },
-  {
-    id: 'chain-lube',
-    name: 'Motorbike Chain Lube',
-    shortDescription: 'Adhesive chain spray for road and off-road use.',
-    categorySlug: 'bike-care',
-    path: 'bike',
-    image: '/assets/images/lm/classic-cars.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/motorbike-chain-lube-1508/',
-    loved: true,
-  },
-  {
-    id: 'bike-cleaner',
-    name: 'Motorbike Cleaner',
-    shortDescription: 'Bike wash for paint, plastic and metal surfaces.',
-    categorySlug: 'bike-care',
-    path: 'bike',
-    image: '/assets/images/paint.jpg',
-    liquiMolyUrl: 'https://www.liqui-moly.com/en/in/p/motorbike-cleaner-1509/',
-  },
-]
+export const CATALOGUE_PRODUCTS: CatalogueProduct[] = RETAIL_PRODUCTS
 
 export const LIQUI_MOLY_INDIA_URL = 'https://www.liqui-moly.com/en/in/'
 
@@ -328,6 +178,8 @@ export function searchCatalogue(query: string) {
       p.name.toLowerCase().includes(q) ||
       p.shortDescription.toLowerCase().includes(q) ||
       p.categorySlug.includes(q) ||
+      p.subcategoryName.toLowerCase().includes(q) ||
+      p.packSize.toLowerCase().includes(q) ||
       p.path.includes(q),
   )
 

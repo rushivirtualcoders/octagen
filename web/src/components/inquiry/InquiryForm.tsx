@@ -16,12 +16,20 @@ type Status = 'idle' | 'submitting' | 'success' | 'error'
 const fieldClass =
   'w-full rounded-[10px] border-0 bg-[#f3f4f6] text-sm text-ink placeholder:text-muted/80 outline-none transition-shadow focus:ring-2 focus:ring-lm-blue/35'
 
+const INQUIRY_TYPES: { value: NonNullable<InquiryFormValues['type']>; label: string }[] = [
+  { value: 'GENERAL', label: 'General inquiry' },
+  { value: 'WORKSHOP', label: 'Workshop partnership' },
+  { value: 'BULK', label: 'Bulk distributor application' },
+  { value: 'PRODUCT_QUOTE', label: 'Product quote' },
+]
+
 type Props = {
   defaults?: InquiryFormValues
   onSuccess?: () => void
   submitLabel?: string
   compact?: boolean
   submitClassName?: string
+  showTypeChoices?: boolean
 }
 
 export default function InquiryForm({
@@ -30,6 +38,7 @@ export default function InquiryForm({
   submitLabel = 'Send Message',
   compact = false,
   submitClassName = 'bg-lm-blue hover:opacity-90',
+  showTypeChoices = false,
 }: Props) {
   const inputClass = `${fieldClass} ${compact ? 'px-3 py-2.5' : 'px-4 py-3.5'}`
   const [status, setStatus] = useState<Status>('idle')
@@ -135,19 +144,39 @@ export default function InquiryForm({
         </label>
       </div>
 
-      <label className="block">
-        <span className="sr-only">Inquiry type</span>
-        <select
-          className={inputClass}
-          name="type"
-          defaultValue={defaults?.type || 'GENERAL'}
-        >
-          <option value="GENERAL">General inquiry</option>
-          <option value="WORKSHOP">Workshop partnership</option>
-          <option value="BULK">Bulk distributor application</option>
-          <option value="PRODUCT_QUOTE">Product quote</option>
-        </select>
-      </label>
+      {showTypeChoices ? (
+        <fieldset>
+          <legend className="text-sm font-semibold text-ink">Inquiry type</legend>
+          <div className="mt-2 grid gap-2 sm:grid-cols-2">
+            {INQUIRY_TYPES.map((option) => (
+              <label
+                key={option.value}
+                className="flex cursor-pointer items-center gap-2 rounded-full border border-line bg-white px-3 py-2 text-sm text-ink has-[:checked]:border-ink has-[:checked]:bg-surface"
+              >
+                <input
+                  type="radio"
+                  name="type"
+                  value={option.value}
+                  defaultChecked={(defaults?.type || 'GENERAL') === option.value}
+                  className="accent-[#e97e11]"
+                />
+                {option.label}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      ) : (
+        <label className="block">
+          <span className="sr-only">Inquiry type</span>
+          <select className={inputClass} name="type" defaultValue={defaults?.type || 'GENERAL'}>
+            {INQUIRY_TYPES.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
 
       <label className="block">
         <span className="sr-only">Your message</span>
