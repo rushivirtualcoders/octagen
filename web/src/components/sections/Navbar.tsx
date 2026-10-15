@@ -206,23 +206,9 @@ function ProductCategories({
       </div>
 
       <div className="product-step-subs min-w-0 rounded-2xl bg-white p-3 shadow-[0_8px_30px_rgba(11,18,21,0.05)]">
-        <div className="flex items-center justify-between gap-3 px-1 pb-3">
-          <p className="min-w-0 truncate text-sm font-semibold text-ink">
-            {focused ? focused.name : 'Subcategories'}
-          </p>
-          {focused ? (
-            <Link
-              href={`/products/${path}?category=${focused.slug}`}
-              onClick={() => {
-                onSelect(focused.slug)
-                onNavigate()
-              }}
-              className="shrink-0 text-xs font-semibold text-lm-red"
-            >
-              View all
-            </Link>
-          ) : null}
-        </div>
+        <p className="truncate px-1 pb-3 text-sm font-semibold text-ink">
+          {focused ? focused.name : 'Subcategories'}
+        </p>
         {subs.length > 0 ? (
           <ul data-lenis-prevent style={{ maxHeight: 'min(22rem, 55vh)' }} className="flex flex-wrap content-start gap-2 overflow-y-auto overscroll-contain">
             {subs.map((subcategory) => (
