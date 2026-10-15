@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default async function CarProductsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>
+  searchParams: Promise<{ category?: string; subcategory?: string }>
 }) {
   const params = await searchParams
   const [categories, products] = await Promise.all([
@@ -23,11 +23,12 @@ export default async function CarProductsPage({
 
   return (
     <ProductListing
-      key={params.category ?? 'all'}
+      key={`${params.category ?? 'all'}-${params.subcategory ?? ''}`}
       path="car"
       categories={categories}
       products={products}
       initialCategory={params.category}
+      initialSubcategory={params.subcategory}
     />
   )
 }

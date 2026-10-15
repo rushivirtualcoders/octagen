@@ -9,9 +9,17 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SiteSearch from '../ui/SiteSearch'
 import type { CatalogueProduct, VehiclePath } from '@/lib/catalogue'
 
-export type NavCategory = { slug: string; name: string; path: VehiclePath; count?: number }
+export type NavSubcategory = { slug: string; name: string; count: number }
 
-type ProductMenu = 'pick' | VehiclePath
+export type NavCategory = {
+  slug: string
+  name: string
+  path: VehiclePath
+  count?: number
+  subcategories?: NavSubcategory[]
+}
+
+type ProductMenu = VehiclePath
 
 function Logo() {
   return (
@@ -33,32 +41,36 @@ function MenuChevron({ open }: { open: boolean }) {
   )
 }
 
-function VehicleChoice({
-  path,
-  count,
-  onPick,
+function VehicleCard({
+  label,
+  hint,
+  active,
+  onClick,
 }: {
-  path: VehiclePath
-  count: number
-  onPick: (path: VehiclePath) => void
+  label: string
+  hint: string
+  active: boolean
+  onClick: () => void
 }) {
-  const label = path === 'car' ? 'Car' : 'Bike'
   return (
     <button
       type="button"
-      onClick={() => onPick(path)}
-      className="group rounded-2xl border border-line bg-white p-5 text-left transition-colors hover:border-ink"
+      aria-pressed={active}
+      onClick={onClick}
+      className={`rounded-2xl border bg-white px-4 py-4 text-left transition-all ${
+        active
+          ? 'border-[#f0c89a] shadow-[0_10px_28px_rgba(233,126,17,0.16)]'
+          : 'border-transparent shadow-[0_1px_2px_rgba(11,18,21,0.04)] hover:border-[#f0c89a]'
+      }`}
     >
-      <span className="tech-label text-lm-red">Products</span>
-      <span className="mt-2 flex items-center justify-between gap-3">
-        <span className="text-lg font-semibold text-ink">{label}</span>
-        <span aria-hidden className="text-ink transition-transform group-hover:translate-x-0.5">
-          →
+      <span className="flex items-center gap-2">
+        <span className={`h-1.5 w-1.5 rounded-full ${active ? 'bg-lm-red' : 'bg-surface-2'}`} />
+        <span className={`text-xs font-medium ${active ? 'text-lm-red' : 'text-muted'}`}>
+          {active ? 'Selected' : 'Choose'}
         </span>
       </span>
-      <span className="mt-1 block text-sm text-muted">
-        {count} categor{count === 1 ? 'y' : 'ies'}
-      </span>
+      <span className="mt-2 block font-display text-2xl leading-none font-extrabold tracking-tight text-ink uppercase">{label}</span>
+      <span className="mt-2 block text-xs leading-snug text-muted">{hint}</span>
     </button>
   )
 }
@@ -68,7 +80,6 @@ function ProductCategories({
   categories,
   activeSlug,
   onNavigate,
-  onBack,
   onPick,
   onSelect,
 }: {
@@ -76,81 +87,166 @@ function ProductCategories({
   categories: NavCategory[]
   activeSlug: string | null
   onNavigate: () => void
-  onBack: () => void
   onPick: (path: VehiclePath) => void
   onSelect: (slug: string) => void
 }) {
   const items = categories.filter((category) => category.path === path)
   const label = path === 'car' ? 'Car' : 'Bike'
+  const [focus, setFocus] = useState<string | null>(activeSlug ?? items[0]?.slug ?? null)
+  const focused = items.find((category) => category.slug === focus) ?? null
+  const subs = focused?.subcategories ?? []
+
+  useEffect(() => {
+    const next = categories.filter((category) => category.path === path)
+    setFocus(
+      activeSlug && next.some((category) => category.slug === activeSlug) ? activeSlug : next[0]?.slug ?? null,
+    )
+  }, [activeSlug, categories, path])
 
   return (
-    <div>
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onBack}
-          className="text-sm font-semibold text-ink underline underline-offset-2"
-        >
-          ← Car and bike
-        </button>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => onPick('car')}
-            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-              path === 'car' ? 'border-ink bg-ink text-white' : 'border-line bg-white text-ink'
-            }`}
-          >
-            Car
-          </button>
-          <button
-            type="button"
-            onClick={() => onPick('bike')}
-            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
-              path === 'bike' ? 'border-ink bg-ink text-white' : 'border-line bg-white text-ink'
-            }`}
-          >
-            Bike
-          </button>
+    <div className="product-step-menu">
+      <style>{`
+        .product-step-subs { display: none; }
+        @media (min-width: 64rem) {
+          .product-step-menu { display: grid; grid-template-columns: 200px minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: start; }
+          .product-step-cards { display: flex; flex-direction: column; }
+          .product-step-subs { display: block; }
+        }
+      `}</style>
+      <div className="product-step-cards grid grid-cols-2 gap-2">
+        <VehicleCard
+          label="Car"
+          hint="Oils, additives and care"
+          active={path === 'car'}
+          onClick={() => onPick('car')}
+        />
+        <VehicleCard
+          label="Bike"
+          hint="Motorcycle oils and care"
+          active={path === 'bike'}
+          onClick={() => onPick('bike')}
+        />
+      </div>
+
+      <div className="min-w-0 rounded-2xl bg-white p-2 shadow-[0_8px_30px_rgba(11,18,21,0.05)]">
+        <div className="flex items-center justify-between gap-3 px-3 py-2">
+          <p className="text-xs font-medium text-muted">Categories</p>
+          <Link href={`/products/${path}`} onClick={onNavigate} className="text-xs font-semibold text-lm-red">
+            All {label.toLowerCase()} products
+          </Link>
         </div>
-      </div>
-      <div className="mt-4 flex items-end justify-between gap-3">
-        <p className="text-sm font-semibold text-ink">{label} categories</p>
-        <Link
-          href={`/products/${path}`}
-          onClick={onNavigate}
-          className="text-sm font-semibold text-lm-red"
-        >
-          All {label.toLowerCase()} products
-        </Link>
-      </div>
-      <ul className="mt-2 grid max-h-[min(22rem,55vh)] gap-1 overflow-y-auto overscroll-contain sm:grid-cols-2 xl:grid-cols-3">
-        {items.map((category) => {
-          const active = activeSlug === category.slug
-          return (
-            <li key={category.slug}>
-              <Link
-                href={`/products/${path}?category=${category.slug}`}
-                onClick={() => {
-                  onSelect(category.slug)
-                  onNavigate()
-                }}
-                aria-current={active ? 'page' : undefined}
-                className={`flex items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-sm ${
-                  active ? 'bg-surface font-semibold text-ink' : 'text-ink hover:bg-surface'
-                }`}
-              >
-                <span className="leading-snug">{category.name}</span>
-                {typeof category.count === 'number' ? (
-                  <span className={`shrink-0 text-xs ${active ? 'text-ink' : 'text-muted'}`}>
-                    {category.count}
-                  </span>
+        <ul data-lenis-prevent style={{ maxHeight: 'min(22rem, 55vh)' }} className="overflow-y-auto overscroll-contain">
+          {items.map((category) => {
+            const open = focused?.slug === category.slug
+            const nested = category.subcategories ?? []
+            return (
+              <li key={category.slug} onMouseEnter={() => setFocus(category.slug)}>
+                <div className="flex items-center">
+                  <Link
+                    href={`/products/${path}?category=${category.slug}`}
+                    onClick={() => {
+                      onSelect(category.slug)
+                      onNavigate()
+                    }}
+                    aria-current={activeSlug === category.slug ? 'page' : undefined}
+                    style={open ? { backgroundColor: '#fff4e8' } : undefined}
+                    className={`flex min-w-0 flex-1 items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                      open ? 'font-semibold text-ink' : 'text-ink hover:bg-surface'
+                    }`}
+                  >
+                    <span className="leading-snug">{category.name}</span>
+                    <span className="flex shrink-0 items-center gap-2">
+                      {typeof category.count === 'number' ? (
+                        <span className={`rounded-full px-2 py-0.5 text-[11px] ${open ? 'bg-white text-lm-red' : 'bg-surface text-muted'}`}>
+                          {category.count}
+                        </span>
+                      ) : null}
+                      {nested.length > 0 ? (
+                        <svg viewBox="0 0 12 12" aria-hidden className={`hidden h-3 w-3 lg:block ${open ? 'text-lm-red' : 'text-muted'}`}>
+                          <path d="M4.2 2.2 8 6 4.2 9.8" fill="none" stroke="currentColor" strokeWidth="1.4" />
+                        </svg>
+                      ) : null}
+                    </span>
+                  </Link>
+                  {nested.length > 0 ? (
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      aria-label={`${open ? 'Hide' : 'Show'} ${category.name} subcategories`}
+                      onClick={() => setFocus(open ? null : category.slug)}
+                      className="px-3 py-3 text-sm text-ink lg:hidden"
+                    >
+                      {open ? '−' : '+'}
+                    </button>
+                  ) : null}
+                </div>
+                {open && nested.length > 0 ? (
+                  <ul className="flex flex-wrap gap-1.5 px-3 pt-1 pb-3 lg:hidden">
+                    {nested.map((subcategory) => (
+                      <li key={subcategory.slug}>
+                        <Link
+                          href={`/products/${path}?category=${category.slug}&subcategory=${subcategory.slug}`}
+                          onClick={() => {
+                            onSelect(category.slug)
+                            onNavigate()
+                          }}
+                          className="inline-flex items-center gap-2 rounded-full border border-[#f0c89a] bg-[#fff7ef] px-3 py-1.5 text-sm text-ink"
+                        >
+                          <span className="leading-snug">{subcategory.name}</span>
+                          <span className="text-[11px] text-lm-red">{subcategory.count}</span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 ) : null}
-              </Link>
-            </li>
-          )
-        })}
-      </ul>
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+
+      <div className="product-step-subs min-w-0 rounded-2xl bg-white p-3 shadow-[0_8px_30px_rgba(11,18,21,0.05)]">
+        <div className="flex items-center justify-between gap-3 px-1 pb-3">
+          <p className="min-w-0 truncate text-sm font-semibold text-ink">
+            {focused ? focused.name : 'Subcategories'}
+          </p>
+          {focused ? (
+            <Link
+              href={`/products/${path}?category=${focused.slug}`}
+              onClick={() => {
+                onSelect(focused.slug)
+                onNavigate()
+              }}
+              className="shrink-0 text-xs font-semibold text-lm-red"
+            >
+              View all
+            </Link>
+          ) : null}
+        </div>
+        {subs.length > 0 ? (
+          <ul data-lenis-prevent style={{ maxHeight: 'min(22rem, 55vh)' }} className="flex flex-wrap content-start gap-2 overflow-y-auto overscroll-contain">
+            {subs.map((subcategory) => (
+              <li key={subcategory.slug}>
+                <Link
+                  href={`/products/${path}?category=${focused?.slug}&subcategory=${subcategory.slug}`}
+                  onClick={() => {
+                    if (focused) onSelect(focused.slug)
+                    onNavigate()
+                  }}
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 text-sm text-ink transition-colors hover:border-[#f0c89a] hover:bg-[#fff7ef]"
+                >
+                  <span className="leading-snug">{subcategory.name}</span>
+                  <span className="text-[11px] font-semibold text-lm-red">{subcategory.count}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="px-1 py-4 text-sm leading-relaxed text-muted">
+            {focused ? `${focused.name} has no extra subcategories.` : 'Choose a category.'}
+          </p>
+        )}
+      </div>
     </div>
   )
 }
@@ -170,8 +266,6 @@ export default function Navbar({
   const [open, setOpen] = useState(false)
   const [productMenu, setProductMenu] = useState<ProductMenu | null>(null)
   const [activeSlug, setActiveSlug] = useState<string | null>(null)
-  const carCount = categories.filter((category) => category.path === 'car').length
-  const bikeCount = categories.filter((category) => category.path === 'bike').length
 
   useEffect(() => {
     let ticking = false
@@ -241,7 +335,7 @@ export default function Navbar({
                   type="button"
                   aria-expanded={productMenu !== null}
                   aria-controls="product-menu"
-                  onClick={() => setProductMenu((current) => (current ? null : 'pick'))}
+                  onClick={() => setProductMenu((current) => (current ? null : 'car'))}
                   className={`inline-flex items-center gap-1.5 text-[0.62rem] font-semibold tracking-[0.16em] uppercase transition-colors duration-300 hover:text-lm-blue ${
                     productMenu || pathname?.startsWith('/products') ? 'text-lm-red' : 'text-[#0B1215]'
                   }`}
@@ -290,25 +384,17 @@ export default function Navbar({
       {productMenu ? (
         <div
           id="product-menu"
-          className="absolute inset-x-0 top-full hidden border-t border-line bg-white shadow-[0_24px_60px_rgba(11,18,21,0.08)] lg:block"
+          className="absolute inset-x-0 top-full hidden border-t border-line bg-surface shadow-[0_24px_60px_rgba(11,18,21,0.08)] lg:block"
         >
           <div className="mx-auto max-w-[1400px] px-8 py-6">
-            {productMenu === 'pick' ? (
-              <div className="grid max-w-2xl gap-3 sm:grid-cols-2">
-                <VehicleChoice path="car" count={carCount} onPick={setProductMenu} />
-                <VehicleChoice path="bike" count={bikeCount} onPick={setProductMenu} />
-              </div>
-            ) : (
-              <ProductCategories
-                path={productMenu}
-                categories={categories}
-                activeSlug={pathname?.startsWith(`/products/${productMenu}`) ? activeSlug : null}
-                onBack={() => setProductMenu('pick')}
-                onPick={setProductMenu}
-                onSelect={setActiveSlug}
-                onNavigate={closeMenus}
-              />
-            )}
+            <ProductCategories
+              path={productMenu}
+              categories={categories}
+              activeSlug={pathname?.startsWith(`/products/${productMenu}`) ? activeSlug : null}
+              onPick={setProductMenu}
+              onSelect={setActiveSlug}
+              onNavigate={closeMenus}
+            />
           </div>
         </div>
       ) : null}
@@ -334,24 +420,17 @@ export default function Navbar({
                       <button
                         type="button"
                         aria-expanded={productMenu !== null}
-                        onClick={() => setProductMenu((current) => (current ? null : 'pick'))}
+                        onClick={() => setProductMenu((current) => (current ? null : 'car'))}
                         className="font-display block py-2 text-left text-5xl font-extrabold tracking-tight text-[#0B1215] uppercase"
                       >
                         Products
                       </button>
-                      {productMenu === 'pick' ? (
-                        <div className="mt-3 grid gap-3">
-                          <VehicleChoice path="car" count={carCount} onPick={setProductMenu} />
-                          <VehicleChoice path="bike" count={bikeCount} onPick={setProductMenu} />
-                        </div>
-                      ) : null}
                       {productMenu === 'car' || productMenu === 'bike' ? (
                         <div className="mt-3">
                           <ProductCategories
                             path={productMenu}
                             categories={categories}
                             activeSlug={pathname?.startsWith(`/products/${productMenu}`) ? activeSlug : null}
-                            onBack={() => setProductMenu('pick')}
                             onPick={setProductMenu}
                             onSelect={setActiveSlug}
                             onNavigate={closeMenus}

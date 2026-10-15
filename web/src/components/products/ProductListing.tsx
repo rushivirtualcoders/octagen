@@ -17,21 +17,34 @@ export default function ProductListing({
   categories,
   products: allProducts,
   initialCategory,
+  initialSubcategory,
 }: {
   path: VehiclePath
   categories: CatalogueCategory[]
   products: CatalogueProduct[]
   initialCategory?: string
+  initialSubcategory?: string
 }) {
   const startingCategory =
     initialCategory && categories.some((category) => category.slug === initialCategory)
       ? initialCategory
       : null
+  const startingSubcategory =
+    startingCategory &&
+    initialSubcategory &&
+    allProducts.some(
+      (product) =>
+        product.categorySlug === startingCategory && product.subcategorySlug === initialSubcategory,
+    )
+      ? initialSubcategory
+      : null
   const [openSlug, setOpenSlug] = useState<string | null>(startingCategory)
   const [categorySet, setCategorySet] = useState<Set<string>>(() =>
     startingCategory ? new Set([startingCategory]) : new Set(),
   )
-  const [subcategorySet, setSubcategorySet] = useState<Set<string>>(new Set())
+  const [subcategorySet, setSubcategorySet] = useState<Set<string>>(() =>
+    startingSubcategory ? new Set([startingSubcategory]) : new Set(),
+  )
   const [query, setQuery] = useState('')
   const [filtersOpen, setFiltersOpen] = useState(false)
 
@@ -108,6 +121,10 @@ export default function ProductListing({
   const other = path === 'car' ? 'bike' : 'car'
   const selectedSlug = categorySet.size === 1 ? [...categorySet][0] : null
   const selectedName = selectedSlug ? categoryName(selectedSlug) : null
+  const selectedSubSlug = subcategorySet.size === 1 ? [...subcategorySet][0] : null
+  const selectedSubName = selectedSubSlug
+    ? allProducts.find((product) => product.subcategorySlug === selectedSubSlug)?.subcategoryName
+    : null
 
   const filters = (
     <div className="space-y-6">
@@ -193,11 +210,11 @@ export default function ProductListing({
               {selectedName ? title : 'Product groups'}
             </p>
             <h1 className="mt-2 text-2xl font-semibold tracking-tight text-ink">
-              {selectedName ?? title}
+              {selectedSubName ?? selectedName ?? title}
             </h1>
             <p className="mt-2 max-w-xl text-sm leading-relaxed text-muted">
-              {selectedName
-                ? `${products.length} product${products.length === 1 ? '' : 's'} in ${selectedName}. Open a product for details and its information sheet.`
+              {selectedSubName || selectedName
+                ? `${products.length} product${products.length === 1 ? '' : 's'} in ${selectedSubName ?? selectedName}. Open a product for details and its information sheet.`
                 : 'Filter by category, then open a product for details and its information sheet. No prices on this site.'}
             </p>
           </div>
