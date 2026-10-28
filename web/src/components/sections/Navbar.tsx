@@ -33,9 +33,6 @@ function MenuChevron({ open }: { open: boolean }) {
   )
 }
 
-/** Links that don't include Activities (flyout is now on Products) */
-const DESKTOP_NAV = NAV_LINKS.filter((l) => l.label !== 'Activities')
-
 export default function Navbar({
   searchProducts,
   searchActivities,
@@ -88,7 +85,7 @@ export default function Navbar({
 
         {/* Desktop nav */}
         <ul className="hidden items-center gap-5 xl:gap-6 lg:flex">
-          {DESKTOP_NAV.map((link) =>
+          {NAV_LINKS.map((link) =>
             link.label === 'Products' ? (
               <li key={link.href}>
                 <button
@@ -179,7 +176,7 @@ export default function Navbar({
                     >
                       Products
                     </button>
-                  ) : link.label === 'Activities' ? null : (
+                  ) : (
                     <Link
                       href={link.href}
                       onClick={closeMenus}
