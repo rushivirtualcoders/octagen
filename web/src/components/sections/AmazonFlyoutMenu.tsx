@@ -561,7 +561,7 @@ export default function AmazonFlyoutMenu({
         ) : null}
 
         {/* ── Col 3: Subcategories ── */}
-        {showSubs ? (
+        {showSubs && openCat && openVehicle ? (
           <div style={{ flex: '1 1 0', height: '100%', backgroundColor: C.surface, display: 'flex', flexDirection: 'column' }}>
             <Column
               bg={C.surface}
