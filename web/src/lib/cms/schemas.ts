@@ -45,12 +45,25 @@ export const categorySchema = z.object({
   active: z.boolean().optional().default(true),
 })
 
+export const productSubcategorySchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters').max(120),
+  slug,
+  categoryId: z.string().min(1, 'Select a parent category'),
+  sortOrder: z.coerce.number().int('Sort order must be a whole number').min(0).max(999).optional().default(0),
+  active: z.boolean().optional().default(true),
+})
+
 export const productSchema = z.object({
   name: z.string().min(2, 'Product name must be at least 2 characters').max(120),
   slug,
   articleNumber: z.string().min(2, 'Article number is required').max(40),
   application: z.enum(['CAR', 'BIKE', 'BOTH'], { message: 'Select an application' }),
   categoryId: z.string().min(1, 'Select a category'),
+  subcategoryId: z
+    .string()
+    .optional()
+    .default('')
+    .transform((value) => (value ? value : null)),
   packSizes: z.preprocess(splitLines, z.array(z.string()).max(12, 'Too many pack sizes')),
   imageUrl: z.string().max(500).optional().default(''),
   shortDescription: z.string().max(400, 'Short description is too long').optional().default(''),

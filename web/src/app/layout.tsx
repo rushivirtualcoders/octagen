@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import SiteFrame from '@/components/layout/SiteFrame'
-import { getCatalogueCategories, getCatalogueProducts, getMarketingActivities } from '@/lib/cms/public-catalogue'
+import { getCatalogueProducts, getMarketingActivities, getNavCategories } from '@/lib/cms/public-catalogue'
 import {
   jsonLd,
   SITE_DESCRIPTION,
@@ -60,34 +60,11 @@ export const viewport: Viewport = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [searchProducts, searchActivities, catalogueCategories] = await Promise.all([
+  const [searchProducts, searchActivities, navCategories] = await Promise.all([
     getCatalogueProducts(),
     getMarketingActivities(),
-    getCatalogueCategories(),
+    getNavCategories(),
   ])
-  const categoryCounts = new Map<string, number>()
-  const categoryNames = new Map(catalogueCategories.map((category) => [category.slug, category.name]))
-  const subcategoryGroups = new Map<string, Map<string, { name: string; count: number }>>()
-  for (const product of searchProducts) {
-    categoryCounts.set(product.categorySlug, (categoryCounts.get(product.categorySlug) ?? 0) + 1)
-    if (product.subcategoryName === categoryNames.get(product.categorySlug)) continue
-    const group = subcategoryGroups.get(product.categorySlug) ?? new Map()
-    const current = group.get(product.subcategorySlug)
-    group.set(product.subcategorySlug, {
-      name: product.subcategoryName,
-      count: (current?.count ?? 0) + 1,
-    })
-    subcategoryGroups.set(product.categorySlug, group)
-  }
-  const navCategories = catalogueCategories.map((category) => ({
-    slug: category.slug,
-    name: category.name,
-    path: category.path,
-    count: categoryCounts.get(category.slug) ?? 0,
-    subcategories: [...(subcategoryGroups.get(category.slug)?.entries() ?? [])]
-      .map(([slug, value]) => ({ slug, ...value }))
-      .sort((a, b) => a.name.localeCompare(b.name)),
-  }))
 
   return (
     <html lang="en" suppressHydrationWarning>

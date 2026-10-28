@@ -51,6 +51,14 @@ export function ActionIconLink({
   )
 }
 
+function PlusIcon({ className = 'h-4 w-4' }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden>
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  )
+}
+
 export function ActionIconButton({
   label,
   onClick,
@@ -58,7 +66,7 @@ export function ActionIconButton({
 }: {
   label: string
   onClick: () => void
-  variant?: 'edit' | 'open'
+  variant?: 'edit' | 'open' | 'add'
 }) {
   return (
     <button
@@ -68,7 +76,7 @@ export function ActionIconButton({
       onClick={onClick}
       className={iconButtonClass('default')}
     >
-      {variant === 'open' ? <OpenIcon /> : <EditIcon />}
+      {variant === 'open' ? <OpenIcon /> : variant === 'add' ? <PlusIcon /> : <EditIcon />}
     </button>
   )
 }

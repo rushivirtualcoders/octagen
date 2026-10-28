@@ -9,7 +9,12 @@ import { createSession, destroySession, findStaffByEmail, requireAdmin } from '.
 import { rateLimit } from '../rate-limit'
 import { writeAudit } from './audit'
 import { checked, text } from './form'
-import { assertArticleCategoryDeletable, assertProductCategoryDeletable, requireId } from './guards'
+import {
+  assertArticleCategoryDeletable,
+  assertProductCategoryDeletable,
+  assertProductSubcategoryDeletable,
+  requireId,
+} from './guards'
 import { fromUnknown, fromZod, toastPath, type ActionState } from './action-state'
 import {
   articleCategorySchema,
@@ -20,12 +25,16 @@ import {
   marketingActivitySchema,
   marketingMediaSchema,
   productSchema,
+  productSubcategorySchema,
   siteSettingsSchema,
 } from './schemas'
 
 function revalidateAdmin(path: string) {
   revalidatePath(path)
   revalidatePath('/admin')
+  revalidatePath('/')
+  revalidatePath('/products/car')
+  revalidatePath('/products/bike')
 }
 
 export async function loginAction(formData: FormData) {
@@ -92,6 +101,51 @@ export async function deleteProductCategory(formData: FormData) {
   redirect(toastPath('/admin/product-categories', 'Category deleted'))
 }
 
+export async function saveProductSubcategory(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const id = text(formData, 'id') || null
+  try {
+    const session = await requireAdmin()
+    const parsed = productSubcategorySchema.safeParse({
+      name: text(formData, 'name'),
+      slug: text(formData, 'slug'),
+      categoryId: text(formData, 'categoryId'),
+      sortOrder: text(formData, 'sortOrder') || 0,
+      active: checked(formData, 'active'),
+    })
+    if (!parsed.success) return fromZod(parsed.error)
+    const parent = await prisma.productCategory.findUnique({ where: { id: parsed.data.categoryId } })
+    if (!parent) return { error: 'Parent category not found.' }
+    const record = id
+      ? await prisma.productSubcategory.update({ where: { id }, data: parsed.data })
+      : await prisma.productSubcategory.create({ data: parsed.data })
+    await writeAudit(session.email, id ? 'update' : 'create', 'ProductSubcategory', record.id)
+    revalidateAdmin('/admin/product-categories')
+  } catch (error) {
+    return fromUnknown(error)
+  }
+  redirect(toastPath('/admin/product-categories', id ? 'Subcategory updated' : 'Subcategory created'))
+}
+
+export async function deleteProductSubcategory(formData: FormData) {
+  try {
+    const session = await requireAdmin()
+    const id = requireId(formData, 'Subcategory')
+    await assertProductSubcategoryDeletable(id)
+    await prisma.productSubcategory.delete({ where: { id } })
+    await writeAudit(session.email, 'delete', 'ProductSubcategory', id)
+    revalidateAdmin('/admin/product-categories')
+  } catch (error) {
+    redirect(
+      toastPath(
+        '/admin/product-categories',
+        fromUnknown(error)?.error || 'Could not delete subcategory',
+        'error',
+      ),
+    )
+  }
+  redirect(toastPath('/admin/product-categories', 'Subcategory deleted'))
+}
+
 export async function saveProduct(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const id = text(formData, 'id') || null
   try {
@@ -102,6 +156,7 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
       articleNumber: text(formData, 'articleNumber'),
       application: text(formData, 'application'),
       categoryId: text(formData, 'categoryId'),
+      subcategoryId: text(formData, 'subcategoryId'),
       packSizes: text(formData, 'packSizes'),
       imageUrl: text(formData, 'imageUrl'),
       shortDescription: text(formData, 'shortDescription'),
@@ -115,6 +170,15 @@ export async function saveProduct(_prev: ActionState, formData: FormData): Promi
       published: checked(formData, 'published'),
     })
     if (!parsed.success) return fromZod(parsed.error)
+    if (parsed.data.subcategoryId) {
+      const sub = await prisma.productSubcategory.findUnique({
+        where: { id: parsed.data.subcategoryId },
+        select: { categoryId: true },
+      })
+      if (!sub || sub.categoryId !== parsed.data.categoryId) {
+        return { error: 'Subcategory must belong to the selected category.' }
+      }
+    }
     const record = id
       ? await prisma.product.update({ where: { id }, data: parsed.data })
       : await prisma.product.create({ data: parsed.data })

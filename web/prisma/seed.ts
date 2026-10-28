@@ -35,6 +35,8 @@ async function main() {
   })
 
   const categoryIds = new Map<string, string>()
+  const subcategoryIds = new Map<string, string>()
+  const categoryNameBySlug = new Map(CATALOGUE_CATEGORIES.map((category) => [category.slug, category.name]))
 
   for (const [index, category] of CATALOGUE_CATEGORIES.entries()) {
     const vehiclePath = pathToEnum(category.path)
@@ -59,17 +61,54 @@ async function main() {
     categoryIds.set(category.slug, record.id)
   }
 
+  // Nested series only (skip flat sections where subcategory name == category name)
+  const nestedSubs = new Map<string, { categorySlug: string; slug: string; name: string }>()
+  for (const product of CATALOGUE_PRODUCTS) {
+    const categoryName = categoryNameBySlug.get(product.categorySlug)
+    if (!categoryName || product.subcategoryName === categoryName) continue
+    nestedSubs.set(product.subcategorySlug, {
+      categorySlug: product.categorySlug,
+      slug: product.subcategorySlug,
+      name: product.subcategoryName,
+    })
+  }
+
+  let subSort = 0
+  for (const sub of nestedSubs.values()) {
+    const categoryId = categoryIds.get(sub.categorySlug)
+    if (!categoryId) continue
+    subSort += 1
+    const record = await prisma.productSubcategory.upsert({
+      where: { slug: sub.slug },
+      update: {
+        name: sub.name,
+        categoryId,
+        sortOrder: subSort,
+        active: true,
+      },
+      create: {
+        name: sub.name,
+        slug: sub.slug,
+        categoryId,
+        sortOrder: subSort,
+        active: true,
+      },
+    })
+    subcategoryIds.set(sub.slug, record.id)
+  }
+
   for (const product of CATALOGUE_PRODUCTS) {
     const categoryId = categoryIds.get(product.categorySlug)
     if (!categoryId) {
       throw new Error(`Missing category for product ${product.id}: ${product.categorySlug}`)
     }
+    const subcategoryId = subcategoryIds.get(product.subcategorySlug) ?? null
 
-    const data = {
+    const shared = {
       name: product.name,
-      articleNumber: articleNumberFromUrl(product.liquiMolyUrl, product.id),
       application: applicationFromPath(product.path),
       categoryId,
+      subcategoryId,
       packSizes: [] as string[],
       imageUrl: product.image,
       shortDescription: product.shortDescription,
@@ -83,11 +122,19 @@ async function main() {
       published: true,
     }
 
-    await prisma.product.upsert({
-      where: { slug: product.id },
-      update: data,
-      create: { slug: product.id, ...data },
-    })
+    const existing = await prisma.product.findUnique({ where: { slug: product.id } })
+    if (existing) {
+      await prisma.product.update({ where: { id: existing.id }, data: shared })
+    } else {
+      await prisma.product.create({
+        data: {
+          slug: product.id,
+          // slug is unique per catalogue row; reuse it for articleNumber to avoid LM code collisions
+          articleNumber: product.id,
+          ...shared,
+        },
+      })
+    }
   }
 
   for (const [index, item] of MARKETING_MEDIA.entries()) {

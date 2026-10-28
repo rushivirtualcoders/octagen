@@ -1,21 +1,11 @@
 import { prisma } from '@/lib/db'
-import { deleteProductCategory, saveProductCategory } from '@/lib/cms/actions'
-import CategoriesAdminPanel from '@/components/admin/CategoriesAdminPanel'
+import ProductCategoriesAdminPanel from '@/components/admin/ProductCategoriesAdminPanel'
 
 export default async function ProductCategoriesPage() {
-  const categories = await prisma.productCategory.findMany({ orderBy: { sortOrder: 'asc' } })
+  const categories = await prisma.productCategory.findMany({
+    include: { subcategories: { orderBy: [{ sortOrder: 'asc' }, { name: 'asc' }] } },
+    orderBy: [{ vehiclePath: 'asc' }, { sortOrder: 'asc' }, { name: 'asc' }],
+  })
 
-  return (
-    <CategoriesAdminPanel
-      eyebrow="Catalogue"
-      title="Product categories"
-      addLabel="Add category"
-      columns={['Name', 'Slug', 'Path', 'Sort', 'Status', 'Actions']}
-      withDescription
-      withVehiclePath
-      categories={categories}
-      saveAction={saveProductCategory}
-      deleteAction={deleteProductCategory}
-    />
-  )
+  return <ProductCategoriesAdminPanel categories={categories} />
 }

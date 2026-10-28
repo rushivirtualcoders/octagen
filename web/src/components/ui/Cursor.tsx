@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+'use client'
 
-/** Dark custom cursor for light theme. */
+import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
+
+/** Dark custom cursor for light theme — portaled above menus/modals. */
 export default function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null)
   const ringRef = useRef<HTMLDivElement>(null)
@@ -8,9 +11,11 @@ export default function Cursor() {
   const visibleRef = useRef(false)
   const labelStateRef = useRef('')
   const [enabled, setEnabled] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const [hasLabel, setHasLabel] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
     const fine = window.matchMedia('(pointer: fine)').matches
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (!fine || reduced) return
@@ -74,19 +79,25 @@ export default function Cursor() {
     }
   }, [enabled])
 
-  if (!enabled) return null
+  if (!enabled || !mounted) return null
 
-  return (
-    <div className="site-cursor-layer" aria-hidden>
+  return createPortal(
+    <div className="site-cursor-layer" aria-hidden style={{ zIndex: 10050 }}>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[320] size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
-        style={{ opacity: 0, marginLeft: -3, marginTop: -3, willChange: 'transform' }}
+        className="pointer-events-none fixed top-0 left-0 size-1.5 -translate-x-1/2 rounded-full bg-lm-red transition-opacity duration-300"
+        style={{
+          zIndex: 10051,
+          opacity: 0,
+          marginLeft: -3,
+          marginTop: -3,
+          willChange: 'transform',
+        }}
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[319] flex items-center justify-center transition-opacity duration-300"
-        style={{ opacity: 0, willChange: 'transform' }}
+        className="pointer-events-none fixed top-0 left-0 flex items-center justify-center transition-opacity duration-300"
+        style={{ zIndex: 10050, opacity: 0, willChange: 'transform' }}
       >
         <div
           className={`flex items-center justify-center rounded-full border transition-all duration-300 ease-out ${
@@ -99,6 +110,7 @@ export default function Cursor() {
           <span ref={labelRef} />
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

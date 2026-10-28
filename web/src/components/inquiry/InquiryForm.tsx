@@ -30,6 +30,7 @@ type Props = {
   compact?: boolean
   submitClassName?: string
   showTypeChoices?: boolean
+  includeCompany?: boolean
 }
 
 export default function InquiryForm({
@@ -39,6 +40,7 @@ export default function InquiryForm({
   compact = false,
   submitClassName = 'bg-lm-blue hover:opacity-90',
   showTypeChoices = false,
+  includeCompany = false,
 }: Props) {
   const inputClass = `${fieldClass} ${compact ? 'px-3 py-2.5' : 'px-4 py-3.5'}`
   const [status, setStatus] = useState<Status>('idle')
@@ -59,6 +61,7 @@ export default function InquiryForm({
       name: String(data.get('name') || '').trim(),
       email: String(data.get('email') || '').trim(),
       phone: String(data.get('phone') || '').trim(),
+      company: String(data.get('company') || '').trim(),
       subject: String(data.get('subject') || '').trim(),
       message: String(data.get('message') || '').trim(),
     }
@@ -103,22 +106,51 @@ export default function InquiryForm({
             autoComplete="name"
           />
         </label>
-        <label className="block">
-          <span className="sr-only">Your email</span>
-          <input
-            className={inputClass}
-            name="email"
-            type="email"
-            required
-            maxLength={120}
-            defaultValue={defaults?.email}
-            placeholder="Your Email *"
-            autoComplete="email"
-          />
-        </label>
+        {includeCompany ? (
+          <label className="block">
+            <span className="sr-only">Company</span>
+            <input
+              className={inputClass}
+              name="company"
+              type="text"
+              maxLength={120}
+              placeholder="Company"
+              autoComplete="organization"
+            />
+          </label>
+        ) : (
+          <label className="block">
+            <span className="sr-only">Your email</span>
+            <input
+              className={inputClass}
+              name="email"
+              type="email"
+              required
+              maxLength={120}
+              defaultValue={defaults?.email}
+              placeholder="Your Email *"
+              autoComplete="email"
+            />
+          </label>
+        )}
       </div>
 
       <div className={`grid sm:grid-cols-2 ${compact ? 'gap-2' : 'gap-3'}`}>
+        {includeCompany ? (
+          <label className="block">
+            <span className="sr-only">Your email</span>
+            <input
+              className={inputClass}
+              name="email"
+              type="email"
+              required
+              maxLength={120}
+              defaultValue={defaults?.email}
+              placeholder="Your Email *"
+              autoComplete="email"
+            />
+          </label>
+        ) : null}
         <label className="block">
           <span className="sr-only">Phone number</span>
           <input
@@ -131,6 +163,22 @@ export default function InquiryForm({
             autoComplete="tel"
           />
         </label>
+        {!includeCompany ? (
+          <label className="block">
+            <span className="sr-only">Subject</span>
+            <input
+              className={inputClass}
+              name="subject"
+              type="text"
+              maxLength={160}
+              defaultValue={defaults?.subject}
+              placeholder="Your Subject"
+            />
+          </label>
+        ) : null}
+      </div>
+
+      {includeCompany ? (
         <label className="block">
           <span className="sr-only">Subject</span>
           <input
@@ -139,10 +187,10 @@ export default function InquiryForm({
             type="text"
             maxLength={160}
             defaultValue={defaults?.subject}
-            placeholder="Your Subject"
+            placeholder="Product / subject"
           />
         </label>
-      </div>
+      ) : null}
 
       {showTypeChoices ? (
         <fieldset>

@@ -4,15 +4,14 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ASSETS, DISTRIBUTOR, NAV_LINKS } from '../../lib/constants'
 import { EASE } from '../../lib/animations'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import SiteSearch from '../ui/SiteSearch'
-import { ProductMegaMenu, type NavCategory } from './ProductMegaMenu'
-import type { CatalogueProduct, VehiclePath } from '@/lib/catalogue'
+import { type NavCategory } from './ProductsMenu'
+import AmazonFlyoutMenu from './AmazonFlyoutMenu'
+import type { CatalogueProduct } from '@/lib/catalogue'
 
-export type { NavCategory, NavSubcategory } from './ProductMegaMenu'
-
-type ProductMenu = VehiclePath
+export type { NavCategory, NavSubcategory } from './ProductsMenu'
 
 function Logo() {
   return (
@@ -34,6 +33,9 @@ function MenuChevron({ open }: { open: boolean }) {
   )
 }
 
+/** Links that don't include Activities (flyout is now on Products) */
+const DESKTOP_NAV = NAV_LINKS.filter((l) => l.label !== 'Activities')
+
 export default function Navbar({
   searchProducts,
   searchActivities,
@@ -44,11 +46,9 @@ export default function Navbar({
   categories?: NavCategory[]
 } = {}) {
   const pathname = usePathname()
-  const headerRef = useRef<HTMLElement>(null)
   const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
-  const [productMenu, setProductMenu] = useState<ProductMenu | null>(null)
-  const [activeSlug, setActiveSlug] = useState<string | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [flyoutOpen, setFlyoutOpen] = useState(false)
 
   useEffect(() => {
     let ticking = false
@@ -66,43 +66,19 @@ export default function Navbar({
   }, [])
 
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : ''
-    return () => {
-      document.body.style.overflow = ''
-    }
-  }, [open])
-
-  useEffect(() => {
-    setOpen(false)
-    setProductMenu(null)
-    setActiveSlug(new URLSearchParams(window.location.search).get('category'))
+    setMobileOpen(false)
+    setFlyoutOpen(false)
   }, [pathname])
 
-  useEffect(() => {
-    if (!productMenu) return
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setProductMenu(null)
-    }
-    const onPointer = (event: MouseEvent) => {
-      if (headerRef.current?.contains(event.target as Node)) return
-      setProductMenu(null)
-    }
-    document.addEventListener('keydown', onKey)
-    document.addEventListener('mousedown', onPointer)
-    return () => {
-      document.removeEventListener('keydown', onKey)
-      document.removeEventListener('mousedown', onPointer)
-    }
-  }, [productMenu])
-
   function closeMenus() {
-    setOpen(false)
-    setProductMenu(null)
+    setMobileOpen(false)
+    setFlyoutOpen(false)
   }
+
+  const productsActive = flyoutOpen || Boolean(pathname?.startsWith('/products'))
 
   return (
     <header
-      ref={headerRef}
       className={`fixed inset-x-0 top-0 z-[100] border-b border-line bg-white transition-shadow duration-300 ${
         scrolled ? 'py-2 shadow-[0_4px_20px_rgba(11,18,21,0.05)]' : 'py-2.5'
       }`}
@@ -110,28 +86,29 @@ export default function Navbar({
       <nav className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 lg:px-8">
         <Logo />
 
+        {/* Desktop nav */}
         <ul className="hidden items-center gap-5 xl:gap-6 lg:flex">
-          {NAV_LINKS.map((link) =>
+          {DESKTOP_NAV.map((link) =>
             link.label === 'Products' ? (
               <li key={link.href}>
                 <button
                   type="button"
-                  aria-expanded={productMenu !== null}
-                  aria-controls="product-menu"
-                  onClick={() => setProductMenu((current) => (current ? null : 'car'))}
+                  aria-expanded={flyoutOpen}
+                  aria-haspopup="dialog"
+                  onClick={() => setFlyoutOpen((v) => !v)}
                   className={`inline-flex items-center gap-1.5 text-[0.62rem] font-semibold tracking-[0.16em] uppercase transition-colors duration-300 hover:text-lm-blue ${
-                    productMenu || pathname?.startsWith('/products') ? 'text-lm-red' : 'text-[#0B1215]'
+                    productsActive ? 'text-lm-red' : 'text-[#0B1215]'
                   }`}
                 >
                   Products
-                  <MenuChevron open={productMenu !== null} />
+                  <MenuChevron open={flyoutOpen} />
                 </button>
               </li>
             ) : (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  onClick={() => setProductMenu(null)}
+                  onClick={closeMenus}
                   className="text-[0.62rem] font-semibold tracking-[0.16em] text-[#0B1215] uppercase transition-colors duration-300 hover:text-lm-blue"
                 >
                   {link.label}
@@ -145,52 +122,45 @@ export default function Navbar({
           <SiteSearch expanded products={searchProducts} activities={searchActivities} />
         </div>
 
+        {/* Mobile hamburger */}
         <div className="flex items-center gap-2 lg:hidden">
           <SiteSearch products={searchProducts} activities={searchActivities} />
           <button
             type="button"
-            aria-label={open ? 'Close menu' : 'Open menu'}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
+            aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
             className="flex h-8 w-8 flex-col items-center justify-center gap-1"
           >
             <span
-              className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? 'translate-y-[3.5px] rotate-45' : ''}`}
+              className={`block h-px w-6 bg-ink transition-transform duration-300 ${mobileOpen ? 'translate-y-[3.5px] rotate-45' : ''}`}
             />
             <span
-              className={`block h-px w-6 bg-ink transition-transform duration-300 ${open ? '-translate-y-[3.5px] -rotate-45' : ''}`}
+              className={`block h-px w-6 bg-ink transition-transform duration-300 ${mobileOpen ? '-translate-y-[3.5px] -rotate-45' : ''}`}
             />
           </button>
         </div>
       </nav>
 
-      {productMenu ? (
-        <div
-          id="product-menu"
-          className="absolute inset-x-0 top-full hidden border-t border-line bg-white shadow-[0_16px_36px_rgba(11,18,21,0.08)] lg:block"
-        >
-          <div className="mx-auto max-w-[1400px] px-8 py-6">
-            <ProductMegaMenu
-              path={productMenu}
-              categories={categories}
-              activeSlug={pathname?.startsWith(`/products/${productMenu}`) ? activeSlug : null}
-              onPick={setProductMenu}
-              onSelect={setActiveSlug}
-              onNavigate={closeMenus}
-            />
-          </div>
-        </div>
+      {/* Left flyout — Products click (desktop) */}
+      {flyoutOpen ? (
+        <AmazonFlyoutMenu
+          categories={categories}
+          onNavigate={closeMenus}
+          onClose={() => setFlyoutOpen(false)}
+        />
       ) : null}
 
+      {/* Mobile full-screen menu */}
       <AnimatePresence>
-        {open && (
+        {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 top-0 z-[-1] flex h-screen flex-col overflow-y-auto bg-white px-8 pt-24 pb-10 lg:hidden"
+            className="fixed inset-0 top-0 z-[-1] flex h-screen flex-col overflow-y-auto bg-white px-5 pt-24 pb-10 lg:hidden"
           >
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {NAV_LINKS.map((link, i) => (
                 <motion.li
                   key={link.href}
@@ -199,33 +169,21 @@ export default function Navbar({
                   transition={{ duration: 0.7, ease: EASE, delay: 0.08 + i * 0.06 }}
                 >
                   {link.label === 'Products' ? (
-                    <div>
-                      <button
-                        type="button"
-                        aria-expanded={productMenu !== null}
-                        onClick={() => setProductMenu((current) => (current ? null : 'car'))}
-                        className="font-display block py-2 text-left text-5xl font-extrabold tracking-tight text-[#0B1215] uppercase"
-                      >
-                        Products
-                      </button>
-                      {productMenu === 'car' || productMenu === 'bike' ? (
-                        <div className="mt-3">
-                          <ProductMegaMenu
-                            path={productMenu}
-                            categories={categories}
-                            activeSlug={pathname?.startsWith(`/products/${productMenu}`) ? activeSlug : null}
-                            onPick={setProductMenu}
-                            onSelect={setActiveSlug}
-                            onNavigate={closeMenus}
-                          />
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMobileOpen(false)
+                        setFlyoutOpen(true)
+                      }}
+                      className="font-display block py-2 text-left text-4xl font-extrabold tracking-tight text-[#0B1215] uppercase"
+                    >
+                      Products
+                    </button>
+                  ) : link.label === 'Activities' ? null : (
                     <Link
                       href={link.href}
                       onClick={closeMenus}
-                      className="font-display block py-2 text-5xl font-extrabold tracking-tight text-[#0B1215] uppercase"
+                      className="font-display block py-2 text-4xl font-extrabold tracking-tight text-[#0B1215] uppercase"
                     >
                       {link.label}
                     </Link>

@@ -1,7 +1,7 @@
 'use client'
 
-import { useActionState, useState } from 'react'
-import type { Product, ProductCategory } from '@prisma/client'
+import { useActionState, useMemo, useState } from 'react'
+import type { Product, ProductCategory, ProductSubcategory } from '@prisma/client'
 import { saveProduct } from '@/lib/cms/actions'
 import { asLines } from '@/lib/cms/form'
 import { slugify } from '@/lib/cms/slug'
@@ -11,13 +11,25 @@ import { Check, Field, fieldClass } from './Fields'
 export default function ProductForm({
   product,
   categories,
+  subcategories = [],
 }: {
   product?: Product
   categories: ProductCategory[]
+  subcategories?: ProductSubcategory[]
 }) {
   const [state, action, pending] = useActionState(saveProduct, null)
   const [slug, setSlug] = useState(product?.slug ?? '')
+  const [categoryId, setCategoryId] = useState(product?.categoryId ?? '')
+  const [subcategoryId, setSubcategoryId] = useState(product?.subcategoryId ?? '')
   const errors = state?.fieldErrors ?? {}
+
+  const categorySubs = useMemo(
+    () =>
+      subcategories
+        .filter((sub) => sub.categoryId === categoryId && sub.active)
+        .sort((a, b) => a.sortOrder - b.sortOrder || a.name.localeCompare(b.name)),
+    [categoryId, subcategories],
+  )
 
   return (
     <form action={action} className="grid gap-4">
@@ -73,13 +85,39 @@ export default function ProductForm({
           <select
             className={fieldClass(errors.categoryId)}
             name="categoryId"
-            defaultValue={product?.categoryId}
+            value={categoryId}
+            onChange={(event) => {
+              setCategoryId(event.target.value)
+              setSubcategoryId('')
+            }}
             required
           >
             <option value="">Select category</option>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name} ({category.vehiclePath === 'BIKE' ? 'Bike' : 'Car'})
+              </option>
+            ))}
+          </select>
+        </Field>
+        <Field label="Subcategory (optional)" error={errors.subcategoryId}>
+          <select
+            className={fieldClass(errors.subcategoryId)}
+            name="subcategoryId"
+            value={subcategoryId}
+            onChange={(event) => setSubcategoryId(event.target.value)}
+            disabled={!categoryId || categorySubs.length === 0}
+          >
+            <option value="">
+              {!categoryId
+                ? 'Select a category first'
+                : categorySubs.length === 0
+                  ? 'No subcategories for this category'
+                  : 'None'}
+            </option>
+            {categorySubs.map((sub) => (
+              <option key={sub.id} value={sub.id}>
+                {sub.name}
               </option>
             ))}
           </select>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { Article, ArticleCategory } from '@prisma/client'
 import { deleteArticle } from '@/lib/cms/actions'
 import { ActionIconButton } from '@/components/admin/ActionIcons'
@@ -10,6 +10,7 @@ import { DataTable, TableActions } from '@/components/admin/DataTable'
 import DeleteButton from '@/components/admin/DeleteButton'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { PublishStatus } from '@/components/admin/StatusBadge'
+import Pagination, { ADMIN_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 type ArticleRow = Article & { category: Pick<ArticleCategory, 'id' | 'name'> }
 
@@ -22,6 +23,8 @@ export default function ArticlesAdminPanel({
 }) {
   const [mode, setMode] = useState<'closed' | 'create' | 'edit'>('closed')
   const [active, setActive] = useState<ArticleRow | null>(null)
+  const [page, setPage] = useState(1)
+  const paged = useMemo(() => paginate(articles, page, ADMIN_PAGE_SIZE), [articles, page])
 
   return (
     <div>
@@ -42,8 +45,8 @@ export default function ArticlesAdminPanel({
         }
       />
 
-      <DataTable columns={['Title', 'Category', 'Status', 'Actions']} empty={articles.length === 0}>
-        {articles.map((article) => (
+      <DataTable columns={['Title', 'Category', 'Status', 'Actions']} empty={paged.total === 0}>
+        {paged.items.map((article) => (
           <tr key={article.id} className="border-t border-line">
             <td className="px-4 py-3 font-medium text-ink">{article.title}</td>
             <td className="px-4 py-3 text-ink/70">{article.category.name}</td>
@@ -67,6 +70,15 @@ export default function ArticlesAdminPanel({
           </tr>
         ))}
       </DataTable>
+
+      <Pagination
+        className="mt-4"
+        page={paged.page}
+        pageCount={paged.pageCount}
+        total={paged.total}
+        pageSize={ADMIN_PAGE_SIZE}
+        onPageChange={setPage}
+      />
 
       <AdminModal
         open={mode !== 'closed'}

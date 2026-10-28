@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useTransition } from 'react'
+import { useEffect, useMemo, useState, useTransition } from 'react'
 import type { Inquiry, InquiryStatus, Product } from '@prisma/client'
 import { deleteInquiry, markInquiryRead } from '@/lib/cms/actions'
 import { ActionIconButton } from '@/components/admin/ActionIcons'
@@ -10,6 +10,7 @@ import DeleteButton from '@/components/admin/DeleteButton'
 import InquiryStatusForm from '@/components/admin/InquiryStatusForm'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { InquiryStatusBadge, StatusBadge } from '@/components/admin/StatusBadge'
+import Pagination, { ADMIN_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 const TYPE_LABEL: Record<string, string> = {
   GENERAL: 'General',
@@ -26,7 +27,9 @@ type InquiryRow = Inquiry & {
 export default function InquiriesAdminPanel({ inquiries }: { inquiries: InquiryRow[] }) {
   const [active, setActive] = useState<InquiryRow | null>(null)
   const [displayStatus, setDisplayStatus] = useState<InquiryStatus | null>(null)
+  const [page, setPage] = useState(1)
   const [, startTransition] = useTransition()
+  const paged = useMemo(() => paginate(inquiries, page, ADMIN_PAGE_SIZE), [inquiries, page])
 
   useEffect(() => {
     if (!active) {
@@ -50,9 +53,9 @@ export default function InquiriesAdminPanel({ inquiries }: { inquiries: InquiryR
 
       <DataTable
         columns={['When', 'Type', 'From', 'Subject', 'Status', 'Actions']}
-        empty={inquiries.length === 0}
+        empty={paged.total === 0}
       >
-        {inquiries.map((inquiry) => (
+        {paged.items.map((inquiry) => (
           <tr key={inquiry.id} className="border-t border-line">
             <td className="px-4 py-3 text-muted">
               {new Date(inquiry.createdAt).toLocaleString('en-IN')}
@@ -87,6 +90,15 @@ export default function InquiriesAdminPanel({ inquiries }: { inquiries: InquiryR
           </tr>
         ))}
       </DataTable>
+
+      <Pagination
+        className="mt-4"
+        page={paged.page}
+        pageCount={paged.pageCount}
+        total={paged.total}
+        pageSize={ADMIN_PAGE_SIZE}
+        onPageChange={setPage}
+      />
 
       <AdminModal
         open={Boolean(active)}

@@ -14,6 +14,13 @@ export async function assertProductCategoryDeletable(id: string) {
   }
 }
 
+export async function assertProductSubcategoryDeletable(id: string) {
+  const linked = await prisma.product.count({ where: { subcategoryId: id } })
+  if (linked > 0) {
+    throw new Error('This subcategory still has products. Move or clear them first.')
+  }
+}
+
 export async function assertArticleCategoryDeletable(id: string) {
   const linked = await prisma.article.count({ where: { categoryId: id } })
   if (linked > 0) {

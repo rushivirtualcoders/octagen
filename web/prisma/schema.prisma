@@ -48,48 +48,69 @@ model User {
 }
 
 model ProductCategory {
-  id          String      @id @default(cuid())
-  name        String
-  slug        String      @unique
-  description String      @default("")
+  id            String               @id @default(cuid())
+  name          String
+  slug          String               @unique
+  description   String               @default("")
   /// Car or bike product-group path (homepage ProductGroups)
-  vehiclePath VehiclePath @default(CAR)
-  sortOrder   Int         @default(0)
-  active      Boolean     @default(true)
-  products    Product[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  vehiclePath   VehiclePath          @default(CAR)
+  sortOrder     Int                  @default(0)
+  active        Boolean              @default(true)
+  products      Product[]
+  subcategories ProductSubcategory[]
+  createdAt     DateTime             @default(now())
+  updatedAt     DateTime             @updatedAt
 
   @@index([vehiclePath, active])
 }
 
+/// Nested under ProductCategory (e.g. Top Tec under Car Engine Oils)
+model ProductSubcategory {
+  id         String          @id @default(cuid())
+  name       String
+  slug       String          @unique
+  categoryId String
+  category   ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  sortOrder  Int             @default(0)
+  active     Boolean         @default(true)
+  products   Product[]
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+
+  @@index([categoryId, active])
+  @@index([categoryId, sortOrder])
+}
+
 model Product {
-  id               String          @id @default(cuid())
+  id               String              @id @default(cuid())
   name             String
-  slug             String          @unique
-  articleNumber    String          @unique
+  slug             String              @unique
+  articleNumber    String              @unique
   application      Application
   categoryId       String
-  category         ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-  packSizes        Json            @default("[]")
-  imageUrl         String          @default("")
-  shortDescription String          @default("")
-  description      String          @default("")
-  benefits         Json            @default("[]")
-  approvals        Json            @default("[]")
-  applicationNotes String          @default("")
+  category         ProductCategory     @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  subcategoryId    String?
+  subcategory      ProductSubcategory? @relation(fields: [subcategoryId], references: [id], onDelete: SetNull)
+  packSizes        Json                @default("[]")
+  imageUrl         String              @default("")
+  shortDescription String              @default("")
+  description      String              @default("")
+  benefits         Json                @default("[]")
+  approvals        Json                @default("[]")
+  applicationNotes String              @default("")
   /// External LIQUI MOLY product / download page (no in-site PDP)
-  liquiMolyUrl     String          @default("")
-  featured         Boolean         @default(false)
+  liquiMolyUrl     String              @default("")
+  featured         Boolean             @default(false)
   /// Homepage “Most Loved” section
-  loved            Boolean         @default(false)
-  published        Boolean         @default(false)
+  loved            Boolean             @default(false)
+  published        Boolean             @default(false)
   inquiries        Inquiry[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
 
   @@index([application, published])
   @@index([categoryId])
+  @@index([subcategoryId])
   @@index([loved, published])
 }
 

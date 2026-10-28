@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { ActionState } from '@/lib/cms/action-state'
 import { ActionIconButton } from '@/components/admin/ActionIcons'
 import AdminModal from '@/components/admin/AdminModal'
@@ -9,6 +9,7 @@ import { DataTable, TableActions } from '@/components/admin/DataTable'
 import DeleteButton from '@/components/admin/DeleteButton'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { ActiveStatus } from '@/components/admin/StatusBadge'
+import Pagination, { ADMIN_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 export type CategoryRow = {
   id: string
@@ -43,6 +44,8 @@ export default function CategoriesAdminPanel({
 }) {
   const [mode, setMode] = useState<'closed' | 'create' | 'edit'>('closed')
   const [active, setActive] = useState<CategoryRow | null>(null)
+  const [page, setPage] = useState(1)
+  const paged = useMemo(() => paginate(categories, page, ADMIN_PAGE_SIZE), [categories, page])
 
   return (
     <div>
@@ -63,8 +66,8 @@ export default function CategoriesAdminPanel({
         }
       />
 
-      <DataTable columns={columns} empty={categories.length === 0}>
-        {categories.map((category) => (
+      <DataTable columns={columns} empty={paged.total === 0}>
+        {paged.items.map((category) => (
           <tr key={category.id} className="border-t border-line">
             <td className="px-4 py-3 font-medium text-ink">{category.name}</td>
             <td className="px-4 py-3 text-ink/70">{category.slug}</td>
@@ -96,6 +99,15 @@ export default function CategoriesAdminPanel({
           </tr>
         ))}
       </DataTable>
+
+      <Pagination
+        className="mt-4"
+        page={paged.page}
+        pageCount={paged.pageCount}
+        total={paged.total}
+        pageSize={ADMIN_PAGE_SIZE}
+        onPageChange={setPage}
+      />
 
       <AdminModal
         open={mode !== 'closed'}

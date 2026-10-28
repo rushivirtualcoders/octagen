@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { MarketingActivity } from '@prisma/client'
 import { deleteMarketingActivity } from '@/lib/cms/actions'
 import { ActionIconButton } from '@/components/admin/ActionIcons'
@@ -10,6 +10,7 @@ import DeleteButton from '@/components/admin/DeleteButton'
 import MarketingActivityForm from '@/components/admin/MarketingActivityForm'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { PublishStatus } from '@/components/admin/StatusBadge'
+import Pagination, { ADMIN_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 export default function MarketingActivitiesAdminPanel({
   activities,
@@ -18,6 +19,8 @@ export default function MarketingActivitiesAdminPanel({
 }) {
   const [mode, setMode] = useState<'closed' | 'create' | 'edit'>('closed')
   const [active, setActive] = useState<MarketingActivity | null>(null)
+  const [page, setPage] = useState(1)
+  const paged = useMemo(() => paginate(activities, page, ADMIN_PAGE_SIZE), [activities, page])
 
   return (
     <div>
@@ -38,8 +41,8 @@ export default function MarketingActivitiesAdminPanel({
         }
       />
 
-      <DataTable columns={['Title', 'Sort', 'Status', 'Actions']} empty={activities.length === 0}>
-        {activities.map((activity) => (
+      <DataTable columns={['Title', 'Sort', 'Status', 'Actions']} empty={paged.total === 0}>
+        {paged.items.map((activity) => (
           <tr key={activity.id} className="border-t border-line">
             <td className="px-4 py-3">
               <p className="font-medium text-ink">{activity.title}</p>
@@ -66,6 +69,15 @@ export default function MarketingActivitiesAdminPanel({
           </tr>
         ))}
       </DataTable>
+
+      <Pagination
+        className="mt-4"
+        page={paged.page}
+        pageCount={paged.pageCount}
+        total={paged.total}
+        pageSize={ADMIN_PAGE_SIZE}
+        onPageChange={setPage}
+      />
 
       <AdminModal
         open={mode !== 'closed'}

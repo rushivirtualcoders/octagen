@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import type { CatalogueCategory, CatalogueProduct, VehiclePath } from '@/lib/catalogue'
 import { PRODUCT_INFORMATION_PDF } from '@/lib/product-sheets'
+import Pagination, { CATALOGUE_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 function toggle(set: Set<string>, value: string) {
   const next = new Set(set)
@@ -47,6 +48,7 @@ export default function ProductListing({
   )
   const [query, setQuery] = useState('')
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
     const button = document.querySelector('aside button[aria-expanded="true"]')
@@ -101,6 +103,12 @@ export default function ProductListing({
     })
   }, [allProducts, categorySet, query, subcategorySet])
 
+  const paged = useMemo(() => paginate(products, page, CATALOGUE_PAGE_SIZE), [page, products])
+
+  useEffect(() => {
+    setPage(1)
+  }, [categorySet, subcategorySet, query])
+
   const activeCount = categorySet.size + subcategorySet.size + (query ? 1 : 0)
 
   function clearAll() {
@@ -108,6 +116,7 @@ export default function ProductListing({
     setCategorySet(new Set())
     setSubcategorySet(new Set())
     setQuery('')
+    setPage(1)
   }
 
   function openCategory(slug: string) {
@@ -115,6 +124,7 @@ export default function ProductListing({
     setOpenSlug(next)
     setCategorySet(next ? new Set([next]) : new Set())
     setSubcategorySet(new Set())
+    setPage(1)
   }
 
   const title = path === 'car' ? 'Car products' : 'Bike products'
@@ -278,37 +288,50 @@ export default function ProductListing({
             {products.length === 0 ? (
               <p className="text-sm text-muted">No products match these filters.</p>
             ) : (
-              <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {products.map((product) => (
-                <article
-                  key={product.id}
-                  className="flex flex-col rounded-2xl border border-line bg-white p-4"
-                >
-                  <div className="relative mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-surface">
-                    <img
-                      src={product.image}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                      className="max-h-[80%] max-w-[65%] object-contain"
-                    />
-                  </div>
-                  <p className="text-xs text-muted">{product.subcategoryName}</p>
-                  <h2 className="mt-1 text-base font-semibold leading-snug text-ink">{product.name}</h2>
-                  <p className="mt-2 text-sm text-muted">
-                    Article {product.articleId} · {product.packSize}
-                  </p>
-                  <a
-                    href={PRODUCT_INFORMATION_PDF}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 text-sm font-semibold text-ink underline underline-offset-2"
-                  >
-                    More details
-                  </a>
-                </article>
-              ))}
-              </div>
+              <>
+                <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                  {paged.items.map((product) => (
+                    <article
+                      key={product.id}
+                      className="flex flex-col rounded-2xl border border-line bg-white p-4"
+                    >
+                      <div className="relative mb-4 flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl bg-surface">
+                        <img
+                          src={product.image}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          className="max-h-[80%] max-w-[65%] object-contain"
+                        />
+                      </div>
+                      <p className="text-xs text-muted">{product.subcategoryName}</p>
+                      <h2 className="mt-1 text-base font-semibold leading-snug text-ink">{product.name}</h2>
+                      <p className="mt-2 text-sm text-muted">
+                        Article {product.articleId} · {product.packSize}
+                      </p>
+                      <a
+                        href={PRODUCT_INFORMATION_PDF}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-4 text-sm font-semibold text-ink underline underline-offset-2"
+                      >
+                        More details
+                      </a>
+                    </article>
+                  ))}
+                </div>
+                <Pagination
+                  className="mt-8 border-t border-line pt-5"
+                  page={paged.page}
+                  pageCount={paged.pageCount}
+                  total={paged.total}
+                  pageSize={CATALOGUE_PAGE_SIZE}
+                  onPageChange={(next) => {
+                    setPage(next)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                />
+              </>
             )}
           </div>
         </div>

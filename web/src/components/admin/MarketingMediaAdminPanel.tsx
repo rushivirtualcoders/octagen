@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { MarketingMedia } from '@prisma/client'
 import { deleteMarketingMedia } from '@/lib/cms/actions'
 import { ActionIconButton } from '@/components/admin/ActionIcons'
@@ -10,10 +10,13 @@ import DeleteButton from '@/components/admin/DeleteButton'
 import MarketingMediaForm from '@/components/admin/MarketingMediaForm'
 import { PageHeader } from '@/components/admin/PageHeader'
 import { PublishStatus, StatusBadge } from '@/components/admin/StatusBadge'
+import Pagination, { ADMIN_PAGE_SIZE, paginate } from '@/components/ui/Pagination'
 
 export default function MarketingMediaAdminPanel({ media }: { media: MarketingMedia[] }) {
   const [mode, setMode] = useState<'closed' | 'create' | 'edit'>('closed')
   const [active, setActive] = useState<MarketingMedia | null>(null)
+  const [page, setPage] = useState(1)
+  const paged = useMemo(() => paginate(media, page, ADMIN_PAGE_SIZE), [media, page])
 
   return (
     <div>
@@ -38,8 +41,8 @@ export default function MarketingMediaAdminPanel({ media }: { media: MarketingMe
         temporarily unused.
       </p>
 
-      <DataTable columns={['Title', 'Type', 'Sort', 'Status', 'Actions']} empty={media.length === 0}>
-        {media.map((item) => (
+      <DataTable columns={['Title', 'Type', 'Sort', 'Status', 'Actions']} empty={paged.total === 0}>
+        {paged.items.map((item) => (
           <tr key={item.id} className="border-t border-line">
             <td className="px-4 py-3">
               <p className="font-medium text-ink">{item.title}</p>
@@ -69,6 +72,15 @@ export default function MarketingMediaAdminPanel({ media }: { media: MarketingMe
           </tr>
         ))}
       </DataTable>
+
+      <Pagination
+        className="mt-4"
+        page={paged.page}
+        pageCount={paged.pageCount}
+        total={paged.total}
+        pageSize={ADMIN_PAGE_SIZE}
+        onPageChange={setPage}
+      />
 
       <AdminModal
         open={mode !== 'closed'}
